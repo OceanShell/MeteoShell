@@ -1,0 +1,804 @@
+object frmmain: Tfrmmain
+  Left = 455
+  Height = 750
+  Top = 176
+  Width = 1200
+  Caption = 'MeteoShell'
+  ClientHeight = 720
+  ClientWidth = 1200
+  Constraints.MaxWidth = 1200
+  Constraints.MinHeight = 750
+  Constraints.MinWidth = 1200
+  DesignTimePPI = 144
+  Menu = MM
+  OnClose = FormClose
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.6.0'
+  object ListBox1: TListBox
+    Left = 108
+    Height = 60
+    Top = 0
+    Width = 150
+    ItemHeight = 0
+    ParentFont = False
+    TabOrder = 0
+    Visible = False
+  end
+  object ListBox2: TListBox
+    Left = 276
+    Height = 60
+    Top = 0
+    Width = 150
+    ItemHeight = 0
+    ParentFont = False
+    TabOrder = 1
+    Visible = False
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 648
+    Top = 72
+    Width = 1200
+    ActivePage = tbSelection
+    Align = alClient
+    Enabled = False
+    ParentFont = False
+    TabIndex = 0
+    TabOrder = 2
+    OnChange = PageControl1Change
+    object tbSelection: TTabSheet
+      Caption = 'Options'
+      ClientHeight = 610
+      ClientWidth = 1192
+      ParentFont = False
+      object GroupBox3: TGroupBox
+        Left = 12
+        Height = 228
+        Top = 12
+        Width = 478
+        Caption = 'Region'
+        ClientHeight = 198
+        ClientWidth = 474
+        ParentFont = False
+        TabOrder = 0
+        object lblonmax: TLabel
+          Left = 348
+          Height = 20
+          Top = 60
+          Width = 60
+          Caption = 'Lon Max'
+          Font.Color = clWindowText
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          ParentColor = False
+          ParentFont = False
+        end
+        object lblatmin: TLabel
+          Left = 200
+          Height = 20
+          Top = 120
+          Width = 52
+          Caption = 'Lat Min'
+          Font.Color = clWindowText
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          ParentColor = False
+          ParentFont = False
+        end
+        object lblonmin: TLabel
+          Left = 48
+          Height = 20
+          Top = 60
+          Width = 56
+          Caption = 'Lon Min'
+          Font.Color = clWindowText
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          ParentColor = False
+          ParentFont = False
+        end
+        object lblatmax: TLabel
+          Left = 200
+          Height = 20
+          Top = 0
+          Width = 56
+          Caption = 'Lat Max'
+          Font.Color = clWindowText
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Edit1: TEdit
+          Left = 184
+          Height = 33
+          Top = 144
+          Width = 98
+          ParentFont = False
+          TabOrder = 0
+        end
+        object Edit4: TEdit
+          Left = 336
+          Height = 33
+          Top = 84
+          Width = 98
+          ParentFont = False
+          TabOrder = 3
+        end
+        object Edit3: TEdit
+          Left = 36
+          Height = 33
+          Top = 84
+          Width = 98
+          ParentFont = False
+          TabOrder = 2
+        end
+        object Edit2: TEdit
+          Left = 184
+          Height = 33
+          Top = 24
+          Width = 98
+          ParentFont = False
+          TabOrder = 1
+        end
+        object lbCoordReset: TLabel
+          Cursor = crHandPoint
+          Left = 408
+          Height = 20
+          Top = 168
+          Width = 43
+          Caption = 'Reset'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clBlue
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsUnderline]
+          ParentColor = False
+          ParentFont = False
+          OnClick = lbCoordResetClick
+        end
+      end
+      object GroupBox1: TGroupBox
+        Left = 12
+        Height = 192
+        Top = 252
+        Width = 478
+        Caption = 'Metadata'
+        ClientHeight = 162
+        ClientWidth = 474
+        ParentFont = False
+        TabOrder = 1
+        object Label2: TLabel
+          Left = 15
+          Height = 25
+          Top = 120
+          Width = 63
+          Caption = 'WMO #'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label4: TLabel
+          Left = 15
+          Height = 25
+          Top = 24
+          Width = 63
+          Caption = 'Country'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label5: TLabel
+          Left = 15
+          Height = 25
+          Top = 72
+          Width = 55
+          Caption = 'Station'
+          ParentColor = False
+          ParentFont = False
+        end
+        object cbWMO: TComboBox
+          Left = 102
+          Height = 33
+          Top = 108
+          Width = 246
+          ItemHeight = 25
+          OnDropDown = cbWMODropDown
+          ParentFont = False
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object cbCountry: TComboBox
+          Left = 102
+          Height = 33
+          Top = 12
+          Width = 348
+          ItemHeight = 25
+          OnDropDown = cbCountryDropDown
+          ParentFont = False
+          Style = csDropDownList
+          TabOrder = 1
+        end
+        object cbStation: TComboBox
+          Left = 102
+          Height = 33
+          Top = 60
+          Width = 348
+          ItemHeight = 25
+          OnDropDown = cbStationDropDown
+          ParentFont = False
+          Style = csDropDownList
+          TabOrder = 2
+        end
+        object lbResetMD: TLabel
+          Cursor = crHandPoint
+          Left = 408
+          Height = 20
+          Top = 123
+          Width = 43
+          Caption = 'Reset'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clBlue
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsUnderline]
+          ParentColor = False
+          ParentFont = False
+          OnClick = lbResetMDClick
+        end
+      end
+      object btnSelect: TButton
+        Left = 1020
+        Height = 38
+        Top = 48
+        Width = 142
+        Caption = 'Select'
+        OnClick = btnSelectClick
+        ParentFont = False
+        TabOrder = 2
+      end
+      object chlParameters: TCheckGroup
+        Left = 516
+        Height = 324
+        Top = 12
+        Width = 478
+        AutoFill = True
+        Caption = 'Parameters'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ParentFont = False
+        TabOrder = 3
+      end
+      object GroupBox2: TGroupBox
+        Left = 516
+        Height = 90
+        Top = 354
+        Width = 478
+        Caption = 'Timeseries length'
+        ClientHeight = 60
+        ClientWidth = 474
+        ParentFont = False
+        TabOrder = 4
+        object seYY1: TSpinEdit
+          Left = 240
+          Height = 33
+          Top = 6
+          Width = 78
+          MaxValue = 2200
+          MinValue = 1800
+          ParentFont = False
+          TabOrder = 0
+          Value = 1800
+        end
+        object Label6: TLabel
+          Left = 336
+          Height = 25
+          Top = 12
+          Width = 19
+          Caption = '->'
+          ParentColor = False
+          ParentFont = False
+        end
+        object seYY2: TSpinEdit
+          Left = 378
+          Height = 33
+          Top = 6
+          Width = 78
+          MaxValue = 2200
+          MinValue = 1800
+          ParentFont = False
+          TabOrder = 1
+          Value = 2019
+        end
+        object chkStActive: TCheckBox
+          Left = 12
+          Height = 29
+          Top = 9
+          Width = 216
+          Caption = 'Stations active between'
+          OnChange = chkStActiveChange
+          ParentFont = False
+          TabOrder = 2
+        end
+      end
+    end
+    object tbData: TTabSheet
+      Caption = 'Data'
+      ClientHeight = 610
+      ClientWidth = 1192
+      ParentFont = False
+      TabVisible = False
+      object Splitter1: TSplitter
+        Cursor = crVSplit
+        Left = 0
+        Height = 8
+        Top = 329
+        Width = 1192
+        Align = alTop
+        ResizeAnchor = akTop
+      end
+      object DBGrid1: TDBGrid
+        Left = 0
+        Height = 296
+        Top = 33
+        Width = 1192
+        Align = alTop
+        AlternateColor = 13627366
+        Color = 13631478
+        Columns = <        
+          item
+            MinSize = 15
+            MaxSize = 300
+            ReadOnly = True
+            Title.Caption = 'id'
+            FieldName = 'id'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'wmo'
+            FieldName = 'wmocode'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'name'
+            FieldName = 'name'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'latitude'
+            Width = 90
+            FieldName = 'latitude'
+            DisplayFormat = '0.00000'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'longitude'
+            Width = 98
+            FieldName = 'longitude'
+            DisplayFormat = '0.00000'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'elevation'
+            Width = 90
+            FieldName = 'elevation'
+          end        
+          item
+            ButtonStyle = cbsPickList
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'stcountry'
+            FieldName = 'countryname'
+          end>
+        DataSource = DS1
+        FixedCols = 0
+        Flat = True
+        Options = [dgEditing, dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        ParentFont = False
+        Scrollbars = ssAutoVertical
+        TabOrder = 1
+        OnCellClick = DBGrid1CellClick
+        OnKeyUp = DBGrid1KeyUp
+        OnPrepareCanvas = DBGrid1PrepareCanvas
+        OnTitleClick = DBGrid1TitleClick
+      end
+      object DBGrid2: TDBGrid
+        Left = 0
+        Height = 273
+        Top = 337
+        Width = 1192
+        Align = alClient
+        AlternateColor = 13627366
+        Color = 13631478
+        Columns = <        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Parameter'
+            Width = 420
+            FieldName = 'par'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Source'
+            FieldName = 'src'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Year min'
+            Width = 96
+            FieldName = 'yy_min'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Month min'
+            Width = 105
+            FieldName = 'mn_min'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Year max'
+            Width = 96
+            FieldName = 'yy_max'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Month max'
+            Width = 105
+            FieldName = 'mn_max'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Value min'
+            FieldName = 'val_min'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Value max'
+            FieldName = 'val_max'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = 'Count'
+            Width = 75
+            FieldName = 'cnt'
+          end        
+          item
+            MinSize = 15
+            MaxSize = 300
+            Title.Caption = '%'
+            Width = 75
+            FieldName = 'perc'
+          end>
+        DataSource = DS2
+        FixedCols = 0
+        Flat = True
+        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        ParentFont = False
+        PopupMenu = PM1
+        ReadOnly = True
+        Scrollbars = ssAutoVertical
+        TabOrder = 2
+        OnCellClick = DBGrid2CellClick
+        OnKeyUp = DBGrid2KeyUp
+        OnPrepareCanvas = DBGrid1PrepareCanvas
+      end
+      object ToolBar1: TToolBar
+        Left = 0
+        Height = 33
+        Top = 0
+        Width = 1192
+        AutoSize = True
+        Caption = 'ToolBar1'
+        EdgeBorders = []
+        EdgeInner = esNone
+        EdgeOuter = esNone
+        Enabled = False
+        Images = frmicons.IL1
+        List = True
+        ParentFont = False
+        ShowCaptions = True
+        TabOrder = 3
+        object btnadd: TToolButton
+          Left = 1
+          Top = 0
+          Caption = 'btnadd'
+          ImageIndex = 1
+          ShowCaption = False
+        end
+        object btndelete: TToolButton
+          Left = 36
+          Top = 0
+          Caption = 'btndelete'
+          ImageIndex = 334
+          ShowCaption = False
+        end
+        object ToolButton4: TToolButton
+          Left = 71
+          Height = 33
+          Top = 0
+          Caption = 'ToolButton4'
+          Style = tbsDivider
+        end
+        object btncommit: TToolButton
+          Left = 79
+          Top = 0
+          Caption = 'Save'
+          ImageIndex = 940
+        end
+      end
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 72
+    Top = 0
+    Width = 1200
+    Align = alTop
+    ClientHeight = 72
+    ClientWidth = 1200
+    ParentFont = False
+    TabOrder = 3
+    object BitBtn1: TBitBtn
+      Left = 1
+      Height = 70
+      Top = 1
+      Width = 46
+      Align = alLeft
+      AutoSize = True
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000B06F4000AB66
+        3CB7A45D38FA9E543406FFFFFF00FFFFFF00FFFFFF00FFFFFF009999990D9595
+        95319191912F8C8C8C07FFFFFF00FFFFFF00FFFFFF00FFFFFF00BA7C4AB7BF87
+        5CFFB97E56FFA7623AFA9F5735749D644C659D857DB39D9390F2A19F9FFFABAB
+        ABFFA7A7A7FF959595FF8D8D8DE78989898A86868616FFFFFF00C4885AFAC692
+        68FFCDA280FFC59670FFB67B53FFAB6A46FFA35E3DFF9C5235FFA76B59FFF1EF
+        EEFFF4F4F4FFEFEFEFFFE2E2E2FFBABABAFF8A8A8AE786868635CD956A06C68C
+        60FAD1A683FFCC9F7BFFCB9E7BFFC79974FFC3926CFFBE8D65FFA86945FFBA97
+        8BFFD6D6D6FFC0C0C0FFC9C9C9FFE6E6E6FFC4C4C4FF8B8B8BEAFFFFFF00CE98
+        7074D0A17CFFD7AE8FFFC9976FFFC38F66FFBD885CFFC08C64FFBC8861FF8554
+        3FFFD3D1D0FFBFBFBFFFB0B0B0FFB3B3B3FFDEDEDEFF909090EAFFFFFF00D7A5
+        7F4ED7A682FFDCB699FFD0A17DFFCB9A73FFCFA482FFC79974FF896C58FF8787
+        87FF828282FFC0C0C0FFB3B3B3FFB7B7B7FFE0E0E0FF969696EAFFFFFF00E0AE
+        8C39DDAE8CFFE2BEA4FFD8AB89FFD9B394FFCF9F7AFFA47A5BFF939393FFA9A9
+        A9FF696969FFC3C3C3FFB8B8B8FFBBBBBBFFE1E1E1FF9B9B9BEAFFFFFF00E6B8
+        981EE3B493FFE8C6ADFFE3C0A6FFDBB08FFFB58F74FFD9CBC1FF9A9A9AFF7A7A
+        7AFFDCDCDCFFC9C9C9FFBDBDBDFFBFBFBFFFE2E2E2FF9E9E9EEAFFFFFF00ECC0
+        A104E7BB9CDAE8C0A3FFE5BFA3FFB69E8CFFAEAEAEFFA8A8A8FFE1E1E1FFE5E5
+        E5FFE1E1E1FFCDCDCDFFC2C2C2FFC2C2C2FFE3E3E3FFA0A0A0EAFFFFFF00FFFF
+        FF00EDC3A509EABE9FAFCDAF9BFEB7B7B7FFBCBCBCFFABABABFFD6D6D6FFD5D5
+        D5FFD1D1D1FFC3C3C3FFBCBCBCFFC0C0C0FFE5E5E5FFA3A3A3EAFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00BEB8B4ECC1C1C1FFB6B6B6FFEFEFEFFFF6F6F6FFFBFB
+        FBFFFAFAFAFFF0F0F0FFDEDEDEFFC3C3C3FFE6E6E6FFA5A5A5EAFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00B9B9B9EAF8F8F8FFFEFEFEFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFFEAEAEAFFA7A7A7EAFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00BABABABFE1E1E1FFFEFEFEFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBFFCFCFCFFFA9A9A9A1FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00BCBCBC2ABBBBBBD1D0D0D0FFE8E8E8FFF3F3F3FFFDFD
+        FDFFFCFCFCFFEDEDEDFFE0E0E0FFC2C2C2FFADADADC3ACACAC1BFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00BCBCBC07BBBBBB55BABABAAEB8B8B8D6B7B7
+        B7FBB6B6B6F9B4B4B4CDB3B3B3A9B1B1B146AFAFAF03FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+      }
+      OnClick = BitBtn1Click
+      TabOrder = 0
+    end
+    object Panel2: TPanel
+      Left = 47
+      Height = 70
+      Top = 1
+      Width = 1152
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 70
+      ClientWidth = 1152
+      TabOrder = 1
+      object StatusBar2: TStatusBar
+        Left = 0
+        Height = 36
+        Top = 36
+        Width = 1152
+        Align = alTop
+        Panels = <        
+          item
+            Text = '[Selection]'
+            Width = 105
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 150
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 150
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 180
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 180
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 180
+          end        
+          item
+            Width = 75
+          end>
+        ParentFont = False
+        SimplePanel = False
+      end
+      object StatusBar1: TStatusBar
+        Left = 0
+        Height = 36
+        Top = 0
+        Width = 1152
+        Align = alTop
+        Panels = <        
+          item
+            Text = '[Database]'
+            Width = 105
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 150
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 150
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 180
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 180
+          end        
+          item
+            Alignment = taRightJustify
+            Width = 180
+          end        
+          item
+            Width = 75
+          end>
+        ParentFont = False
+        SimplePanel = False
+      end
+    end
+  end
+  object MM: TMainMenu
+    Images = frmicons.IL1
+    left = 468
+    top = 12
+    object iFile: TMenuItem
+      Caption = 'File'
+      object iSettings: TMenuItem
+        Caption = 'Settings'
+        Hint = 'Settings'
+        ImageIndex = 235
+        OnClick = iSettingsClick
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object Exit1: TMenuItem
+        Caption = 'Exit'
+        ImageIndex = 341
+      end
+    end
+    object iLoad: TMenuItem
+      Caption = 'Load'
+      object ds5701: TMenuItem
+        Caption = 'ds570'
+        OnClick = ds5701Click
+      end
+      object MenuItem3: TMenuItem
+        Caption = 'ghcn v3'
+        OnClick = MenuItem3Click
+      end
+      object iLoadGHCN_v4: TMenuItem
+        Caption = 'ghcn v4'
+        OnClick = iLoadGHCN_v4Click
+      end
+      object MenuItem6: TMenuItem
+        Caption = '-'
+      end
+      object iUpdateStationInfo: TMenuItem
+        Caption = 'Update Station_Info'
+        ImageIndex = 8
+        OnClick = iUpdateStationInfoClick
+      end
+    end
+    object MenuItem4: TMenuItem
+      Caption = 'Services'
+      object iDatabaseTables: TMenuItem
+        Caption = 'Table management'
+        ImageIndex = 990
+        OnClick = iDatabaseTablesClick
+      end
+      object iDeleteEmptyStations: TMenuItem
+        Caption = 'Delete Empty Stations'
+        ImageIndex = 644
+        OnClick = iDeleteEmptyStationsClick
+      end
+    end
+    object iTools: TMenuItem
+      Caption = 'Tools'
+      object iMap: TMenuItem
+        Action = amap
+        Caption = 'Map'
+      end
+      object RegionalAveraging1: TMenuItem
+        Caption = 'Regional Averaging'
+        Visible = False
+        OnClick = RegionalAveraging1Click
+      end
+    end
+  end
+  object OD: TOpenDialog
+    left = 528
+    top = 12
+  end
+  object PM1: TPopupMenu
+    Images = frmicons.IL1
+    left = 648
+    top = 12
+    object btnviewdata: TMenuItem
+      Caption = 'Data'
+      ImageIndex = 857
+      OnClick = btnviewdataClick
+    end
+  end
+  object DS2: TDataSource
+    DataSet = frmdm.CDS2
+    left = 24
+    top = 456
+  end
+  object SD: TSaveDialog
+    Options = [ofOverwritePrompt, ofEnableSizing, ofViewDetail]
+    left = 588
+    top = 12
+  end
+  object AL: TActionList
+    Images = frmicons.IL1
+    left = 708
+    top = 12
+    object amap: TAction
+      Caption = 'amap'
+      ImageIndex = 984
+      OnExecute = amapExecute
+    end
+  end
+  object DS1: TDataSource
+    DataSet = frmdm.CDS
+    left = 24
+    top = 144
+  end
+end

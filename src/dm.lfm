@@ -1,0 +1,78 @@
+object frmdm: Tfrmdm
+  OnDestroy = DataModuleDestroy
+  OldCreateOrder = False
+  Height = 416
+  HorizontalOffset = 941
+  VerticalOffset = 339
+  Width = 560
+  PPI = 144
+  object FBDB: TIBConnection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Password = 'masterkey'
+    UserName = 'SYSDBA'
+    CharSet = 'UTF8'
+    HostName = 'localhost'
+    LogEvents = []
+    CheckTransactionParams = False
+    left = 24
+    top = 24
+  end
+  object TR: TSQLTransaction
+    Active = False
+    Action = caNone
+    left = 156
+    top = 24
+  end
+  object q1: TSQLQuery
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    left = 360
+    top = 24
+  end
+  object q2: TSQLQuery
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    left = 408
+    top = 24
+  end
+  object q3: TSQLQuery
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    left = 456
+    top = 24
+  end
+  object CDS: TSQLQuery
+    MaxIndexesCount = 100
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    left = 216
+    top = 24
+  end
+  object PGDB: TPQConnection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = 'mdb'
+    KeepConnection = True
+    Password = 'ZXasQW3edc'
+    UserName = 'postgres'
+    CharSet = 'UTF8'
+    HostName = '193.227.233.106'
+    VerboseErrors = False
+    left = 84
+    top = 24
+  end
+  object CDS2: TSQLQuery
+    MaxIndexesCount = 100
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    left = 276
+    top = 24
+  end
+end

@@ -1,0 +1,101 @@
+object frmload_ghcnv4: Tfrmload_ghcnv4
+  Left = 526
+  Height = 470
+  Top = 239
+  Width = 940
+  Caption = 'Load ghcn v4'
+  ClientHeight = 470
+  ClientWidth = 940
+  Constraints.MaxWidth = 940
+  Constraints.MinHeight = 470
+  Constraints.MinWidth = 940
+  DesignTimePPI = 144
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.6.0'
+  object btnLoad: TButton
+    Left = 760
+    Height = 38
+    Top = 16
+    Width = 152
+    Caption = 'Update'
+    OnClick = btnLoadClick
+    ParentFont = False
+    TabOrder = 0
+  end
+  object mInserted: TMemo
+    Left = 24
+    Height = 347
+    Top = 96
+    Width = 280
+    Anchors = [akTop, akLeft, akBottom]
+    ParentFont = False
+    ScrollBars = ssBoth
+    TabOrder = 1
+  end
+  object Label1: TLabel
+    Left = 24
+    Height = 25
+    Top = 25
+    Width = 565
+    Caption = 'Use ONLY unadjusted values. Incremental updates should be used '
+    Font.Color = clRed
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object chkShowLog: TCheckBox
+    Left = 616
+    Height = 29
+    Top = 21
+    Width = 133
+    Caption = 'Show output'
+    Checked = True
+    ParentFont = False
+    State = cbChecked
+    TabOrder = 2
+  end
+  object mError: TMemo
+    Left = 632
+    Height = 347
+    Top = 96
+    Width = 280
+    Anchors = [akTop, akLeft, akBottom]
+    ParentFont = False
+    ScrollBars = ssBoth
+    TabOrder = 3
+  end
+  object mUpdated: TMemo
+    Left = 328
+    Height = 347
+    Top = 96
+    Width = 280
+    Anchors = [akTop, akLeft, akBottom]
+    ParentFont = False
+    ScrollBars = ssBoth
+    TabOrder = 4
+  end
+  object Label2: TLabel
+    Left = 24
+    Height = 25
+    Top = 63
+    Width = 64
+    Caption = 'Inserted'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 328
+    Height = 25
+    Top = 63
+    Width = 69
+    Caption = 'Updated'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 632
+    Height = 25
+    Top = 64
+    Width = 38
+    Caption = 'Error'
+    ParentColor = False
+  end
+end

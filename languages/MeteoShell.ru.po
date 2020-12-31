@@ -1,0 +1,555 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"X-Generator: Poedit 2.0.1\n"
+
+#: main.sabsnum
+#, fuzzy
+#| msgid "Absnum"
+msgctxt "main.sabsnum"
+msgid "ID"
+msgstr "Номер"
+
+#: main.sadjusted
+msgctxt "main.sadjusted"
+msgid "Adj."
+msgstr ""
+
+#: main.sannual
+msgid "Annual"
+msgstr "Ср. за год"
+
+#: main.sapr
+msgid "APR"
+msgstr "АПР"
+
+#: main.saug
+msgid "AUG"
+msgstr "АВГ"
+
+#: main.scount
+msgctxt "main.scount"
+msgid "Count"
+msgstr "Кол-во"
+
+#: main.scountry
+msgctxt "main.scountry"
+msgid "Country"
+msgstr "Страна"
+
+#: main.sdate
+msgid "Date"
+msgstr ""
+
+#: main.sdec
+msgid "DEC"
+msgstr "ДЕК"
+
+#: main.sdone
+msgid "Done!"
+msgstr "Сделано!"
+
+#: main.selevation
+msgid "Elevation"
+msgstr "Высота"
+
+#: main.serror
+msgid "Something went wrong..."
+msgstr ""
+
+#: main.sfeb
+msgid "FEB"
+msgstr "ФЕВ"
+
+#: main.sflag
+msgid "Flag"
+msgstr "Флаг"
+
+#: main.sjan
+msgid "JAN"
+msgstr "ЯНВ"
+
+#: main.sjul
+msgid "JUL"
+msgstr "ИЮЛ"
+
+#: main.sjun
+msgid "JUN"
+msgstr "ИЮН"
+
+#: main.slatitude
+msgid "Latitude"
+msgstr "Широта"
+
+#: main.slatmax
+msgid "Lat. max."
+msgstr "Макс. шир."
+
+#: main.slatmin
+msgid "Lat. min."
+msgstr "Мин. шир."
+
+#: main.slongitude
+msgid "Longitude"
+msgstr "Долгота"
+
+#: main.slonmax
+msgid "Lon. max."
+msgstr "Макс. долг."
+
+#: main.slonmin
+msgid "Lon. min."
+msgstr "Мин. долг."
+
+#: main.smar
+msgid "MAR"
+msgstr "МАР"
+
+#: main.smay
+msgid "MAY"
+msgstr "МАЙ"
+
+#: main.smonth
+msgctxt "main.smonth"
+msgid "Month"
+msgstr "Месяц"
+
+#: main.smonthmax
+msgctxt "main.smonthmax"
+msgid "Month max"
+msgstr "Макс. мес."
+
+#: main.smonthmin
+msgctxt "main.smonthmin"
+msgid "Month min"
+msgstr "Мин. мес."
+
+#: main.snodatabase
+msgid "Please, specify the database and try to connect again"
+msgstr ""
+
+#: main.snov
+msgid "NOV"
+msgstr "НОЯ"
+
+#: main.soct
+msgid "OCT"
+msgstr "ОКТ"
+
+#: main.sparameter
+msgctxt "main.sparameter"
+msgid "Parameter"
+msgstr "Параметр"
+
+#: main.ssep
+msgid "SEP"
+msgstr "СЕН"
+
+#: main.ssource
+msgctxt "main.ssource"
+msgid "Source"
+msgstr ""
+
+#: main.sstation
+msgctxt "main.sstation"
+msgid "Station"
+msgstr "Станция"
+
+#: main.sstations
+msgid "Stations"
+msgstr "Станций"
+
+#: main.svalue
+msgid "Value"
+msgstr "Значение"
+
+#: main.svaluemax
+msgctxt "main.svaluemax"
+msgid "Value max"
+msgstr "Макс. знач."
+
+#: main.svaluemin
+msgctxt "main.svaluemin"
+msgid "Value min"
+msgstr "Мин. знач."
+
+#: main.swmo
+msgid "WMO"
+msgstr "ВМО"
+
+#: main.syear
+msgctxt "main.syear"
+msgid "Year"
+msgstr "Год"
+
+#: main.syearmax
+msgctxt "main.syearmax"
+msgid "Year max"
+msgstr "Макс. год"
+
+#: main.syearmin
+msgctxt "main.syearmin"
+msgid "Year min"
+msgstr "Мин. год"
+
+#: map_wkt.rsmultipolygon
+msgid "MULTIPOLYGON"
+msgstr ""
+
+#: map_wkt.rspolygon
+msgid "POLYGON"
+msgstr ""
+
+#: map_wkt.rsringbreak
+msgid "),("
+msgstr ""
+
+#: map_wkt.rsseparators
+msgid "(,) #0"
+msgstr ""
+
+#: tfrmload_ghcnv4.btnload.caption
+msgid "Update"
+msgstr ""
+
+#: tfrmload_ghcnv4.caption
+msgid "Load ghcn v4"
+msgstr ""
+
+#: tfrmload_ghcnv4.chkshowlog.caption
+msgid "Show output"
+msgstr ""
+
+#: tfrmload_ghcnv4.label1.caption
+msgid "Use ONLY unadjusted values. Incremental updates should be used "
+msgstr ""
+
+#: tfrmload_ghcnv4.label2.caption
+msgid "Inserted"
+msgstr ""
+
+#: tfrmload_ghcnv4.label3.caption
+msgid "Updated"
+msgstr ""
+
+#: tfrmload_ghcnv4.label4.caption
+msgid "Error"
+msgstr ""
+
+#: tfrmmain.amap.caption
+msgid "amap"
+msgstr ""
+
+#: tfrmmain.btnadd.caption
+msgctxt "tfrmmain.btnadd.caption"
+msgid "btnadd"
+msgstr ""
+
+#: tfrmmain.btncommit.caption
+msgctxt "tfrmmain.btncommit.caption"
+msgid "Save"
+msgstr "Сохранить"
+
+#: tfrmmain.btndelete.caption
+msgctxt "tfrmmain.btndelete.caption"
+msgid "btndelete"
+msgstr ""
+
+#: tfrmmain.btnselect.caption
+msgid "Select"
+msgstr "Выбрать"
+
+#: tfrmmain.btnviewdata.caption
+#, fuzzy
+#| msgid "Time Series"
+msgctxt "tfrmmain.btnviewdata.caption"
+msgid "Data"
+msgstr "Временная серия"
+
+#: tfrmmain.caption
+#, fuzzy
+#| msgid "MDB"
+msgid "MeteoShell"
+msgstr "Программа для хранения, обработки и визуализации метеорологической информации"
+
+#: tfrmmain.chkstactive.caption
+msgid "Stations active between"
+msgstr "Период активности"
+
+#: tfrmmain.chlparameters.caption
+#, fuzzy
+#| msgid "Parameters must present in selection"
+msgid "Parameters"
+msgstr "Обязательные параметры"
+
+#: tfrmmain.dbgrid1.columns[0].title.caption
+msgctxt "tfrmmain.dbgrid1.columns[0].title.caption"
+msgid "id"
+msgstr ""
+
+#: tfrmmain.dbgrid1.columns[1].title.caption
+msgid "wmo"
+msgstr ""
+
+#: tfrmmain.dbgrid1.columns[2].title.caption
+msgid "name"
+msgstr ""
+
+#: tfrmmain.dbgrid1.columns[3].title.caption
+msgid "latitude"
+msgstr ""
+
+#: tfrmmain.dbgrid1.columns[4].title.caption
+msgid "longitude"
+msgstr ""
+
+#: tfrmmain.dbgrid1.columns[5].title.caption
+msgid "elevation"
+msgstr ""
+
+#: tfrmmain.dbgrid1.columns[6].title.caption
+msgid "stcountry"
+msgstr ""
+
+#: tfrmmain.dbgrid2.columns[0].title.caption
+#, fuzzy
+msgctxt "tfrmmain.dbgrid2.columns[0].title.caption"
+msgid "Parameter"
+msgstr "Параметр"
+
+#: tfrmmain.dbgrid2.columns[1].title.caption
+#, fuzzy
+#| msgid "Year min"
+msgctxt "tfrmmain.dbgrid2.columns[1].title.caption"
+msgid "Source"
+msgstr "Мин. год"
+
+#: tfrmmain.dbgrid2.columns[2].title.caption
+#, fuzzy
+#| msgid "Month min"
+msgctxt "tfrmmain.dbgrid2.columns[2].title.caption"
+msgid "Year min"
+msgstr "Мин. мес."
+
+#: tfrmmain.dbgrid2.columns[3].title.caption
+#, fuzzy
+#| msgid "Year max"
+msgctxt "tfrmmain.dbgrid2.columns[3].title.caption"
+msgid "Month min"
+msgstr "Макс. год"
+
+#: tfrmmain.dbgrid2.columns[4].title.caption
+#, fuzzy
+#| msgid "Month max"
+msgctxt "tfrmmain.dbgrid2.columns[4].title.caption"
+msgid "Year max"
+msgstr "Макс. мес."
+
+#: tfrmmain.dbgrid2.columns[5].title.caption
+#, fuzzy
+#| msgid "Value min"
+msgctxt "tfrmmain.dbgrid2.columns[5].title.caption"
+msgid "Month max"
+msgstr "Мин. знач."
+
+#: tfrmmain.dbgrid2.columns[6].title.caption
+#, fuzzy
+#| msgid "Value max"
+msgctxt "tfrmmain.dbgrid2.columns[6].title.caption"
+msgid "Value min"
+msgstr "Макс. знач."
+
+#: tfrmmain.dbgrid2.columns[7].title.caption
+#, fuzzy
+#| msgid "Count"
+msgctxt "tfrmmain.dbgrid2.columns[7].title.caption"
+msgid "Value max"
+msgstr "Кол-во"
+
+#: tfrmmain.dbgrid2.columns[8].title.caption
+#, fuzzy
+#| msgid "Count"
+msgctxt "tfrmmain.dbgrid2.columns[8].title.caption"
+msgid "Count"
+msgstr "Кол-во"
+
+#: tfrmmain.dbgrid2.columns[9].title.caption
+#, fuzzy
+#| msgid "Count"
+msgctxt "tfrmmain.dbgrid2.columns[9].title.caption"
+msgid "%"
+msgstr "Кол-во"
+
+#: tfrmmain.ds5701.caption
+msgid "ds570"
+msgstr "ds570"
+
+#: tfrmmain.exit1.caption
+msgid "Exit"
+msgstr "Выход"
+
+#: tfrmmain.groupbox1.caption
+msgctxt "tfrmmain.groupbox1.caption"
+msgid "Metadata"
+msgstr "Метаданные"
+
+#: tfrmmain.groupbox2.caption
+msgid "Timeseries length"
+msgstr "Длина серии"
+
+#: tfrmmain.groupbox3.caption
+#, fuzzy
+#| msgid "Selection by position"
+msgid "Region"
+msgstr "Регион"
+
+#: tfrmmain.idatabasetables.caption
+msgctxt "tfrmmain.idatabasetables.caption"
+msgid "Table management"
+msgstr ""
+
+#: tfrmmain.ideleteemptystations.caption
+msgid "Delete Empty Stations"
+msgstr ""
+
+#: tfrmmain.ifile.caption
+msgid "File"
+msgstr "Файл"
+
+#: tfrmmain.iload.caption
+msgid "Load"
+msgstr "Загрузка"
+
+#: tfrmmain.iloadghcn_v4.caption
+msgid "ghcn v4"
+msgstr ""
+
+#: tfrmmain.imap.caption
+#, fuzzy
+msgctxt "tfrmmain.imap.caption"
+msgid "Map"
+msgstr "Карта"
+
+#: tfrmmain.isettings.caption
+#, fuzzy
+#| msgid "Settings"
+msgctxt "tfrmmain.isettings.caption"
+msgid "Settings"
+msgstr "Настройки"
+
+#: tfrmmain.isettings.hint
+#, fuzzy
+msgctxt "tfrmmain.isettings.hint"
+msgid "Settings"
+msgstr "Настройки"
+
+#: tfrmmain.itools.caption
+msgid "Tools"
+msgstr "Инструменты"
+
+#: tfrmmain.iupdatestationinfo.caption
+msgid "Update Station_Info"
+msgstr ""
+
+#: tfrmmain.label2.caption
+msgid "WMO #"
+msgstr "№ ВМО"
+
+#: tfrmmain.label4.caption
+msgctxt "tfrmmain.label4.caption"
+msgid "Country"
+msgstr "Страна"
+
+#: tfrmmain.label5.caption
+msgctxt "tfrmmain.label5.caption"
+msgid "Station"
+msgstr "Станция"
+
+#: tfrmmain.label6.caption
+msgctxt "tfrmmain.label6.caption"
+msgid "->"
+msgstr "->"
+
+#: tfrmmain.lbcoordreset.caption
+msgctxt "tfrmmain.lbcoordreset.caption"
+msgid "Reset"
+msgstr "Сброс"
+
+#: tfrmmain.lblatmax.caption
+msgctxt "tfrmmain.lblatmax.caption"
+msgid "Lat Max"
+msgstr "Макс. шир."
+
+#: tfrmmain.lblatmin.caption
+msgctxt "tfrmmain.lblatmin.caption"
+msgid "Lat Min"
+msgstr "Мин. шир."
+
+#: tfrmmain.lblonmax.caption
+msgctxt "tfrmmain.lblonmax.caption"
+msgid "Lon Max"
+msgstr "Макс. долг."
+
+#: tfrmmain.lblonmin.caption
+msgctxt "tfrmmain.lblonmin.caption"
+msgid "Lon Min"
+msgstr "Мин. долг."
+
+#: tfrmmain.lbresetmd.caption
+msgctxt "TFRMMAIN.LBRESETMD.CAPTION"
+msgid "Reset"
+msgstr "Сброс"
+
+#: tfrmmain.menuitem3.caption
+#, fuzzy
+#| msgid "GHCN"
+msgid "ghcn v3"
+msgstr "GHCN"
+
+#: tfrmmain.menuitem4.caption
+#, fuzzy
+msgctxt "tfrmmain.menuitem4.caption"
+msgid "Services"
+msgstr "Сервисы"
+
+#: tfrmmain.regionalaveraging1.caption
+msgid "Regional Averaging"
+msgstr "Осреднение по региону"
+
+#: tfrmmain.statusbar1.panels[0].text
+msgid "[Database]"
+msgstr "[База данных]"
+
+#: tfrmmain.statusbar2.panels[0].text
+msgid "[Selection]"
+msgstr "[Выборка]"
+
+#: tfrmmain.tbdata.caption
+msgctxt "tfrmmain.tbdata.caption"
+msgid "Data"
+msgstr "Данные"
+
+#: tfrmmain.tbselection.caption
+#, fuzzy
+#| msgid "Selection"
+msgid "Options"
+msgstr "Выбор данных"
+
+#: tfrmmain.toolbar1.caption
+msgctxt "tfrmmain.toolbar1.caption"
+msgid "ToolBar1"
+msgstr ""
+
+#: tfrmmain.toolbutton4.caption
+msgctxt "tfrmmain.toolbutton4.caption"
+msgid "ToolButton4"
+msgstr ""
+

@@ -1,0 +1,92 @@
+object frmload_ds570: Tfrmload_ds570
+  Left = 520
+  Height = 535
+  Top = 255
+  Width = 893
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Load ds570'
+  ClientHeight = 535
+  ClientWidth = 893
+  Color = clBtnFace
+  DesignTimePPI = 144
+  Font.Color = clWindowText
+  Font.Height = -17
+  Font.Name = 'MS Sans Serif'
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.6.0'
+  object btnLoadMetadata: TButton
+    Left = 614
+    Height = 38
+    Top = 16
+    Width = 255
+    Caption = 'Update metadata (Caution!)'
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    OnClick = btnLoadMetadataClick
+    ParentFont = False
+    TabOrder = 0
+  end
+  object btnLoadData: TButton
+    Left = 248
+    Height = 38
+    Top = 16
+    Width = 255
+    Caption = 'Update data'
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    OnClick = btnLoadDataClick
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Label1: TLabel
+    Left = 24
+    Height = 20
+    Top = 72
+    Width = 48
+    Caption = 'Label1'
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+    Visible = False
+  end
+  object Label2: TLabel
+    Left = 24
+    Height = 20
+    Top = 34
+    Width = 96
+    Caption = 'Start with row'
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Memo1: TMemo
+    Left = 24
+    Height = 400
+    Top = 104
+    Width = 845
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 2
+  end
+  object seSkip: TSpinEdit
+    Left = 144
+    Height = 28
+    Top = 26
+    Width = 75
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
+    TabOrder = 3
+  end
+end
