@@ -15,7 +15,7 @@ object frmload_ghcnv4: Tfrmload_ghcnv4
   object btnLoad: TButton
     Left = 760
     Height = 38
-    Top = 16
+    Top = 12
     Width = 152
     Caption = 'Update'
     OnClick = btnLoadClick

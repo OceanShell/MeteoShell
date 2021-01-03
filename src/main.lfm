@@ -537,7 +537,7 @@ object frmmain: Tfrmmain
         end
         object ToolButton4: TToolButton
           Left = 71
-          Height = 33
+          Height = 5
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
@@ -759,6 +759,13 @@ object frmmain: Tfrmmain
         Caption = 'Regional Averaging'
         Visible = False
         OnClick = RegionalAveraging1Click
+      end
+    end
+    object iHelp: TMenuItem
+      Caption = 'Help'
+      object iAbout: TMenuItem
+        Caption = 'About'
+        OnClick = iAboutClick
       end
     end
   end

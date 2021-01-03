@@ -119,8 +119,24 @@ msgctxt "main.smonthmin"
 msgid "Month min"
 msgstr ""
 
+#: main.snocdo
+msgid "CDO is not found"
+msgstr ""
+
 #: main.snodatabase
 msgid "Please, specify the database and try to connect again"
+msgstr ""
+
+#: main.snographer
+msgid "Grapher is not found"
+msgstr ""
+
+#: main.snopython
+msgid "Python is not found"
+msgstr ""
+
+#: main.snosurfer
+msgid "Surfer is not found"
 msgstr ""
 
 #: main.snov
@@ -203,7 +219,45 @@ msgstr ""
 msgid "(,) #0"
 msgstr ""
 
+#: tfrmload_ds570.btnloaddata.caption
+msgctxt "tfrmload_ds570.btnloaddata.caption"
+msgid "Update"
+msgstr ""
+
+#: tfrmload_ds570.btnloadmetadata.caption
+msgid "Update metadata (Caution!)"
+msgstr ""
+
+#: tfrmload_ds570.caption
+msgid "Load ds570"
+msgstr ""
+
+#: tfrmload_ds570.chkshowlog.caption
+msgctxt "tfrmload_ds570.chkshowlog.caption"
+msgid "Show output"
+msgstr ""
+
+#: tfrmload_ds570.label3.caption
+msgid "ONLY incremental updates should be used (compare_ds570.py)"
+msgstr ""
+
+#: tfrmload_ds570.label4.caption
+msgctxt "tfrmload_ds570.label4.caption"
+msgid "Inserted"
+msgstr ""
+
+#: tfrmload_ds570.label5.caption
+msgctxt "tfrmload_ds570.label5.caption"
+msgid "Updated"
+msgstr ""
+
+#: tfrmload_ds570.label6.caption
+msgctxt "tfrmload_ds570.label6.caption"
+msgid "Error"
+msgstr ""
+
 #: tfrmload_ghcnv4.btnload.caption
+msgctxt "tfrmload_ghcnv4.btnload.caption"
 msgid "Update"
 msgstr ""
 
@@ -212,6 +266,7 @@ msgid "Load ghcn v4"
 msgstr ""
 
 #: tfrmload_ghcnv4.chkshowlog.caption
+msgctxt "tfrmload_ghcnv4.chkshowlog.caption"
 msgid "Show output"
 msgstr ""
 
@@ -220,14 +275,17 @@ msgid "Use ONLY unadjusted values. Incremental updates should be used "
 msgstr ""
 
 #: tfrmload_ghcnv4.label2.caption
+msgctxt "tfrmload_ghcnv4.label2.caption"
 msgid "Inserted"
 msgstr ""
 
 #: tfrmload_ghcnv4.label3.caption
+msgctxt "tfrmload_ghcnv4.label3.caption"
 msgid "Updated"
 msgstr ""
 
 #: tfrmload_ghcnv4.label4.caption
+msgctxt "tfrmload_ghcnv4.label4.caption"
 msgid "Error"
 msgstr ""
 
@@ -371,6 +429,10 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
+#: tfrmmain.iabout.caption
+msgid "About"
+msgstr ""
+
 #: tfrmmain.idatabasetables.caption
 msgctxt "tfrmmain.idatabasetables.caption"
 msgid "Table management"
@@ -382,6 +444,10 @@ msgstr ""
 
 #: tfrmmain.ifile.caption
 msgid "File"
+msgstr ""
+
+#: tfrmmain.ihelp.caption
+msgid "Help"
 msgstr ""
 
 #: tfrmmain.iload.caption
@@ -498,5 +564,51 @@ msgstr ""
 #: tfrmmain.toolbutton4.caption
 msgctxt "tfrmmain.toolbutton4.caption"
 msgid "ToolButton4"
+msgstr ""
+
+#: tfrmmap.btnshowallstations.caption
+msgid "btnShowAllStations"
+msgstr ""
+
+#: tfrmmap.btnshowallstations.hint
+msgid "Show all stations"
+msgstr ""
+
+#: tfrmmap.btnshowselected.caption
+msgid "btnShowSelected"
+msgstr ""
+
+#: tfrmmap.btnshowselected.hint
+msgid "Center at selected station"
+msgstr ""
+
+#: tfrmmap.btnzoomin.hint
+msgid "Zoom In"
+msgstr ""
+
+#: tfrmmap.btnzoomout.hint
+msgid "Zoom Out"
+msgstr ""
+
+#: tfrmmap.caption
+msgctxt "tfrmmap.caption"
+msgid "Map"
+msgstr ""
+
+#: tfrmmap.pmap.caption
+msgid "pmap"
+msgstr ""
+
+#: tfrmmap.toolbar1.caption
+msgctxt "tfrmmap.toolbar1.caption"
+msgid "ToolBar1"
+msgstr ""
+
+#: tfrmmap.toolbutton2.caption
+msgid "ToolButton2"
+msgstr ""
+
+#: tfrmmap.toolbutton3.caption
+msgid "ToolButton3"
 msgstr ""
 

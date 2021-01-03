@@ -1,0 +1,10 @@
+{"version":1,"strings":[
+{"hash":107896272,"name":"tfrmload_ds570.caption","sourcebytes":[76,111,97,100,32,100,115,53,55,48],"value":"Load ds570"},
+{"hash":67129737,"name":"tfrmload_ds570.btnloadmetadata.caption","sourcebytes":[85,112,100,97,116,101,32,109,101,116,97,100,97,116,97,32,40,67,97,117,116,105,111,110,33,41],"value":"Update metadata (Caution!)"},
+{"hash":94150580,"name":"tfrmload_ds570.label4.caption","sourcebytes":[73,110,115,101,114,116,101,100],"value":"Inserted"},
+{"hash":208308964,"name":"tfrmload_ds570.label5.caption","sourcebytes":[85,112,100,97,116,101,100],"value":"Updated"},
+{"hash":5020002,"name":"tfrmload_ds570.label6.caption","sourcebytes":[69,114,114,111,114],"value":"Error"},
+{"hash":120255945,"name":"tfrmload_ds570.label3.caption","sourcebytes":[79,78,76,89,32,105,110,99,114,101,109,101,110,116,97,108,32,117,112,100,97,116,101,115,32,115,104,111,117,108,100,32,98,101,32,117,115,101,100,32,40,99,111,109,112,97,114,101,95,100,115,53,55,48,46,112,121,41],"value":"ONLY incremental updates should be used (compare_ds570.py)"},
+{"hash":120930644,"name":"tfrmload_ds570.chkshowlog.caption","sourcebytes":[83,104,111,119,32,111,117,116,112,117,116],"value":"Show output"},
+{"hash":96905381,"name":"tfrmload_ds570.btnloaddata.caption","sourcebytes":[85,112,100,97,116,101],"value":"Update"}
+]}

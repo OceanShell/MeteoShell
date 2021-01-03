@@ -63,7 +63,7 @@ begin
   MainGlobe.Marker.Lat := frmdm.CDS.FieldByName('latitude').AsFloat;
   MainGlobe.Marker.Lon := frmdm.CDS.FieldByName('longitude').AsFloat;
 
-  btnKMLExport.Enabled:=CheckKML;
+ // btnKMLExport.Enabled:=CheckKML;
 end;
 
 procedure Tfrmmap.ChangeID;

@@ -37,7 +37,7 @@ implementation
 
 {$R *.lfm}
 
-uses main, dm;
+uses main, dm, procedures;
 
 { Tfrmload_ghcnv4 }
 
@@ -45,7 +45,7 @@ procedure Tfrmload_ghcnv4.btnLoadClick(Sender: TObject);
 Var
  fi_dat: text;
  st, fileforread, numsrc:string;
- k, absnum, yy, mn:integer;
+ k, absnum, yy, mn, cnt, row_cnt:integer;
  temp:real;
  datecurr: TDateTime;
 begin
@@ -61,16 +61,25 @@ begin
   if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
 
   AssignFile(fi_dat,FileForRead); reset(fi_dat);
+  cnt:=0;
+  repeat
+   readln(fi_dat);
+    inc(cnt);
+  until eof(fi_dat);
+  CloseFile(fi_dat);
+
+  AssignFile(fi_dat,FileForRead); reset(fi_dat);
 
 //ACW000116041961TAVG -142  k  183  k  419  k  720  k 1075  k 1546  k 1517  k 1428  k 1360  k 1121  k  457  k  -92  k
 //ACW000116041962TAVG   60  k   32  k -207  k  582  k  855  k 1328  k 1457  k 1340  k 1110  k  941  k  270  k -179  k
-
+ row_cnt:=0;
  repeat
   readln(fi_dat, st);
+  inc(row_cnt);
 
    numsrc:=trim(Copy(st,1,11));
    //label1.caption:=numsrc;
-   application.ProcessMessages;
+  // application.ProcessMessages;
 
    with frmdm.q1 do begin
     Close;
@@ -161,6 +170,10 @@ begin
    end;
 
   end; //absnum<>-9
+
+  Caption:=inttostr(row_cnt);
+  ProgressTaskbar(row_cnt, cnt);
+  application.ProcessMessages;
 
  until eof(fi_dat);
  closefile(fi_dat);

@@ -422,7 +422,7 @@ begin
  PlotTimeSeries(fname, title, par, units, xtitle, 2);
 
  cmd:='"'+grapherpath+'" -x "'+GlobalPath+'unload\timeseries\timeseries.bas"';
- RunProc(cmd);
+ frmmain.RunScript(3, cmd, nil);
 end;
 
 
@@ -480,7 +480,7 @@ begin
  PlotTimeSeries(fname, title, par, units, xtitle, 2);
 
  cmd:='"'+grapherpath+'" -x "'+GlobalPath+'unload\timeseries\timeseries.bas"';
- RunProc(cmd);
+ frmmain.RunScript(3, cmd, nil);
 end;
 
 

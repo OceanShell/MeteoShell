@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
   Menus, sqldb, pqconnection, DBGrids, DB, ComCtrls, Spin, IniFiles, LCLIntf,
-  LCLTranslator, Grids, ActnList, Buttons;
+  LCLTranslator, Grids, ActnList, Buttons, Process, Math;
 
 type
 
@@ -56,6 +56,8 @@ type
     iLoad: TMenuItem;
     iSettings: TMenuItem;
     iMap: TMenuItem;
+    iHelp: TMenuItem;
+    iAbout: TMenuItem;
     MenuItem3: TMenuItem;
     iLoadGHCN_v4: TMenuItem;
     MenuItem4: TMenuItem;
@@ -96,6 +98,7 @@ type
     procedure DBGrid2CellClick(Column: TColumn);
     procedure DBGrid2KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure iAboutClick(Sender: TObject);
     procedure iDeleteEmptyStationsClick(Sender: TObject);
     procedure iLoadGHCN_v4Click(Sender: TObject);
     procedure btnSelectClick(Sender: TObject);
@@ -127,6 +130,7 @@ type
     procedure CDSStatistics;
     procedure UpdateIBContent;
     procedure CDSInfoNavigation;
+    procedure RunScript(ExeFlag:integer; cmd:string; Sender:TMemo);
   end;
 
 var
@@ -189,6 +193,15 @@ resourcestring
   SMonth     = 'Month';
   SValue     = 'Value';
   SFlag      = 'Flag';
+
+  SNoPython = 'Python is not found';
+  SNoSurfer = 'Surfer is not found';
+  SNoGrapher = 'Grapher is not found';
+  SNoCDO = 'CDO is not found';
+
+
+const
+  buf_len      = 3000;
 
 implementation
 
@@ -956,6 +969,148 @@ begin
    if MessageDlg('Select at least one parameter', mtWarning, [mbOk], 0)=mrOk then
       chkStActive.Checked:=false;
 end;
+
+
+procedure Tfrmmain.iAboutClick(Sender: TObject);
+Var
+  winver, AboutProgram:string;
+begin
+ {$ifdef WINDOWS}
+   {$ifdef WIN32}
+     winver:='i386-win32';
+   {$endif}
+
+   {$ifdef WIN64}
+     winver:='x86_64-win64';
+   {$endif}
+ {$endif}
+
+ {$ifdef Linux}
+   {$ifdef CPU32}
+     winver:='i386-linux';
+   {$endif}
+   {$ifdef CPU64}
+     winver:='x86_64-linux';
+   {$endif}
+ {$endif}
+
+  {$ifdef DARWIN}
+   {$ifdef CPU32}
+     winver:='i386-darwin';
+   {$endif}
+   {$ifdef CPU64}
+     winver:='x86_64-darwin';
+   {$endif}
+ {$endif}
+
+  AboutProgram:='MeteoShell ('+winver+')'+LineEnding+LineEnding+
+                'Alexander Smirnov'+LineEnding+
+                '© 2011-2020';
+
+  if messagedlg(AboutProgram, mtInformation, [mbOk], 0)=mrOk then exit;
+
+end;
+
+
+(* Launching scripts *)
+procedure Tfrmmain.RunScript(ExeFlag:integer; cmd:string; Sender:TMemo);
+Var
+  Ini:TIniFile;
+  P:TProcess;
+  ExeName, buf, s: string;
+  WaitOnExit:boolean;
+  i, j: integer;
+begin
+(*
+  ExeFlag = 0 /Random executable file
+  ExeFlag = 1 /Python
+  ExeFlag = 2 /Surfer
+  ExeFlag = 3 /Grapher
+  ExeFlag = 4 /CDO
+  ExeFlag = 5 /NCO
+*)
+
+{$IFDEF WINDOWS}
+  Ini := TIniFile.Create(IniFileName);
+  try
+    case ExeFlag of
+     0: begin
+        ExeName:='';
+        WaitOnExit:=false;
+     end;
+     1: begin
+        ExeName:=Ini.ReadString('main', 'PythonPath', '');
+        WaitOnExit:=false;
+        if not FileExists(ExeName) then
+           if Messagedlg(SNoPython, mtwarning, [mbOk], 0)=mrOk then exit;
+     end;
+     2: begin
+        ExeName:=Ini.ReadString('main', 'SurferPath',  '');
+        WaitOnExit:=true;
+        if not FileExists(ExeName) then
+           if Messagedlg(SNoSurfer, mtwarning, [mbOk], 0)=mrOk then exit;
+     end;
+     3: begin
+        ExeName:=Ini.ReadString('main', 'GrapherPath', '');
+        WaitOnExit:=true;
+        if not FileExists(ExeName) then
+           if Messagedlg(SNoGrapher, mtwarning, [mbOk], 0)=mrOk then exit;
+     end;
+     4: begin
+        ExeName:=GlobalSupportPath+'cdo'+PathDelim+'cdo.exe';
+        WaitOnExit:=true;
+        if not FileExists(ExeName) then
+           if Messagedlg(SNoCDO,    mtwarning, [mbOk], 0)=mrOk then exit;
+     end;
+    end;
+  finally
+   ini.Free;
+  end;
+{$ENDIF}
+
+{$IFDEF UNIX}
+  Case ExeFlag of
+    1: ExeName :='python3';
+    4: ExeName :='cdo';
+    5: ExeName :='nco';
+  end;
+{$ENDIF}
+
+ try
+  P:=TProcess.Create(Nil);
+  P.Commandline:=trim(ExeName+' '+cmd);
+  //showmessage(P.CommandLine);
+  P.Options:=[poUsePipes, poNoConsole];
+  if WaitOnExit=true then P.Options:=P.Options+[poWaitOnExit];
+  P.Execute;
+
+  repeat
+   SetLength(buf, buf_len);
+   SetLength(buf, p.output.Read(buf[1], length(buf))); //waits for the process output
+   // cut the incoming stream to lines:
+   s:=s + buf; //add to the accumulator
+   repeat //detect the line breaks and cut.
+     i:=Pos(#13, s);
+     j:=Pos(#10, s);
+     if i=0 then i:=j;
+     if j=0 then j:=i;
+     if j = 0 then Break; //there are no complete lines yet.
+     if (Sender<> nil) then begin
+       Sender.Lines.Add(Copy(s, 1, min(i, j) - 1)); //return the line without the CR/LF characters
+       Application.ProcessMessages;
+     end;
+     s:=Copy(s, max(i, j) + 1, length(s) - max(i, j)); //remove the line from accumulator
+   until false;
+ until buf = '';
+ if (s <> '') and (Sender<>nil) then begin
+   Sender.Lines.Add(s);
+   Application.ProcessMessages;
+ end;
+finally
+ P.Free;
+end;
+end;
+
 
 
 procedure Tfrmmain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
