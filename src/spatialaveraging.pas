@@ -22,7 +22,6 @@ type
     Label5: TLabel;
     GroupBox2: TGroupBox;
     ComboBox1: TComboBox;
-    RadioGroup1: TRadioGroup;
     btnPlot: TButton;
     RadioGroup2: TRadioGroup;
     GroupBox3: TGroupBox;
@@ -50,14 +49,14 @@ var
 
 implementation
 
-uses datamodule, Main;
+uses dm, main;
 
 {$R *.lfm}
 
 procedure Tfrmspatialaveraging.FormShow(Sender: TObject);
 begin
- Combobox1.Items:=frmMain.ListBox2.Items;
- RadioGroup1.ItemIndex:=0;
+ Combobox1.Items:=frmMain.chlParameters.Items;
+ //RadioGroup1.ItemIndex:=0;
  RadioGroup2.ItemIndex:=1;
 end;
 

@@ -1,0 +1,9 @@
+{"version":1,"strings":[
+{"hash":95464324,"name":"tfrmtablemanagement.caption","sourcebytes":[84,97,98,108,101,32,109,97,110,97,103,101,109,101,110,116],"value":"Table management"},
+{"hash":106991073,"name":"tfrmtablemanagement.toolbar1.caption","sourcebytes":[84,111,111,108,66,97,114,49],"value":"ToolBar1"},
+{"hash":110839716,"name":"tfrmtablemanagement.btnadd.caption","sourcebytes":[98,116,110,97,100,100],"value":"btnadd"},
+{"hash":78398741,"name":"tfrmtablemanagement.btndelete.caption","sourcebytes":[98,116,110,100,101,108,101,116,101],"value":"btndelete"},
+{"hash":160486420,"name":"tfrmtablemanagement.toolbutton4.caption","sourcebytes":[84,111,111,108,66,117,116,116,111,110,52],"value":"ToolButton4"},
+{"hash":366789,"name":"tfrmtablemanagement.btncommit.caption","sourcebytes":[83,97,118,101],"value":"Save"},
+{"hash":174873561,"name":"tfrmtablemanagement.cbtable.text","sourcebytes":[67,111,117,110,116,114,121],"value":"Country"}
+]}

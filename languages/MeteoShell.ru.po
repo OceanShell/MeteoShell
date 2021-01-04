@@ -329,7 +329,7 @@ msgstr "Выбрать"
 #, fuzzy
 #| msgid "Time Series"
 msgctxt "tfrmmain.btnviewdata.caption"
-msgid "Data"
+msgid "Show data as matrix"
 msgstr "Временная серия"
 
 #: tfrmmain.caption
@@ -586,6 +586,11 @@ msgctxt "tfrmmain.menuitem4.caption"
 msgid "Services"
 msgstr "Сервисы"
 
+#: tfrmmain.menuitem7.caption
+msgctxt "tfrmmain.menuitem7.caption"
+msgid "Show selected station on map"
+msgstr ""
+
 #: tfrmmain.regionalaveraging1.caption
 msgid "Regional Averaging"
 msgstr "Осреднение по региону"
@@ -603,6 +608,10 @@ msgctxt "tfrmmain.tbdata.caption"
 msgid "Data"
 msgstr "Данные"
 
+#: tfrmmain.tbfastaccess.caption
+msgid "tbFastAccess"
+msgstr ""
+
 #: tfrmmain.tbselection.caption
 #, fuzzy
 #| msgid "Selection"
@@ -617,6 +626,14 @@ msgstr ""
 #: tfrmmain.toolbutton4.caption
 msgctxt "tfrmmain.toolbutton4.caption"
 msgid "ToolButton4"
+msgstr ""
+
+#: tfrmmap.btnsavemapas.caption
+msgid "btnSaveMapAs"
+msgstr ""
+
+#: tfrmmap.btnsettings.caption
+msgid "btnSettings"
 msgstr ""
 
 #: tfrmmap.btnshowallstations.caption
@@ -657,11 +674,391 @@ msgctxt "tfrmmap.toolbar1.caption"
 msgid "ToolBar1"
 msgstr ""
 
+#: tfrmmap.toolbutton1.caption
+msgid "ToolButton1"
+msgstr ""
+
 #: tfrmmap.toolbutton2.caption
 msgid "ToolButton2"
 msgstr ""
 
 #: tfrmmap.toolbutton3.caption
 msgid "ToolButton3"
+msgstr ""
+
+#: tfrmmap_settings.btnreset.caption
+msgid "Reset to default"
+msgstr ""
+
+#: tfrmmap_settings.btnsave.caption
+msgid "Ok"
+msgstr ""
+
+#: tfrmmap_settings.caption
+msgid "Map settings"
+msgstr ""
+
+#: tfrmmap_settings.chkshowstars.caption
+msgid "Show stars in the backgroud"
+msgstr ""
+
+#: tfrmmap_settings.groupbox1.caption
+msgid "Inner color"
+msgstr ""
+
+#: tfrmmap_settings.groupbox2.caption
+msgid "Border color"
+msgstr ""
+
+#: tfrmmap_settings.groupbox3.caption
+msgid "Selection marker (\"cross\") color"
+msgstr ""
+
+#: tfrmmap_settings.groupbox4.caption
+msgid "Zoom step"
+msgstr ""
+
+#: tfrmmap_settings.groupbox5.caption
+msgid "Map background color"
+msgstr ""
+
+#: tfrmmap_settings.groupbox6.caption
+msgid "Land color"
+msgstr ""
+
+#: tfrmmap_settings.groupbox7.caption
+msgid "Land contour color"
+msgstr ""
+
+#: tfrmmap_settings.groupbox8.caption
+msgid "Globe's disc color"
+msgstr ""
+
+#: tfrmmap_settings.rgpointersize.caption
+msgid "Radius, pixels"
+msgstr ""
+
+#: tfrmmap_settings.tabsheet1.caption
+#, fuzzy
+msgctxt "tfrmmap_settings.tabsheet1.caption"
+msgid "Station"
+msgstr "Станция"
+
+#: tfrmmap_settings.tabsheet2.caption
+msgctxt "tfrmmap_settings.tabsheet2.caption"
+msgid "Map"
+msgstr ""
+
+#: tfrmmap_settings.tabsheet3.caption
+msgid "Controls"
+msgstr ""
+
+#: tfrmmap_settings.tabsheet5.caption
+msgid "Marker"
+msgstr ""
+
+#: tfrmspatialaveraging.btncalculate.caption
+msgid "Calculate"
+msgstr ""
+
+#: tfrmspatialaveraging.btnplot.caption
+msgctxt "tfrmspatialaveraging.btnplot.caption"
+msgid "Plot"
+msgstr ""
+
+#: tfrmspatialaveraging.caption
+msgid "Spatial averaging"
+msgstr ""
+
+#: tfrmspatialaveraging.combobox1.text
+msgid "Select parameter..."
+msgstr ""
+
+#: tfrmspatialaveraging.groupbox1.caption
+msgid "Averaging period"
+msgstr ""
+
+#: tfrmspatialaveraging.groupbox2.caption
+#, fuzzy
+msgctxt "tfrmspatialaveraging.groupbox2.caption"
+msgid "Parameter"
+msgstr "Параметр"
+
+#: tfrmspatialaveraging.groupbox3.caption
+msgid "Norma"
+msgstr ""
+
+#: tfrmspatialaveraging.label1.caption
+#, fuzzy
+msgctxt "tfrmspatialaveraging.label1.caption"
+msgid "->"
+msgstr "->"
+
+#: tfrmspatialaveraging.label2.caption
+#, fuzzy
+msgctxt "tfrmspatialaveraging.label2.caption"
+msgid "->"
+msgstr "->"
+
+#: tfrmspatialaveraging.label3.caption
+#, fuzzy
+msgctxt "tfrmspatialaveraging.label3.caption"
+msgid "Year"
+msgstr "Год"
+
+#: tfrmspatialaveraging.label4.caption
+#, fuzzy
+msgctxt "tfrmspatialaveraging.label4.caption"
+msgid "Month"
+msgstr "Месяц"
+
+#: tfrmspatialaveraging.label5.caption
+#, fuzzy
+msgctxt "tfrmspatialaveraging.label5.caption"
+msgid "->"
+msgstr "->"
+
+#: tfrmspatialaveraging.label6.caption
+msgid "Period"
+msgstr ""
+
+#: tfrmspatialaveraging.radiogroup2.caption
+msgctxt "tfrmspatialaveraging.radiogroup2.caption"
+msgid "Plot"
+msgstr ""
+
+#: tfrmtablemanagement.btnadd.caption
+msgctxt "tfrmtablemanagement.btnadd.caption"
+msgid "btnadd"
+msgstr ""
+
+#: tfrmtablemanagement.btncommit.caption
+#, fuzzy
+msgctxt "tfrmtablemanagement.btncommit.caption"
+msgid "Save"
+msgstr "Сохранить"
+
+#: tfrmtablemanagement.btndelete.caption
+msgctxt "tfrmtablemanagement.btndelete.caption"
+msgid "btndelete"
+msgstr ""
+
+#: tfrmtablemanagement.caption
+msgctxt "tfrmtablemanagement.caption"
+msgid "Table management"
+msgstr ""
+
+#: tfrmtablemanagement.cbtable.text
+#, fuzzy
+msgctxt "tfrmtablemanagement.cbtable.text"
+msgid "Country"
+msgstr "Страна"
+
+#: tfrmtablemanagement.toolbar1.caption
+msgctxt "tfrmtablemanagement.toolbar1.caption"
+msgid "ToolBar1"
+msgstr ""
+
+#: tfrmtablemanagement.toolbutton4.caption
+msgctxt "tfrmtablemanagement.toolbutton4.caption"
+msgid "ToolButton4"
+msgstr ""
+
+#: tfrmtimeseries.btnplot.caption
+msgctxt "tfrmtimeseries.btnplot.caption"
+msgid "Plot"
+msgstr ""
+
+#: tfrmtimeseries.caption
+msgid "Timeseries"
+msgstr ""
+
+#: tfrmtimeseries.rgplottype.caption
+msgid "Type of plot"
+msgstr ""
+
+#: tfrmviewdata.btnplot.caption
+msgid "Averaging"
+msgstr ""
+
+#: tfrmviewdata.btnplotallmonth.caption
+msgid "Plot All Months"
+msgstr ""
+
+#: tfrmviewdata.btnplotcolumn.caption
+msgid "Plot Column"
+msgstr ""
+
+#: tfrmviewdata.btnsave.caption
+msgid "Save as..."
+msgstr ""
+
+#: tfrmviewdata.btnsave.hint
+msgid "Export timeseries as..."
+msgstr ""
+
+#: tfrmviewdata.caption
+msgid "View data"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[0].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[0].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[10].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[10].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[11].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[11].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[12].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[12].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[13].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[13].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[1].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[1].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[2].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[2].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[3].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[3].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[4].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[4].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[5].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[5].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[6].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[6].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[7].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[7].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[8].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[8].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid1.columns[9].title.caption
+msgctxt "tfrmviewdata.dbgrid1.columns[9].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[0].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[0].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[10].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[10].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[11].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[11].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[12].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[12].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[13].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[13].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[1].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[1].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[2].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[2].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[3].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[3].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[4].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[4].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[5].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[5].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[6].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[6].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[7].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[7].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[8].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[8].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.dbgrid2.columns[9].title.caption
+msgctxt "tfrmviewdata.dbgrid2.columns[9].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmviewdata.ieditdata.caption
+msgid "Edit Data"
+msgstr ""
+
+#: tfrmviewdata.menuitem2.caption
+msgid "Plot Annual Circle"
+msgstr ""
+
+#: tfrmviewdata.tabanomalies.caption
+msgid "Anomalies"
+msgstr ""
+
+#: tfrmviewdata.tabvalues.caption
+msgid "Values"
+msgstr ""
+
+#: tfrmviewdata.toolbar1.caption
+msgctxt "tfrmviewdata.toolbar1.caption"
+msgid "ToolBar1"
 msgstr ""
 

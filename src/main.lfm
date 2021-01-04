@@ -12,6 +12,7 @@ object frmmain: Tfrmmain
   DesignTimePPI = 144
   Menu = MM
   OnClose = FormClose
+  OnResize = FormResize
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.6.0'
@@ -317,7 +318,7 @@ object frmmain: Tfrmmain
           MinValue = 1800
           ParentFont = False
           TabOrder = 1
-          Value = 2019
+          Value = 2020
         end
         object chkStActive: TCheckBox
           Left = 12
@@ -407,8 +408,9 @@ object frmmain: Tfrmmain
         DataSource = DS1
         FixedCols = 0
         Flat = True
-        Options = [dgEditing, dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        Options = [dgEditing, dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgRowHighlight]
         ParentFont = False
+        PopupMenu = PM2
         Scrollbars = ssAutoVertical
         TabOrder = 1
         OnCellClick = DBGrid1CellClick
@@ -495,7 +497,7 @@ object frmmain: Tfrmmain
         DataSource = DS2
         FixedCols = 0
         Flat = True
-        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgRowHighlight]
         ParentFont = False
         PopupMenu = PM1
         ReadOnly = True
@@ -537,16 +539,17 @@ object frmmain: Tfrmmain
         end
         object ToolButton4: TToolButton
           Left = 71
-          Height = 5
+          Height = 33
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
         end
         object btncommit: TToolButton
-          Left = 79
+          Left = 76
           Top = 0
           Caption = 'Save'
           ImageIndex = 940
+          OnClick = btncommitClick
         end
       end
     end
@@ -693,6 +696,29 @@ object frmmain: Tfrmmain
       end
     end
   end
+  object tbFastAccess: TToolBar
+    Left = 0
+    Height = 33
+    Top = 64
+    Width = 36
+    Align = alNone
+    AutoSize = True
+    Caption = 'tbFastAccess'
+    EdgeBorders = []
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    Images = frmicons.IL1
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    object ToolButton5: TToolButton
+      Left = 1
+      Top = 0
+      Action = amap
+    end
+  end
   object MM: TMainMenu
     Images = frmicons.IL1
     left = 468
@@ -746,6 +772,7 @@ object frmmain: Tfrmmain
       object iDeleteEmptyStations: TMenuItem
         Caption = 'Delete Empty Stations'
         ImageIndex = 644
+        Visible = False
         OnClick = iDeleteEmptyStationsClick
       end
     end
@@ -757,7 +784,6 @@ object frmmain: Tfrmmain
       end
       object RegionalAveraging1: TMenuItem
         Caption = 'Regional Averaging'
-        Visible = False
         OnClick = RegionalAveraging1Click
       end
     end
@@ -778,7 +804,7 @@ object frmmain: Tfrmmain
     left = 648
     top = 12
     object btnviewdata: TMenuItem
-      Caption = 'Data'
+      Caption = 'Show data as matrix'
       ImageIndex = 857
       OnClick = btnviewdataClick
     end
@@ -795,10 +821,11 @@ object frmmain: Tfrmmain
   end
   object AL: TActionList
     Images = frmicons.IL1
-    left = 708
+    left = 768
     top = 12
     object amap: TAction
       Caption = 'amap'
+      Enabled = False
       ImageIndex = 984
       OnExecute = amapExecute
     end
@@ -807,5 +834,15 @@ object frmmain: Tfrmmain
     DataSet = frmdm.CDS
     left = 24
     top = 144
+  end
+  object PM2: TPopupMenu
+    Images = frmicons.IL1
+    left = 704
+    top = 12
+    object MenuItem7: TMenuItem
+      Caption = 'Show selected station on map'
+      ImageIndex = 984
+      OnClick = MenuItem1Click
+    end
   end
 end

@@ -24,7 +24,6 @@ type
     MenuItem4: TMenuItem;
     btnPlotColumn: TMenuItem;
     PageControl1: TPageControl;
-    Panel1: TPanel;
     PM: TPopupMenu;
     tabValues: TTabSheet;
     tabAnomalies: TTabSheet;
@@ -68,7 +67,7 @@ procedure Tfrmviewdata.FormShow(Sender: TObject);
 Var
   k:integer;
 begin
- tspath:=GlobalPath+'unload\timeseries\';
+ tspath:=GlobalPath+'unload'+PathDelim+'timeseries'+PathDelim;
 
  (* CDS for values *)
  CDSViewValues:=TBufDataSet.Create(self);
@@ -540,8 +539,7 @@ end;
 
 procedure Tfrmviewdata.FormResize(Sender: TObject);
 begin
-  Toolbar1.Width:=frmviewdata.Width-120;
-  Panel1.Width:=Toolbar1.Width-btnSave.Width;
+  Toolbar1.Left:=frmviewdata.Width-Toolbar1.Width;
 end;
 
 procedure Tfrmviewdata.DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;

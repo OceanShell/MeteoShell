@@ -3,11 +3,14 @@ object frmtablemanagement: Tfrmtablemanagement
   Height = 675
   Top = 182
   Width = 1227
+  BorderStyle = bsSingle
   Caption = 'Table management'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 675
+  ClientWidth = 1227
   DesignTimePPI = 144
+  OnClose = FormClose
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '2.0.6.0'
   object ToolBar1: TToolBar
     Left = 0
@@ -45,7 +48,7 @@ object frmtablemanagement: Tfrmtablemanagement
       Style = tbsDivider
     end
     object btncommit: TToolButton
-      Left = 353
+      Left = 350
       Top = 0
       Caption = 'Save'
       ImageIndex = 940
@@ -62,6 +65,7 @@ object frmtablemanagement: Tfrmtablemanagement
         'Country'
         'Parameter'
       )
+      OnDropDown = cbtableDropDown
       OnSelect = cbtableSelect
       ParentFont = False
       TabOrder = 0

@@ -5,10 +5,7 @@ unit update_station_info;
 interface
 
 uses
-  {$IFDEF WINDOWS}
-  Win32Int, ShlObj, InterfaceBase, ComObj,
-  {$ENDIF}
-  Classes, SysUtils, SQLDB, DateUtils, Math, dm;
+  Classes, SysUtils, SQLDB, DateUtils, Math, dm, procedures, Dialogs;
 
 function UpdateStation_Info:boolean;
 
@@ -18,11 +15,6 @@ implementation
 
 function UpdateStation_Info:boolean;
 var
-{$IFDEF WINDOWS}
-  FTaskBarList: ITaskbarList3;
-  AppHandle: THandle;
-{$ENDIF}
-
 station_id, parameter_id, rcnt, MonthTotal:integer;
 vmin, vmax, RowComp:real;
 dmin, dmax:TDateTime;
@@ -35,11 +27,6 @@ TRt:TSQLTransaction;
 Qt1, Qt2, Qt3:TSQLQuery;
 begin
 
-{$IFDEF WINDOWS}
- AppHandle := TWin32WidgetSet(WidgetSet).AppHandle;
- FTaskBarList := CreateComObject(CLSID_TaskbarList) as ITaskbarList3;
-{$ENDIF}
-
 try
 (* temporary transaction for support database *)
 TRt:=TSQLTransaction.Create(nil);
@@ -47,15 +34,15 @@ TRt.DataBase:=frmdm.TR.DataBase;
 
 (* temporary query for main database *)
 Qt1 :=TSQLQuery.Create(nil);
-Qt1.Database:=frmdm.TR.DataBase;
+Qt1.Database:=TRt.DataBase;
 Qt1.Transaction:=TRt;
 
 Qt2 :=TSQLQuery.Create(nil);
-Qt2.Database:=frmdm.TR.DataBase;
+Qt2.Database:=TRt.DataBase;
 Qt2.Transaction:=TRt;
 
 Qt3 :=TSQLQuery.Create(nil);
-Qt3.Database:=frmdm.TR.DataBase;
+Qt3.Database:=TRt.DataBase;
 Qt3.Transaction:=TRt;
 
 (* Cleaning up station_info *)
@@ -65,7 +52,7 @@ Qt3.Transaction:=TRt;
     SQL.Add(' delete from "station_info"');
    ExecSQL;
   end;
-  Trt.CommitRetaining;
+  Trt.Commit;
 
 
   with Qt2 do begin
@@ -119,11 +106,11 @@ try
     DecodeDate(dmin, yy_min, mn_min, dd_min);
     DecodeDate(dmax, yy_max, mn_max, dd_max);
 
-    MonthTotal:=MonthsBetween(dmin, dmax)+1;
+    MonthTotal:=MonthsBetween(dmin, dmax);
 
     if (rcnt>0) and (MonthTotal>0) then begin
 
-      RowComp:=rcnt*100/MonthTotal;
+      RowComp:=100*(rcnt/(MonthTotal+2));
 
        With Qt3 do begin
          Close;
@@ -150,10 +137,7 @@ try
      Qt2.Next;
     end;
 
-    {$IFDEF WINDOWS}
-    FTaskBarList.SetProgressState(AppHandle, TBPF_Normal);
-    FTaskBarList.SetProgressValue(AppHandle, trunc(cnt_stn/cnt_tot*100), 100);
-    {$ENDIF}
+    ProgressTaskbar(cnt_stn, cnt_tot);
 
    TRt.CommitRetaining;
    Qt1.next;
@@ -170,6 +154,8 @@ try
   Qt3.Free;
 
   TRt.Free;
+
+  ProgressTaskbar(0, 0);
   Result:=true;
  end;
 except

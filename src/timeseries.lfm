@@ -1,25 +1,26 @@
 object frmtimeseries: Tfrmtimeseries
   Left = 678
-  Height = 253
+  Height = 429
   Top = 292
-  Width = 340
+  Width = 565
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Timeseries'
-  ClientHeight = 253
-  ClientWidth = 340
+  ClientHeight = 429
+  ClientWidth = 565
   Color = clBtnFace
+  DesignTimePPI = 144
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -17
   Font.Name = 'MS Sans Serif'
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.6.0'
   object rgPlotType: TRadioGroup
-    Left = 16
-    Height = 104
-    Top = 8
-    Width = 165
+    Left = 24
+    Height = 156
+    Top = 24
+    Width = 248
     AutoFill = True
     Caption = 'Type of plot'
     ChildSizing.LeftRightSpacing = 6
@@ -29,8 +30,11 @@ object frmtimeseries: Tfrmtimeseries
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 86
-    ClientWidth = 161
+    ClientHeight = 131
+    ClientWidth = 244
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
     Items.Strings = (
       'Annual mean'
       'Selected month'
@@ -38,25 +42,33 @@ object frmtimeseries: Tfrmtimeseries
       'Annual circle'
     )
     OnClick = rgPlotTypeClick
+    ParentFont = False
     TabOrder = 1
   end
   object btnPlot: TButton
-    Left = 80
-    Height = 25
-    Top = 120
-    Width = 101
+    Left = 120
+    Height = 38
+    Top = 200
+    Width = 152
     Caption = 'Plot'
     Enabled = False
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
     OnClick = btnPlotClick
+    ParentFont = False
     TabOrder = 0
   end
   object CheckListBox1: TCheckListBox
-    Left = 192
-    Height = 232
-    Top = 8
-    Width = 136
+    Left = 296
+    Height = 372
+    Top = 32
+    Width = 244
     Columns = 1
     Enabled = False
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
     Items.Strings = (
       'December (Last Year)'
       'January'
@@ -72,7 +84,8 @@ object frmtimeseries: Tfrmtimeseries
       'November'
       'December (This Year)'
     )
-    ItemHeight = 17
+    ItemHeight = 27
+    ParentFont = False
     TabOrder = 2
     TabStop = False
     Data = {
@@ -80,11 +93,14 @@ object frmtimeseries: Tfrmtimeseries
     }
   end
   object btnShowData: TBitBtn
-    Left = 16
-    Height = 25
-    Top = 120
-    Width = 29
+    Left = 24
+    Height = 38
+    Top = 200
+    Width = 44
     Enabled = False
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
@@ -114,6 +130,7 @@ object frmtimeseries: Tfrmtimeseries
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     }
     OnClick = btnShowDataClick
+    ParentFont = False
     TabOrder = 3
   end
 end

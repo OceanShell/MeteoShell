@@ -1,0 +1,16 @@
+{"version":1,"strings":[
+{"hash":61071399,"name":"tfrmspatialaveraging.caption","sourcebytes":[83,112,97,116,105,97,108,32,97,118,101,114,97,103,105,110,103],"value":"Spatial averaging"},
+{"hash":253036548,"name":"tfrmspatialaveraging.groupbox1.caption","sourcebytes":[65,118,101,114,97,103,105,110,103,32,112,101,114,105,111,100],"value":"Averaging period"},
+{"hash":782,"name":"tfrmspatialaveraging.label1.caption","sourcebytes":[45,62],"value":"->"},
+{"hash":392066,"name":"tfrmspatialaveraging.label3.caption","sourcebytes":[89,101,97,114],"value":"Year"},
+{"hash":5531048,"name":"tfrmspatialaveraging.label4.caption","sourcebytes":[77,111,110,116,104],"value":"Month"},
+{"hash":782,"name":"tfrmspatialaveraging.label5.caption","sourcebytes":[45,62],"value":"->"},
+{"hash":44851493,"name":"tfrmspatialaveraging.btncalculate.caption","sourcebytes":[67,97,108,99,117,108,97,116,101],"value":"Calculate"},
+{"hash":142842946,"name":"tfrmspatialaveraging.groupbox2.caption","sourcebytes":[80,97,114,97,109,101,116,101,114],"value":"Parameter"},
+{"hash":33984270,"name":"tfrmspatialaveraging.combobox1.text","sourcebytes":[83,101,108,101,99,116,32,112,97,114,97,109,101,116,101,114,46,46,46],"value":"Select parameter..."},
+{"hash":357220,"name":"tfrmspatialaveraging.btnplot.caption","sourcebytes":[80,108,111,116],"value":"Plot"},
+{"hash":357220,"name":"tfrmspatialaveraging.radiogroup2.caption","sourcebytes":[80,108,111,116],"value":"Plot"},
+{"hash":5597489,"name":"tfrmspatialaveraging.groupbox3.caption","sourcebytes":[78,111,114,109,97],"value":"Norma"},
+{"hash":782,"name":"tfrmspatialaveraging.label2.caption","sourcebytes":[45,62],"value":"->"},
+{"hash":91000916,"name":"tfrmspatialaveraging.label6.caption","sourcebytes":[80,101,114,105,111,100],"value":"Period"}
+]}

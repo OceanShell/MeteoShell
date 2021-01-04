@@ -10,6 +10,15 @@ uses
   LCLTranslator, Grids, ActnList, Buttons, Process, Math;
 
 type
+   MapDS=record
+     ID:int64;
+     Latitude:real;
+     Longitude:real;
+     x:int64;
+     y:int64;
+end;
+
+type
 
   { Tfrmmain }
 
@@ -65,6 +74,7 @@ type
     iDeleteEmptyStations: TMenuItem;
     iUpdateStationInfo: TMenuItem;
     MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
     MM: TMainMenu;
     N2: TMenuItem;
     iTools: TMenuItem;
@@ -73,6 +83,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     PM1: TPopupMenu;
+    PM2: TPopupMenu;
     RegionalAveraging1: TMenuItem;
     SD: TSaveDialog;
     seYY1: TSpinEdit;
@@ -80,13 +91,14 @@ type
     Splitter1: TSplitter;
     StatusBar1: TStatusBar;
     StatusBar2: TStatusBar;
+    tbFastAccess: TToolBar;
     tbSelection: TTabSheet;
     tbData: TTabSheet;
     ToolBar1: TToolBar;
     ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
 
     procedure amapExecute(Sender: TObject);
-    procedure aconnectdbExecute(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btncommitClick(Sender: TObject);
     procedure chkStActiveChange(Sender: TObject);
@@ -98,6 +110,7 @@ type
     procedure DBGrid2CellClick(Column: TColumn);
     procedure DBGrid2KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormResize(Sender: TObject);
     procedure iAboutClick(Sender: TObject);
     procedure iDeleteEmptyStationsClick(Sender: TObject);
     procedure iLoadGHCN_v4Click(Sender: TObject);
@@ -114,6 +127,7 @@ type
     procedure iUpdateStationInfoClick(Sender: TObject);
     procedure lbCoordResetClick(Sender: TObject);
     procedure lbResetMDClick(Sender: TObject);
+    procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure iDatabaseTablesClick(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
@@ -121,7 +135,6 @@ type
     procedure SelectedMonthComposition1Click(Sender: TObject);
     procedure btnaddClick(Sender: TObject);
     procedure btndeleteClick(Sender: TObject);
-    procedure btncancelClick(Sender: TObject);
 
   private
     { private declarations }
@@ -145,6 +158,7 @@ var
   NavigationOrder:boolean=true;
   DBGrid1LastColumn: TColumn;
 
+  MapDataset: array of MapDS;
 
   StCount: integer;
   Open_viewdata, frmmap_open:boolean;
@@ -211,8 +225,7 @@ implementation
 
 uses dm, sortbufds, editdata, viewdata, timeseries, map,
      settings, procedures, load_ds570, load_ghcn_v4, load_ghcn_v3, icons,
-     spatialaveraging, table_management, update_station_info
-     {, table_station, table_parameter};
+     spatialaveraging, table_management, update_station_info;
 
 
 procedure Tfrmmain.FormShow(Sender: TObject);
@@ -299,15 +312,23 @@ begin
     Columns[8].Title.Caption:=SCount;
   end;
 
-
   lblatmin.Caption:=SLatMin;
   lblatmax.Caption:=SLatMax;
   lblonmin.Caption:=SLonMin;
   lblonmax.Caption:=SLonMax;
 
-//  for k:=1 to MM.Items.Count-1 do MM.Items[k].Enabled:=false;
+  for k:=1 to MM.Items.Count-2 do MM.Items[k].Enabled:=false;
 
   Open_viewdata:=false; frmmap_open:=false;
+
+  OnResize(Self);
+  SetFocus;
+  Application.ProcessMessages;
+end;
+
+procedure Tfrmmain.iParameterClick(Sender: TObject);
+begin
+
 end;
 
 procedure Tfrmmain.iDeleteEmptyStationsClick(Sender: TObject);
@@ -434,17 +455,6 @@ with frmdm.q1 do begin
   Close;
  end;
 
- {with q1 do begin
-  Close;
-    SQL.Clear;
-    SQL.Add(' select min(extract(year from date_)) as yy_min, ');
-    SQL.Add(' max(extract(year from date_)) as yy_max from value ');
-  Open;
-   seYY1.Value:=q1.FieldByName('yy_min').AsInteger;
-   seYY2.Value:=q1.FieldByName('yy_max').AsInteger;
-  Close;
- end;  }
-
  with frmdm.q1 do begin
   Close;
     SQL.Clear;
@@ -459,6 +469,8 @@ with frmdm.q1 do begin
  end;
  frmdm.q1.Close;
 
+ for k:=1 to MM.Items.Count-2 do MM.Items[k].Enabled:=true;
+ Application.ProcessMessages;
 end;
 
 
@@ -517,7 +529,6 @@ try
       ParamByName('lnmin').AsFloat:=Lon1;
       ParamByName('lnmax').AsFloat:=Lon2;
 
-           // showmessage(SQL.Text);
     Open;
     Last;
     First;
@@ -530,8 +541,6 @@ except
       end;
    end;
 end;
-
-for k:=1 to frmmain.MM.Items.Count-1 do frmmain.MM.Items[k].Enabled:=true;
 
 DBGrid1.Repaint;
 CDSStatistics;
@@ -547,21 +556,30 @@ begin
   frmdm.CDS.DisableControls;
   try
    frmdm.CDS.First;
+
+   StCount:=frmdm.CDS.RecordCount;
+   SetLength(MapDataset, StCount);
+   k:=-1;
    while not frmdm.CDS.eof do begin
-    Lat:=frmdm.CDS.FieldByName('latitude').AsFloat;
-    Lon:=frmdm.CDS.FieldByName('longitude').AsFloat;
+     inc(k);
+      Lat:=frmdm.CDS.FieldByName('latitude').AsFloat;
+      Lon:=frmdm.CDS.FieldByName('longitude').AsFloat;
+
      if Lat<SMinLat then SMinLat:=Lat;
      if Lat>SMaxLat then SMaxLat:=Lat;
      if Lon<SMinLon then SMinLon:=Lon;
      if Lon>SMaxLon then SMaxLon:=Lon;
+
+     MapDataset[k].ID:=frmdm.CDS.FieldByName('ID').Value;
+     MapDataset[k].Latitude :=lat;
+     MapDataset[k].Longitude:=lon;
+
     frmdm.CDS.next;
    end;
   finally
     frmdm.CDS.First;
     frmdm.CDS.EnableControls;
   end;
-
-  StCount:=frmdm.CDS.RecordCount;
 
   With frmmain.StatusBar2 do begin
    Panels[1].Text:=floattostr(SMinLat);
@@ -570,8 +588,8 @@ begin
    Panels[4].Text:=floattostr(SMaxLon);
    Panels[5].Text:='                '+inttostr(StCount);
   end;
- //  for k:=2 to DBGrid2.Columns.Count-1 do DBGrid2.Columns[k].Width:=70;
-   for k:=2 to MM.Items.Count-1 do MM.Items[k].Enabled:=true;
+
+  for k:=2 to MM.Items.Count-1 do MM.Items[k].Enabled:=true;
 
    tbData.TabVisible:=true;
  end else begin
@@ -581,7 +599,7 @@ begin
   tbData.TabVisible:=false;
  end;
 
- //iMap.Enabled:=CheckKML;
+ amap.Enabled:=true;
  Application.ProcessMessages;
 end;
 
@@ -605,19 +623,13 @@ end;
 
 procedure Tfrmmain.btnaddClick(Sender: TObject);
 begin
-
+ //
 end;
 
 procedure Tfrmmain.btndeleteClick(Sender: TObject);
 begin
-
+ //
 end;
-
-procedure Tfrmmain.btncancelClick(Sender: TObject);
-begin
-
-end;
-
 
 procedure Tfrmmain.btncommitClick(Sender: TObject);
 begin
@@ -634,10 +646,6 @@ begin
  frmmap.btnShowAllStationsClick(self);
 end;
 
-procedure Tfrmmain.aconnectdbExecute(Sender: TObject);
-begin
-
-end;
 
 procedure Tfrmmain.BitBtn1Click(Sender: TObject);
 Var
@@ -734,6 +742,17 @@ begin
   cbWMO.Text     :='';
   cbCountry.Text :='';
   cbStation.Text :='';
+end;
+
+procedure Tfrmmain.MenuItem1Click(Sender: TObject);
+begin
+ if frmmap_open=true then frmmap.SetFocus else
+    begin
+       frmmap := Tfrmmap.Create(Self);
+       frmmap.Show;
+    end;
+  frmmap.btnShowSelectedClick(self);
+  frmmap_open:=true;
 end;
 
 
@@ -916,29 +935,12 @@ end;
 
 procedure Tfrmmain.iStationClick(Sender: TObject);
 begin
-{frmtable_station := Tfrmtable_station.Create(Self);
- try
-  if not frmtable_station.ShowModal = mrOk then exit;
- finally
-   frmtable_station.Free;
-   frmtable_station := nil;
- end;}
+
 end;
 
 procedure Tfrmmain.iUpdateStationInfoClick(Sender: TObject);
 begin
   if update_station_info.UpdateStation_Info then showmessage(SDone) else showmessage(SError);
-end;
-
-procedure Tfrmmain.iParameterClick(Sender: TObject);
-begin
-{frmtable_parameter := Tfrmtable_parameter.Create(Self);
- try
-  if not frmtable_parameter.ShowModal = mrOk then exit;
- finally
-   frmtable_parameter.Free;
-   frmtable_parameter := nil;
- end; }
 end;
 
 procedure Tfrmmain.DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
@@ -949,7 +951,7 @@ begin
      TDBGrid(Sender).Canvas.Font.Color  := clBlack;
   end;
 
-  if (gdSelected in AState) then begin
+  if (gdRowHighlight in AState) then begin
     TDBGrid(Sender).Canvas.Brush.Color := clNavy;
     TDBGrid(Sender).Canvas.Font.Color  := clYellow;
     TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
@@ -1111,7 +1113,11 @@ finally
 end;
 end;
 
-
+procedure Tfrmmain.FormResize(Sender: TObject);
+begin
+  tbFastAccess.Top:=PageControl1.Top;
+  tbFastAccess.Left:=Width-tbFastAccess.Width;
+end;
 
 procedure Tfrmmain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 Var
