@@ -6,7 +6,7 @@ interface
 
 uses
   Lclintf, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Spin, ExtCtrls, ComObj, Buttons;
+  Dialogs, StdCtrls, Spin, ExtCtrls, Buttons;
 
 type
   Tfrmspatialaveraging = class(TForm)
@@ -198,7 +198,7 @@ lineT:integer;
 Grapher,Plot:OleVariant;
 AxisTitleY, tsFile:string;
 begin
-tsFile:=GlobalPath+'Unload\TimeSeries\RegionalAveraging\Yearanomalies.dat';
+{tsFile:=GlobalPath+'Unload\TimeSeries\RegionalAveraging\Yearanomalies.dat';
  if RadioGroup2.ItemIndex=0 then lineT:=2 else lineT:=3;
     Grapher:=CreateOLEObject('Grapher.Application');
     Grapher.Visible(1);
@@ -218,7 +218,7 @@ tsFile:=GlobalPath+'Unload\TimeSeries\RegionalAveraging\Yearanomalies.dat';
     Plot.Select('g1');
  //   Plot.CreateLegend(ID,'Legend',18,14);
     Plot.Maximize;
-    Plot.ViewFitToWindow;
+    Plot.ViewFitToWindow; }
 end;
 
 

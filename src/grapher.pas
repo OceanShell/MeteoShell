@@ -5,7 +5,7 @@ unit grapher;
 interface
 
 uses
-  Classes, SysUtils, ComObj, Main, IniFiles;
+  Classes, SysUtils, Main, IniFiles;
 
 procedure PlotTimeSeries(fname, title, par, units, xtitle:string; col:integer);
 

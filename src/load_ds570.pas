@@ -203,8 +203,9 @@ begin
    end; //id>0;
 
    Caption:=inttostr(row_cnt);
+
    ProgressTaskbar(row_cnt, cnt);
-   application.ProcessMessages;
+   Application.ProcessMessages;
 
    until eof(fi_dat);
    CloseFile(fi_dat);

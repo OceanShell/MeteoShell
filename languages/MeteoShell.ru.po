@@ -339,7 +339,9 @@ msgid "MeteoShell"
 msgstr "Программа для хранения, обработки и визуализации метеорологической информации"
 
 #: tfrmmain.chkstactive.caption
-msgid "Stations active between"
+#, fuzzy
+#| msgid "Stations active between"
+msgid "Stations between"
 msgstr "Период активности"
 
 #: tfrmmain.chlparameters.caption

@@ -9,15 +9,15 @@ uses
   Registry, ShlObj, comobj, Win32Int, InterfaceBase,
 {$ENDIF}
 
-  SysUtils, Variants, Dialogs, DateUtils, Forms, Math;
+  SysUtils, Variants, Dialogs, DateUtils, Forms, Math, main;
 
 function CheckKML:boolean;
 function ClearDir(Dir:string ): boolean;
 
-{$ifdef WINDOWS}
-(* ProgressBar on taskbar in WINDOWS *)
+
+(* ProgressBar on taskbar in WINDOWS / regular on other systems *)
 procedure ProgressTaskbar(k, max_k : integer);
-{$ENDIF}
+
 procedure Distance(ln0,ln1,lt0,lt1:real; var Dist:real);
 procedure PositionByDistance(Lat0, Lon0, Dist: real; var dlat, dlon:real);
 
@@ -33,18 +33,26 @@ Function  Cond2Sal78 (aConductivity, Temp, Press : Double; Var aSalinity: Double
 
 implementation
 
-{$ifdef WINDOWS}
+
 procedure ProgressTaskbar(k, max_k : integer);
+{$ifdef WINDOWS}
 Var
  FTaskBarList: ITaskbarList3;
  AppHandle: THandle;
-begin
- AppHandle := TWin32WidgetSet(WidgetSet).AppHandle;
- FTaskBarList := CreateComObject(CLSID_TaskbarList) as ITaskbarList3;
- FTaskBarList.SetProgressState(AppHandle, TBPF_Normal);
- FTaskBarList.SetProgressValue(AppHandle, k, max_k);
-end;
 {$ENDIF}
+begin
+ {$ifdef WINDOWS}
+   AppHandle := TWin32WidgetSet(WidgetSet).AppHandle;
+   FTaskBarList := CreateComObject(CLSID_TaskbarList) as ITaskbarList3;
+   FTaskBarList.SetProgressState(AppHandle, TBPF_Normal);
+   FTaskBarList.SetProgressValue(AppHandle, k, max_k);
+ {$ENDIF}
+
+ {$ifdef UNIX}
+   frmmain.ProgressBar1.Position:=trunc(k/max_k)*100;
+ {$ENDIF}
+end;
+
 
 
 function CheckKML:boolean;

@@ -322,7 +322,7 @@ msgid "MeteoShell"
 msgstr ""
 
 #: tfrmmain.chkstactive.caption
-msgid "Stations active between"
+msgid "Stations between"
 msgstr ""
 
 #: tfrmmain.chlparameters.caption

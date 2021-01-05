@@ -7,7 +7,7 @@ interface
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Grids, DB, sqldb, DBGrids, IniFiles,
-  Menus, ComObj, CheckLst, Buttons, FileUtil, LCLTranslator;
+  Menus, CheckLst, Buttons, FileUtil, LCLTranslator;
 
 type
   Tfrmtimeseries = class(TForm)
@@ -40,7 +40,7 @@ var
 
 implementation
 
-uses main, datamodule, viewdata, procedures, grapher;
+uses main, dm, viewdata, procedures, grapher;
 
 {$R *.lfm}
 
@@ -309,7 +309,7 @@ stsource,stname,stcountry, tsfile, tsfilea, clr:string;
 currentabsnum, wmonum,wmonumsource, ymax, ymin, ci, RunAvStep:integer;
 begin
  //  RunAvStep:=strtoint(edit1.Text);
-   currentabsnum:=dm.CDS.FieldByName('ABSNUM').AsInteger;
+   currentabsnum:=frmdm.CDS.FieldByName('ABSNUM').AsInteger;
 
 //   ci:=frmselection.StringGrid1.Row;
  //  ymax:=StrToInt(frmselection.StringGrid1.Cells[3,ci]);

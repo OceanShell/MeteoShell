@@ -1,101 +1,116 @@
 object frmload_ds570: Tfrmload_ds570
   Left = 506
-  Height = 535
+  Height = 357
   Top = 239
-  Width = 936
+  Width = 624
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Load ds570'
-  ClientHeight = 535
-  ClientWidth = 936
+  ClientHeight = 357
+  ClientWidth = 624
   Color = clBtnFace
-  DesignTimePPI = 144
   Font.Color = clWindowText
-  Font.Height = -17
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Position = poOwnerFormCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.8.0'
   object btnLoadMetadata: TButton
-    Left = 632
-    Height = 38
-    Top = 474
-    Width = 280
+    Left = 421
+    Height = 25
+    Top = 316
+    Width = 187
     Caption = 'Update metadata (Caution!)'
     Font.Color = clWindowText
-    Font.Height = -17
+    Font.Height = -11
     Font.Name = 'MS Sans Serif'
     OnClick = btnLoadMetadataClick
     ParentFont = False
     TabOrder = 0
   end
   object mInserted: TMemo
-    Left = 24
-    Height = 421
-    Top = 91
-    Width = 280
+    Left = 16
+    Height = 281
+    Top = 61
+    Width = 187
     Anchors = [akTop, akLeft, akBottom]
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 1
   end
   object mError: TMemo
-    Left = 632
-    Height = 365
-    Top = 91
-    Width = 280
+    Left = 421
+    Height = 243
+    Top = 61
+    Width = 187
     Anchors = [akTop, akLeft, akBottom]
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 2
   end
   object mUpdated: TMemo
-    Left = 328
-    Height = 421
-    Top = 91
-    Width = 280
+    Left = 219
+    Height = 281
+    Top = 61
+    Width = 187
     Anchors = [akTop, akLeft, akBottom]
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 3
   end
   object Label4: TLabel
-    Left = 24
-    Height = 20
-    Top = 64
-    Width = 59
+    Left = 16
+    Height = 12
+    Top = 43
+    Width = 46
     Caption = 'Inserted'
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
     ParentColor = False
+    ParentFont = False
   end
   object Label5: TLabel
-    Left = 328
-    Height = 20
-    Top = 64
-    Width = 62
+    Left = 219
+    Height = 12
+    Top = 43
+    Width = 47
     Caption = 'Updated'
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
     ParentColor = False
+    ParentFont = False
   end
   object Label6: TLabel
-    Left = 632
-    Height = 20
-    Top = 64
-    Width = 35
+    Left = 421
+    Height = 12
+    Top = 43
+    Width = 27
     Caption = 'Error'
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
     ParentColor = False
+    ParentFont = False
   end
   object Panel1: TPanel
     Left = 0
-    Height = 53
+    Height = 35
     Top = 0
-    Width = 936
+    Width = 624
     Align = alTop
-    ClientHeight = 53
-    ClientWidth = 936
+    ClientHeight = 35
+    ClientWidth = 624
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    ParentFont = False
     TabOrder = 4
     object Label3: TLabel
-      Left = 24
-      Height = 25
-      Top = 21
-      Width = 534
+      Left = 16
+      Height = 14
+      Top = 14
+      Width = 394
       Caption = 'ONLY incremental updates should be used (compare_ds570.py)'
       Font.Color = clRed
       Font.Style = [fsBold]
@@ -103,10 +118,10 @@ object frmload_ds570: Tfrmload_ds570
       ParentFont = False
     end
     object chkShowLog: TCheckBox
-      Left = 632
-      Height = 29
-      Top = 17
-      Width = 133
+      Left = 421
+      Height = 23
+      Top = 11
+      Width = 104
       Caption = 'Show output'
       Checked = True
       ParentFont = False
@@ -114,13 +129,13 @@ object frmload_ds570: Tfrmload_ds570
       TabOrder = 0
     end
     object btnLoadData: TButton
-      Left = 777
-      Height = 38
-      Top = 8
-      Width = 135
+      Left = 518
+      Height = 25
+      Top = 5
+      Width = 90
       Caption = 'Update'
       Font.Color = clWindowText
-      Font.Height = -17
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       OnClick = btnLoadDataClick
       ParentFont = False

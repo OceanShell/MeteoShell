@@ -84,6 +84,7 @@ type
     Panel2: TPanel;
     PM1: TPopupMenu;
     PM2: TPopupMenu;
+    ProgressBar1: TProgressBar;
     RegionalAveraging1: TMenuItem;
     SD: TSaveDialog;
     seYY1: TSpinEdit;
@@ -323,6 +324,11 @@ begin
 
   OnResize(Self);
   SetFocus;
+
+  {$IFDEF WINDOWS}
+    ProgressBar1.Visible:=false;
+  {$ENDIF}
+
   Application.ProcessMessages;
 end;
 
