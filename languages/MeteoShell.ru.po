@@ -9,11 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #: main.sabsnum
-#, fuzzy
-#| msgid "Absnum"
 msgctxt "main.sabsnum"
 msgid "ID"
 msgstr "Номер"
@@ -47,7 +45,7 @@ msgstr "Страна"
 
 #: main.sdate
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: main.sdec
 msgid "DEC"
@@ -63,7 +61,7 @@ msgstr "Высота"
 
 #: main.serror
 msgid "Something went wrong..."
-msgstr ""
+msgstr "Что-то пошло не так..."
 
 #: main.sfeb
 msgid "FEB"
@@ -138,11 +136,11 @@ msgstr ""
 
 #: main.snodatabase
 msgid "Please, specify the database and try to connect again"
-msgstr ""
+msgstr "Пожалуйста, укажите путь к БД, и попробуйте соединиться"
 
 #: main.snographer
 msgid "Grapher is not found"
-msgstr ""
+msgstr "Grapher не найден"
 
 #: main.snopython
 msgid "Python is not found"
@@ -172,7 +170,7 @@ msgstr "СЕН"
 #: main.ssource
 msgctxt "main.ssource"
 msgid "Source"
-msgstr ""
+msgstr "Источник"
 
 #: main.sstation
 msgctxt "main.sstation"
@@ -235,53 +233,53 @@ msgstr ""
 #: tfrmload_ds570.btnloaddata.caption
 msgctxt "tfrmload_ds570.btnloaddata.caption"
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: tfrmload_ds570.btnloadmetadata.caption
 msgid "Update metadata (Caution!)"
-msgstr ""
+msgstr "Обновить метаданные"
 
 #: tfrmload_ds570.caption
 msgid "Load ds570"
-msgstr ""
+msgstr "Загрузка ds570"
 
 #: tfrmload_ds570.chkshowlog.caption
 msgctxt "tfrmload_ds570.chkshowlog.caption"
 msgid "Show output"
-msgstr ""
+msgstr "Показать лог"
 
 #: tfrmload_ds570.label3.caption
 msgid "ONLY incremental updates should be used (compare_ds570.py)"
-msgstr ""
+msgstr "ТОЛЬКО разностные обновления (compare_ds570.py)"
 
 #: tfrmload_ds570.label4.caption
 msgctxt "tfrmload_ds570.label4.caption"
 msgid "Inserted"
-msgstr ""
+msgstr "Добавлены"
 
 #: tfrmload_ds570.label5.caption
 msgctxt "tfrmload_ds570.label5.caption"
 msgid "Updated"
-msgstr ""
+msgstr "Обновлены"
 
 #: tfrmload_ds570.label6.caption
 msgctxt "tfrmload_ds570.label6.caption"
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: tfrmload_ghcnv4.btnload.caption
 msgctxt "tfrmload_ghcnv4.btnload.caption"
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: tfrmload_ghcnv4.caption
 msgid "Load ghcn v4"
-msgstr ""
+msgstr "Загрузить ghcn v4"
 
 #: tfrmload_ghcnv4.chkshowlog.caption
 msgctxt "tfrmload_ghcnv4.chkshowlog.caption"
 msgid "Show output"
-msgstr ""
+msgstr "Показать лог"
 
 #: tfrmload_ghcnv4.label1.caption
 msgid "Use ONLY unadjusted values. Incremental updates should be used "
@@ -290,17 +288,17 @@ msgstr ""
 #: tfrmload_ghcnv4.label2.caption
 msgctxt "tfrmload_ghcnv4.label2.caption"
 msgid "Inserted"
-msgstr ""
+msgstr "Добавлены"
 
 #: tfrmload_ghcnv4.label3.caption
 msgctxt "tfrmload_ghcnv4.label3.caption"
 msgid "Updated"
-msgstr ""
+msgstr "Обновлены"
 
 #: tfrmload_ghcnv4.label4.caption
 msgctxt "tfrmload_ghcnv4.label4.caption"
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: tfrmmain.amap.caption
 msgid "amap"
@@ -321,32 +319,31 @@ msgctxt "tfrmmain.btndelete.caption"
 msgid "btndelete"
 msgstr ""
 
+#: tfrmmain.btneditdata.caption
+msgctxt "tfrmmain.btneditdata.caption"
+msgid "Edit Data"
+msgstr ""
+
 #: tfrmmain.btnselect.caption
 msgid "Select"
 msgstr "Выбрать"
 
 #: tfrmmain.btnviewdata.caption
 #, fuzzy
-#| msgid "Time Series"
+#| msgid "Show data as matrix"
 msgctxt "tfrmmain.btnviewdata.caption"
-msgid "Show data as matrix"
-msgstr "Временная серия"
+msgid "Show / Plot Data"
+msgstr "Показать данные в виде матрицы"
 
 #: tfrmmain.caption
-#, fuzzy
-#| msgid "MDB"
 msgid "MeteoShell"
-msgstr "Программа для хранения, обработки и визуализации метеорологической информации"
+msgstr ""
 
 #: tfrmmain.chkstactive.caption
-#, fuzzy
-#| msgid "Stations active between"
 msgid "Stations between"
 msgstr "Период активности"
 
 #: tfrmmain.chlparameters.caption
-#, fuzzy
-#| msgid "Parameters must present in selection"
 msgid "Parameters"
 msgstr "Обязательные параметры"
 
@@ -361,96 +358,77 @@ msgstr ""
 
 #: tfrmmain.dbgrid1.columns[2].title.caption
 msgid "name"
-msgstr ""
+msgstr "Название"
 
 #: tfrmmain.dbgrid1.columns[3].title.caption
 msgid "latitude"
-msgstr ""
+msgstr "Долгота"
 
 #: tfrmmain.dbgrid1.columns[4].title.caption
 msgid "longitude"
-msgstr ""
+msgstr "Широта"
 
 #: tfrmmain.dbgrid1.columns[5].title.caption
 msgid "elevation"
-msgstr ""
+msgstr "Превышение"
 
 #: tfrmmain.dbgrid1.columns[6].title.caption
 msgid "stcountry"
-msgstr ""
+msgstr "Страна"
 
 #: tfrmmain.dbgrid2.columns[0].title.caption
-#, fuzzy
 msgctxt "tfrmmain.dbgrid2.columns[0].title.caption"
 msgid "Parameter"
 msgstr "Параметр"
 
 #: tfrmmain.dbgrid2.columns[1].title.caption
-#, fuzzy
-#| msgid "Year min"
 msgctxt "tfrmmain.dbgrid2.columns[1].title.caption"
 msgid "Source"
-msgstr "Мин. год"
+msgstr "Источник"
 
 #: tfrmmain.dbgrid2.columns[2].title.caption
-#, fuzzy
-#| msgid "Month min"
 msgctxt "tfrmmain.dbgrid2.columns[2].title.caption"
 msgid "Year min"
-msgstr "Мин. мес."
-
-#: tfrmmain.dbgrid2.columns[3].title.caption
-#, fuzzy
-#| msgid "Year max"
-msgctxt "tfrmmain.dbgrid2.columns[3].title.caption"
-msgid "Month min"
 msgstr "Макс. год"
 
+#: tfrmmain.dbgrid2.columns[3].title.caption
+msgctxt "tfrmmain.dbgrid2.columns[3].title.caption"
+msgid "Month min"
+msgstr "Мин. мес."
+
 #: tfrmmain.dbgrid2.columns[4].title.caption
-#, fuzzy
-#| msgid "Month max"
 msgctxt "tfrmmain.dbgrid2.columns[4].title.caption"
 msgid "Year max"
-msgstr "Макс. мес."
+msgstr "Мин. год"
 
 #: tfrmmain.dbgrid2.columns[5].title.caption
-#, fuzzy
-#| msgid "Value min"
 msgctxt "tfrmmain.dbgrid2.columns[5].title.caption"
 msgid "Month max"
-msgstr "Мин. знач."
+msgstr "Макс. мес."
 
 #: tfrmmain.dbgrid2.columns[6].title.caption
-#, fuzzy
-#| msgid "Value max"
 msgctxt "tfrmmain.dbgrid2.columns[6].title.caption"
 msgid "Value min"
-msgstr "Макс. знач."
+msgstr "Мин. знач."
 
 #: tfrmmain.dbgrid2.columns[7].title.caption
-#, fuzzy
-#| msgid "Count"
 msgctxt "tfrmmain.dbgrid2.columns[7].title.caption"
 msgid "Value max"
-msgstr "Кол-во"
+msgstr "Макс. знач."
 
 #: tfrmmain.dbgrid2.columns[8].title.caption
-#, fuzzy
-#| msgid "Count"
 msgctxt "tfrmmain.dbgrid2.columns[8].title.caption"
 msgid "Count"
 msgstr "Кол-во"
 
 #: tfrmmain.dbgrid2.columns[9].title.caption
-#, fuzzy
-#| msgid "Count"
 msgctxt "tfrmmain.dbgrid2.columns[9].title.caption"
 msgid "%"
-msgstr "Кол-во"
+msgstr "%"
 
 #: tfrmmain.ds5701.caption
 msgid "ds570"
-msgstr "ds570"
+msgstr ""
 
 #: tfrmmain.exit1.caption
 msgid "Exit"
@@ -466,23 +444,21 @@ msgid "Timeseries length"
 msgstr "Длина серии"
 
 #: tfrmmain.groupbox3.caption
-#, fuzzy
-#| msgid "Selection by position"
 msgid "Region"
 msgstr "Регион"
 
 #: tfrmmain.iabout.caption
 msgid "About"
-msgstr ""
+msgstr "О программе..."
 
 #: tfrmmain.idatabasetables.caption
 msgctxt "tfrmmain.idatabasetables.caption"
 msgid "Table management"
-msgstr ""
+msgstr "Таблицы БД"
 
 #: tfrmmain.ideleteemptystations.caption
 msgid "Delete Empty Stations"
-msgstr ""
+msgstr "Удалить пустые станции"
 
 #: tfrmmain.ifile.caption
 msgid "File"
@@ -490,7 +466,7 @@ msgstr "Файл"
 
 #: tfrmmain.ihelp.caption
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #: tfrmmain.iload.caption
 msgid "Load"
@@ -501,20 +477,16 @@ msgid "ghcn v4"
 msgstr ""
 
 #: tfrmmain.imap.caption
-#, fuzzy
 msgctxt "tfrmmain.imap.caption"
 msgid "Map"
 msgstr "Карта"
 
 #: tfrmmain.isettings.caption
-#, fuzzy
-#| msgid "Settings"
 msgctxt "tfrmmain.isettings.caption"
 msgid "Settings"
 msgstr "Настройки"
 
 #: tfrmmain.isettings.hint
-#, fuzzy
 msgctxt "tfrmmain.isettings.hint"
 msgid "Settings"
 msgstr "Настройки"
@@ -525,7 +497,7 @@ msgstr "Инструменты"
 
 #: tfrmmain.iupdatestationinfo.caption
 msgid "Update Station_Info"
-msgstr ""
+msgstr "Обновить Station_info"
 
 #: tfrmmain.label2.caption
 msgid "WMO #"
@@ -540,11 +512,6 @@ msgstr "Страна"
 msgctxt "tfrmmain.label5.caption"
 msgid "Station"
 msgstr "Станция"
-
-#: tfrmmain.label6.caption
-msgctxt "tfrmmain.label6.caption"
-msgid "->"
-msgstr "->"
 
 #: tfrmmain.lbcoordreset.caption
 msgctxt "tfrmmain.lbcoordreset.caption"
@@ -577,13 +544,10 @@ msgid "Reset"
 msgstr "Сброс"
 
 #: tfrmmain.menuitem3.caption
-#, fuzzy
-#| msgid "GHCN"
 msgid "ghcn v3"
-msgstr "GHCN"
+msgstr ""
 
 #: tfrmmain.menuitem4.caption
-#, fuzzy
 msgctxt "tfrmmain.menuitem4.caption"
 msgid "Services"
 msgstr "Сервисы"
@@ -591,7 +555,7 @@ msgstr "Сервисы"
 #: tfrmmain.menuitem7.caption
 msgctxt "tfrmmain.menuitem7.caption"
 msgid "Show selected station on map"
-msgstr ""
+msgstr "Показать выбранную станцию на карте"
 
 #: tfrmmain.regionalaveraging1.caption
 msgid "Regional Averaging"
@@ -615,10 +579,8 @@ msgid "tbFastAccess"
 msgstr ""
 
 #: tfrmmain.tbselection.caption
-#, fuzzy
-#| msgid "Selection"
 msgid "Options"
-msgstr "Выбор данных"
+msgstr "Опции"
 
 #: tfrmmain.toolbar1.caption
 msgctxt "tfrmmain.toolbar1.caption"
@@ -644,7 +606,7 @@ msgstr ""
 
 #: tfrmmap.btnshowallstations.hint
 msgid "Show all stations"
-msgstr ""
+msgstr "Показать все станции"
 
 #: tfrmmap.btnshowselected.caption
 msgid "btnShowSelected"
@@ -652,20 +614,20 @@ msgstr ""
 
 #: tfrmmap.btnshowselected.hint
 msgid "Center at selected station"
-msgstr ""
+msgstr "Показать выбранную станцию на карте"
 
 #: tfrmmap.btnzoomin.hint
 msgid "Zoom In"
-msgstr ""
+msgstr "Приблизить"
 
 #: tfrmmap.btnzoomout.hint
 msgid "Zoom Out"
-msgstr ""
+msgstr "Отдалить"
 
 #: tfrmmap.caption
 msgctxt "tfrmmap.caption"
 msgid "Map"
-msgstr ""
+msgstr "Карта"
 
 #: tfrmmap.pmap.caption
 msgid "pmap"
@@ -693,12 +655,13 @@ msgid "Reset to default"
 msgstr ""
 
 #: tfrmmap_settings.btnsave.caption
+msgctxt "tfrmmap_settings.btnsave.caption"
 msgid "Ok"
 msgstr ""
 
 #: tfrmmap_settings.caption
 msgid "Map settings"
-msgstr ""
+msgstr "Настройки карты"
 
 #: tfrmmap_settings.chkshowstars.caption
 msgid "Show stars in the backgroud"
@@ -747,9 +710,10 @@ msgid "Station"
 msgstr "Станция"
 
 #: tfrmmap_settings.tabsheet2.caption
+#, fuzzy
 msgctxt "tfrmmap_settings.tabsheet2.caption"
 msgid "Map"
-msgstr ""
+msgstr "Карта"
 
 #: tfrmmap_settings.tabsheet3.caption
 msgid "Controls"
@@ -757,6 +721,107 @@ msgstr ""
 
 #: tfrmmap_settings.tabsheet5.caption
 msgid "Marker"
+msgstr ""
+
+#: tfrmsettings.btncancel.caption
+msgid "Cancel"
+msgstr ""
+
+#: tfrmsettings.btngrapherpath.caption
+msgid "..."
+msgstr ""
+
+#: tfrmsettings.btnok.caption
+msgctxt "tfrmsettings.btnok.caption"
+msgid "Ok"
+msgstr ""
+
+#: tfrmsettings.caption
+#, fuzzy
+msgctxt "tfrmsettings.caption"
+msgid "Settings"
+msgstr "Настройки"
+
+#: tfrmsettings.cblanguage.text
+msgid "English"
+msgstr ""
+
+#: tfrmsettings.chklinear.caption
+msgid "Linear"
+msgstr ""
+
+#: tfrmsettings.chkrunning.caption
+msgid "Running average"
+msgstr ""
+
+#: tfrmsettings.edatabase.text
+msgid "edatabase"
+msgstr ""
+
+#: tfrmsettings.ehost.text
+msgid "ehost"
+msgstr ""
+
+#: tfrmsettings.epass.text
+msgid "epass"
+msgstr ""
+
+#: tfrmsettings.euser.text
+msgid "euser"
+msgstr ""
+
+#: tfrmsettings.gbfits.caption
+msgid "Fits"
+msgstr ""
+
+#: tfrmsettings.gbgrapher.caption
+msgid "Grapher (scripter.exe)"
+msgstr ""
+
+#: tfrmsettings.gblanguage.caption
+msgid "Language"
+msgstr ""
+
+#: tfrmsettings.groupbox4.caption
+msgid "Connection"
+msgstr ""
+
+#: tfrmsettings.label1.caption
+msgid "Host"
+msgstr ""
+
+#: tfrmsettings.label2.caption
+msgctxt "tfrmsettings.label2.caption"
+msgid "Database"
+msgstr ""
+
+#: tfrmsettings.label3.caption
+msgid "Password"
+msgstr ""
+
+#: tfrmsettings.label4.caption
+msgid "User"
+msgstr ""
+
+#: tfrmsettings.rgplotsoft.caption
+msgid "Use for plotting"
+msgstr ""
+
+#: tfrmsettings.rgserver.caption
+msgid "Server"
+msgstr ""
+
+#: tfrmsettings.tabsheet1.caption
+msgctxt "tfrmsettings.tabsheet1.caption"
+msgid "Database"
+msgstr ""
+
+#: tfrmsettings.tabsheet2.caption
+msgid "Visualization"
+msgstr ""
+
+#: tfrmsettings.tabsheet3.caption
+msgid "Interface"
 msgstr ""
 
 #: tfrmspatialaveraging.btncalculate.caption
@@ -846,9 +911,10 @@ msgid "btndelete"
 msgstr ""
 
 #: tfrmtablemanagement.caption
+#, fuzzy
 msgctxt "tfrmtablemanagement.caption"
 msgid "Table management"
-msgstr ""
+msgstr "Таблицы БД"
 
 #: tfrmtablemanagement.cbtable.text
 #, fuzzy
@@ -884,11 +950,11 @@ msgid "Averaging"
 msgstr ""
 
 #: tfrmviewdata.btnplotallmonth.caption
-msgid "Plot All Months"
+msgid "Plot All Columns"
 msgstr ""
 
 #: tfrmviewdata.btnplotcolumn.caption
-msgid "Plot Column"
+msgid "Plot Selected Column"
 msgstr ""
 
 #: tfrmviewdata.btnsave.caption
@@ -1041,10 +1107,6 @@ msgstr ""
 #: tfrmviewdata.dbgrid2.columns[9].title.caption
 msgctxt "tfrmviewdata.dbgrid2.columns[9].title.caption"
 msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.ieditdata.caption
-msgid "Edit Data"
 msgstr ""
 
 #: tfrmviewdata.menuitem2.caption

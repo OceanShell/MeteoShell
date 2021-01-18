@@ -33,9 +33,8 @@
 {"hash":106991073,"name":"tfrmviewdata.toolbar1.caption","sourcebytes":[84,111,111,108,66,97,114,49],"value":"ToolBar1"},
 {"hash":14653342,"name":"tfrmviewdata.btnsave.hint","sourcebytes":[69,120,112,111,114,116,32,116,105,109,101,115,101,114,105,101,115,32,97,115,46,46,46],"value":"Export timeseries as..."},
 {"hash":124639694,"name":"tfrmviewdata.btnsave.caption","sourcebytes":[83,97,118,101,32,97,115,46,46,46],"value":"Save as..."},
-{"hash":6611729,"name":"tfrmviewdata.ieditdata.caption","sourcebytes":[69,100,105,116,32,68,97,116,97],"value":"Edit Data"},
-{"hash":80940638,"name":"tfrmviewdata.btnplotcolumn.caption","sourcebytes":[80,108,111,116,32,67,111,108,117,109,110],"value":"Plot Column"},
-{"hash":56782627,"name":"tfrmviewdata.btnplotallmonth.caption","sourcebytes":[80,108,111,116,32,65,108,108,32,77,111,110,116,104,115],"value":"Plot All Months"},
+{"hash":89836942,"name":"tfrmviewdata.btnplotcolumn.caption","sourcebytes":[80,108,111,116,32,83,101,108,101,99,116,101,100,32,67,111,108,117,109,110],"value":"Plot Selected Column"},
+{"hash":2162531,"name":"tfrmviewdata.btnplotallmonth.caption","sourcebytes":[80,108,111,116,32,65,108,108,32,67,111,108,117,109,110,115],"value":"Plot All Columns"},
 {"hash":132536709,"name":"tfrmviewdata.menuitem2.caption","sourcebytes":[80,108,111,116,32,65,110,110,117,97,108,32,67,105,114,99,108,101],"value":"Plot Annual Circle"},
 {"hash":210212999,"name":"tfrmviewdata.btnplot.caption","sourcebytes":[65,118,101,114,97,103,105,110,103],"value":"Averaging"}
 ]}

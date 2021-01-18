@@ -1,11 +1,11 @@
 object frmviewdata: Tfrmviewdata
-  Left = 398
+  Left = 435
   Height = 744
-  Top = 163
+  Top = 145
   Width = 1275
   Caption = 'View data'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 744
+  ClientWidth = 1275
   DesignTimePPI = 144
   OnClose = FormClose
   OnResize = FormResize
@@ -138,14 +138,14 @@ object frmviewdata: Tfrmviewdata
     end
     object tabAnomalies: TTabSheet
       Caption = 'Anomalies'
-      ClientHeight = 468
-      ClientWidth = 842
+      ClientHeight = 706
+      ClientWidth = 1267
       ParentFont = False
       object DBGrid2: TDBGrid
         Left = 0
-        Height = 468
+        Height = 706
         Top = 0
-        Width = 842
+        Width = 1267
         Align = alClient
         AlternateColor = 13627366
         AutoFillColumns = True
@@ -155,90 +155,91 @@ object frmviewdata: Tfrmviewdata
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 58
+            Width = 90
           end        
           item
             MinSize = 15
             MaxSize = 300
             Title.Caption = 'Title'
-            Width = 61
+            Width = 96
           end>
         FixedCols = 0
         Flat = True
         Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
         ParentFont = False
+        PopupMenu = PM
         Scrollbars = ssAutoVertical
         TabOrder = 0
         TitleFont.Color = clWindowText
@@ -278,25 +279,17 @@ object frmviewdata: Tfrmviewdata
     end
   end
   object PM: TPopupMenu
+    OnPopup = PMPopup
     left = 312
     top = 296
-    object iEditData: TMenuItem
-      Caption = 'Edit Data'
-      ImageIndex = 613
-      OnClick = iEditDataClick
-    end
-    object MenuItem4: TMenuItem
-      Caption = '-'
-    end
     object btnPlotColumn: TMenuItem
-      Caption = 'Plot Column'
+      Caption = 'Plot Selected Column'
       ImageIndex = 794
       OnClick = btnPlotColumnClick
     end
     object btnPlotAllMonth: TMenuItem
-      Caption = 'Plot All Months'
+      Caption = 'Plot All Columns'
       ImageIndex = 202
-      Visible = False
       OnClick = btnPlotAllMonthClick
     end
     object MenuItem2: TMenuItem

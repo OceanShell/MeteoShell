@@ -57,16 +57,14 @@ type
     lblatmin: TLabel;
     lblonmax: TLabel;
     Label5: TLabel;
-    Label6: TLabel;
     lbCoordReset: TLabel;
     lbResetMD: TLabel;
-    ListBox1: TListBox;
-    ListBox2: TListBox;
     iLoad: TMenuItem;
     iSettings: TMenuItem;
     iMap: TMenuItem;
     iHelp: TMenuItem;
     iAbout: TMenuItem;
+    btnEditData: TMenuItem;
     MenuItem3: TMenuItem;
     iLoadGHCN_v4: TMenuItem;
     MenuItem4: TMenuItem;
@@ -122,13 +120,12 @@ type
     procedure cbWMODropDown(Sender: TObject);
     procedure ds5701Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure iParameterClick(Sender: TObject);
     procedure iSettingsClick(Sender: TObject);
     procedure iStationClick(Sender: TObject);
     procedure iUpdateStationInfoClick(Sender: TObject);
     procedure lbCoordResetClick(Sender: TObject);
     procedure lbResetMDClick(Sender: TObject);
-    procedure MenuItem1Click(Sender: TObject);
+    procedure btnEditDataClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure iDatabaseTablesClick(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
@@ -332,10 +329,6 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure Tfrmmain.iParameterClick(Sender: TObject);
-begin
-
-end;
 
 procedure Tfrmmain.iDeleteEmptyStationsClick(Sender: TObject);
 Var
@@ -427,8 +420,6 @@ procedure Tfrmmain.UpdateIBContent;
 var
   k :Integer;
 begin
-ListBox1.Clear;
-
 frmdm.CDS.Filtered:=false;
  if frmdm.CDS.Active=true then begin
    frmdm.CDS.Close;
@@ -484,6 +475,7 @@ procedure Tfrmmain.btnSelectClick(Sender: TObject);
 Var
 Lat1, Lat2, Lon1, Lon2:real;
 k:integer;
+tbl_str, tbl:string;
 begin
 Lat1:=strtofloat(edit1.Text);
 Lat2:=strtofloat(edit2.Text);
@@ -492,6 +484,34 @@ Lon2:=strtofloat(edit4.Text);
 
 // closing active transaction
 if frmdm.TR.Active then frmdm.TR.Commit;
+
+tbl_str:='';
+for k:=0 to chlParameters.Items.Count-1 do begin
+  if chlParameters.Checked[k]=true then begin
+   tbl_str:=tbl_str+' and (';
+   with frmdm.q1 do begin
+    Close;
+     SQL.Clear;
+     SQL.Add('select "table" from "parameter" ');
+     SQL.Add('where "name"='+QuotedStr(chlParameters.Items.Strings[k]));
+    Open;
+   end;
+   while not frmdm.q1.EOF do begin
+    tbl:=frmdm.q1.Fields[0].AsString;
+    tbl_str:=tbl_str+'("station"."id" in (select "station_id" from "'+tbl+'"';
+        if chkStActive.Checked=true then
+          tbl_str:=tbl_str+' group by "station_id" having '+
+                   'min(extract(year from "date"))<='+seYY1.Text+' and '+
+                   'max(extract(year from "date"))>='+seYY2.Text+'))'
+        else
+          tbl_str:=tbl_str+'))';
+     tbl_str:=tbl_str+' or ';
+    frmdm.q1.Next;
+   end;
+   tbl_str:=copy(tbl_str, 1, length(tbl_str)-4)+')';
+  end;
+end;
+//showmessage(tbl_str);
 
 try
   with frmdm.CDS do begin
@@ -515,21 +535,11 @@ try
     if cbCountry.Text<>'' then SQL.Add(' and "country"."name"='+QuotedStr(cbCountry.Text));
     if cbStation.Text<>'' then SQL.Add(' and "station"."name"='+QuotedStr(cbStation.Text));
 
-    (* if parameters checked *)
-    for k:=0 to chlParameters.Items.Count-1 do
-      if chlParameters.Checked[k]=true then begin
-        SQL.Add(' and "station.id" in (Select distinct(value.id) from value ');
-        SQL.Add(' where value.parameter_id in ');
-        SQL.Add(' (Select parameter.id from "parameter" where name='+
-                  QuotedStr(chlParameters.Items.Strings[k])+')');
-        if chkStActive.Checked=true then
-          SQL.Add(' group by id having min(extract(year from date_))<='+seYY1.Text+
-                  ' and max(extract(year from date_))>='+seYY2.Text+') ')
-        else
-          SQL.Add(' )');
-      end;
+    // pearmeters
+    SQL.Add(tbl_str);
 
       SQL.Add(' order by "station"."wmocode" ');
+    //  showmessage(SQL.Text);
       ParamByName('ltmin').AsFloat:=Lat1;
       ParamByName('ltmax').AsFloat:=Lat2;
       ParamByName('lnmin').AsFloat:=Lon1;
@@ -642,16 +652,6 @@ begin
   frmdm.CDS.ApplyUpdates(0);
 end;
 
-procedure Tfrmmain.amapExecute(Sender: TObject);
-begin
- if frmmap_open=false then begin
-    frmmap := Tfrmmap.Create(Self);
-    frmmap.Show;
- end else frmmap.SetFocus;
- frmmap_open:=true;
- frmmap.btnShowAllStationsClick(self);
-end;
-
 
 procedure Tfrmmain.BitBtn1Click(Sender: TObject);
 Var
@@ -684,6 +684,20 @@ begin
     case Ini.ReadInteger( 'meteo', 'server', 1) of
       (* Firebird *)
       0: begin
+
+        with frmdm.DBLoader do begin
+         {$IFDEF WINDOWS}
+           LibraryName:=GlobalPath+'fbclient.dll';
+         {$ENDIF}
+         {$IFDEF LINUX}
+           LibraryName:=GlobalPath+'libfbclient.so.3.0.5';
+         {$ENDIF}
+         {$IFDEF DARWIN}
+           LibraryName:=GlobalPath+'libfbclient.dylib';
+         {$ENDIF}
+          Enabled:=true;
+        end;
+
        try
         frmdm.FBDB.UserName:=DBUser;
         frmdm.FBDB.Password:=DBPass;
@@ -707,6 +721,7 @@ begin
 
       (* PostgreSQL *)
       1: begin
+       frmdm.DBLoader.Enabled:=false;
         try
          frmdm.PGDB.UserName:=DBUser;
          frmdm.PGDB.Password:=DBPass;
@@ -750,17 +765,16 @@ begin
   cbStation.Text :='';
 end;
 
-procedure Tfrmmain.MenuItem1Click(Sender: TObject);
+procedure Tfrmmain.btnEditDataClick(Sender: TObject);
 begin
- if frmmap_open=true then frmmap.SetFocus else
-    begin
-       frmmap := Tfrmmap.Create(Self);
-       frmmap.Show;
-    end;
-  frmmap.btnShowSelectedClick(self);
-  frmmap_open:=true;
+frmeditdata := Tfrmeditdata.Create(Self);
+  try
+   if not frmeditdata.ShowModal = mrOk then exit;
+  finally
+    frmeditdata.Free;
+    frmeditdata := nil;
+  end;
 end;
-
 
 procedure Tfrmmain.btnviewdataClick(Sender: TObject);
 begin
@@ -771,6 +785,18 @@ begin
 
  Open_viewdata:=true;
  CDSInfoNavigation;
+end;
+
+procedure Tfrmmain.amapExecute(Sender: TObject);
+begin
+ if frmmap_open=true then frmmap.SetFocus else
+    begin
+       frmmap := Tfrmmap.Create(Self);
+       frmmap.Show;
+    end;
+  frmmap.btnShowSelectedClick(self);
+  frmmap_open:=true;
+  frmmap.btnShowAllStationsClick(self);
 end;
 
 

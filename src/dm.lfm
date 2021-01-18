@@ -2,8 +2,8 @@ object frmdm: Tfrmdm
   OnDestroy = DataModuleDestroy
   OldCreateOrder = False
   Height = 416
-  HorizontalOffset = 941
-  VerticalOffset = 339
+  HorizontalOffset = 663
+  VerticalOffset = 344
   Width = 560
   PPI = 144
   object FBDB: TIBConnection
@@ -74,5 +74,11 @@ object frmdm: Tfrmdm
     Params = <>
     left = 276
     top = 24
+  end
+  object DBLoader: TSQLDBLibraryLoader
+    Enabled = False
+    ConnectionType = 'Firebird'
+    left = 24
+    top = 112
   end
 end

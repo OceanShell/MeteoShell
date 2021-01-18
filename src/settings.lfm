@@ -1,21 +1,21 @@
 object frmsettings: Tfrmsettings
   Left = 536
-  Height = 450
+  Height = 474
   Top = 255
   Width = 786
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Settings'
-  ClientHeight = 450
+  ClientHeight = 474
   ClientWidth = 786
   DesignTimePPI = 144
   OnShow = FormShow
   Position = poOwnerFormCenter
   LCLVersion = '2.0.6.0'
   object btnOk: TButton
-    Left = 492
+    Left = 512
     Height = 38
-    Top = 392
+    Top = 416
     Width = 112
     Caption = 'Ok'
     OnClick = btnOkClick
@@ -23,9 +23,9 @@ object frmsettings: Tfrmsettings
     TabOrder = 0
   end
   object btnCancel: TButton
-    Left = 628
+    Left = 648
     Height = 38
-    Top = 392
+    Top = 416
     Width = 112
     Caption = 'Cancel'
     OnClick = btnCancelClick
@@ -34,17 +34,17 @@ object frmsettings: Tfrmsettings
   end
   object PageControl1: TPageControl
     Left = 0
-    Height = 376
+    Height = 400
     Top = 0
     Width = 786
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alTop
     ParentFont = False
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Database'
-      ClientHeight = 338
+      ClientHeight = 362
       ClientWidth = 778
       object GroupBox4: TGroupBox
         Left = 24
@@ -135,7 +135,7 @@ object frmsettings: Tfrmsettings
         Left = 24
         Height = 72
         Top = 16
-        Width = 406
+        Width = 350
         AutoFill = True
         Caption = 'Server'
         ChildSizing.LeftRightSpacing = 6
@@ -146,7 +146,7 @@ object frmsettings: Tfrmsettings
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 2
         ClientHeight = 42
-        ClientWidth = 402
+        ClientWidth = 346
         Columns = 2
         ItemIndex = 1
         Items.Strings = (
@@ -160,13 +160,13 @@ object frmsettings: Tfrmsettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Interface'
-      ClientHeight = 338
+      ClientHeight = 362
       ClientWidth = 778
       ParentFont = False
-      object GroupBox3: TGroupBox
-        Left = 12
+      object gbLanguage: TGroupBox
+        Left = 24
         Height = 108
-        Top = 12
+        Top = 16
         Width = 290
         Caption = 'Language'
         ClientHeight = 78
@@ -192,54 +192,54 @@ object frmsettings: Tfrmsettings
       end
     end
     object TabSheet2: TTabSheet
-      Caption = 'Grapher'
-      ClientHeight = 338
+      Caption = 'Visualization'
+      ClientHeight = 362
       ClientWidth = 778
       ParentFont = False
-      object GroupBox2: TGroupBox
+      object gbGrapher: TGroupBox
         Left = 24
         Height = 98
-        Top = 16
-        Width = 716
-        Caption = 'Grapher scripter.exe'
+        Top = 104
+        Width = 732
+        Caption = 'Grapher (scripter.exe)'
         ClientHeight = 68
-        ClientWidth = 712
+        ClientWidth = 728
         ParentFont = False
         TabOrder = 0
         object eGrapherPath: TEdit
           Left = 18
           Height = 33
-          Top = 6
-          Width = 632
+          Top = 16
+          Width = 654
           OnChange = eGrapherPathChange
           ParentFont = False
           TabOrder = 0
         end
         object btnGrapherPath: TButton
-          Left = 658
-          Height = 32
-          Top = 9
-          Width = 39
+          Left = 680
+          Height = 33
+          Top = 16
+          Width = 33
           Caption = '...'
           OnClick = btnGrapherPathClick
           ParentFont = False
           TabOrder = 1
         end
       end
-      object GroupBox1: TGroupBox
+      object gbFits: TGroupBox
         Left = 24
-        Height = 132
-        Top = 128
-        Width = 717
+        Height = 120
+        Top = 216
+        Width = 393
         Caption = 'Fits'
-        ClientHeight = 102
-        ClientWidth = 713
+        ClientHeight = 90
+        ClientWidth = 389
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 2
         object chkLinear: TCheckBox
           Left = 18
           Height = 29
-          Top = 12
+          Top = 8
           Width = 76
           Caption = 'Linear'
           ParentFont = False
@@ -248,16 +248,16 @@ object frmsettings: Tfrmsettings
         object chkRunning: TCheckBox
           Left = 18
           Height = 29
-          Top = 48
+          Top = 40
           Width = 163
           Caption = 'Running average'
           ParentFont = False
           TabOrder = 1
         end
         object seRunning: TSpinEdit
-          Left = 300
+          Left = 296
           Height = 33
-          Top = 42
+          Top = 36
           Width = 75
           Increment = 2
           MaxValue = 999
@@ -266,6 +266,31 @@ object frmsettings: Tfrmsettings
           TabOrder = 2
           Value = 3
         end
+      end
+      object rgPlotSoft: TRadioGroup
+        Left = 24
+        Height = 72
+        Top = 16
+        Width = 350
+        AutoFill = True
+        Caption = 'Use for plotting'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 42
+        ClientWidth = 346
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'Grapher'
+          'matplotlib'
+        )
+        ParentFont = False
+        TabOrder = 1
       end
     end
   end

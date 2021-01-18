@@ -18,10 +18,8 @@ type
     btnPlot: TMenuItem;
     DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
-    iEditData: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
     btnPlotColumn: TMenuItem;
     PageControl1: TPageControl;
     PM: TPopupMenu;
@@ -37,10 +35,10 @@ type
     procedure btnPlotColumnClick(Sender: TObject);
     procedure DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
       Column: TColumn; AState: TGridDrawState);
-    procedure iEditDataClick(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure PMPopup(Sender: TObject);
 
   private
     { private declarations }
@@ -53,7 +51,7 @@ var
   frmviewdata: Tfrmviewdata;
   CDSViewValues, CDSViewAnomalies:TBufDataSet;
   DSViewValues, DSViewAnomalies:TDataSource;
-  tspath:string;
+  tspath, units:string;
 
 implementation
 
@@ -61,13 +59,14 @@ implementation
 
 { Tfrmviewdata }
 
-uses main, dm, timeseries, procedures, grapher, editdata;
+uses main, dm, timeseries, procedures, grapher;
 
 procedure Tfrmviewdata.FormShow(Sender: TObject);
 Var
   k:integer;
 begin
- tspath:=GlobalPath+'unload'+PathDelim+'timeseries'+PathDelim;
+ tspath:=GlobalUnloadPath+'timeseries'+PathDelim;
+   if not DirectoryExists(tspath) then CreateDir(tspath);
 
  (* CDS for values *)
  CDSViewValues:=TBufDataSet.Create(self);
@@ -171,11 +170,12 @@ begin
   with Qt1 do begin
    Close;
     SQL.Clear;
-    SQL.Add(' select "table" from "parameter" ');
+    SQL.Add(' select "table", "units" from "parameter" ');
     SQL.Add(' where "parameter"."id"=:id ');
     ParamByName('id').AsInteger:=parameter_id;
    Open;
     tbl:=Qt1.Fields[0].AsString;
+    units:=Qt1.Fields[1].AsString;
    Close;
   end;
 
@@ -342,26 +342,229 @@ begin
 end;
 
 procedure Tfrmviewdata.btnPlotAllMonthClick(Sender: TObject);
+var
+k,count_ts,count:integer;
+year,month:integer;
+val,stlat,stlon,md,anom:real;
+tsFile,tsFileA,mn,GraphID,PlotID,ID,FitTitle,FitID,AxisTitleY:string;
+xID,yID,txt:string;
+mn_arr:array[1..12] of string;
+
+stsource,stname,stcountry:string;
+absnum,wmonum,wmonumsource:integer;
 begin
-  //
+{
+ absnum:=MDBDM.CDS.FieldByName('ABSNUM').AsInteger;
+
+   with MDBDM.ib1q2 do begin
+    Close;
+    SQL.Clear;
+    SQL.Add(' select * from ');
+    SQL.Add(tblCurrent);
+    SQL.Add(' where absnum=:absnum ');
+    SQL.Add(' and month_=:month ');
+    SQL.Add(' order by year_ ');
+    Prepare;
+   end;
+
+    count_ts:=0;
+for k:=1 to 12 do begin
+    md:=0;
+    count:=0;
+
+   case k of
+   1:  mn:='JAN';
+   2:  mn:='FEB';
+   3:  mn:='MAR';
+   4:  mn:='APR';
+   5:  mn:='MAY';
+   6:  mn:='JUN';
+   7:  mn:='JUL';
+   8:  mn:='AUG';
+   9:  mn:='SEP';
+   10: mn:='OCT';
+   11: mn:='NOV';
+   12: mn:='DEC';
+   end;
+
+
+   with MDBDM.ib1q2 do begin
+    ParamByName('absnum').AsInteger:=Absnum;
+    ParamByName('month').AsInteger:=k;
+    Open;
+   end;
+
+if MDBDM.ib1q2.IsEmpty=false then begin
+
+   tsfile :=tspath+mn+'.dat';
+   tsfileA:=tspath+mn+'a.dat';
+
+   Application.ProcessMessages;
+
+   assignfile(f_dat, tsfile);   rewrite(f_dat);
+   assignfile(fA_dat,tsfileA); rewrite(fA_dat);
+   writeln(f_dat ,'year value');
+   writeln(fA_dat,'year anomaly');
+
+   count_ts:=count_ts+1;
+   mn_arr[count_ts]:=mn;
+
+   while not MDBDM.ib1q2.Eof do begin
+    year:=MDBDM.ib1q2.FieldByName('year_').AsInteger;
+    val:=MDBDM.ib1q2.FieldByName('val_').AsFloat;
+    Count:=Count+1;
+    md:=md+val;
+
+    writeln(f_dat,year:4,val:9:3);
+    MDBDM.ib1q2.Next;
+   end;
+    MDBDM.ib1q2.Close;
+    closefile(f_dat);
+
+end;
+
+if count>0 then begin
+     md:=md/count;
+     reset(f_dat);
+     readln(f_dat);
+    while not EOF(f_dat) do begin
+     readln(f_dat, year, val);
+     anom:=val-md;
+     writeln(fA_dat,year:6,anom:9:4);
+    end;
+     closefile(f_dat);
+     closefile(fA_dat);
+end;
+end;
+    MDBDM.ib1q2.UnPrepare;
+
+
+
+   (* Строим серии в Графере *)
+   if chkplottimeseries.Checked=true then begin
+    if count_ts=0 then showmessage('There are no valid time series at station!')
+  else begin
+
+
+    Grapher:=CreateOLEObject('Grapher.Application');
+    Grapher.Visible(1);
+    Plot:=Grapher.Documents.Add(0);
+    GraphID:='g1';
+
+for k:=1 to count_ts do begin
+
+    if CheckBox5.Checked then
+     tsfile:=tspath+mn_arr[k]+'a.dat' else
+     tsfile:=tspath+mn_arr[k]+'.dat';
+
+
+    assignfile(f_dat,tsfile); reset(f_dat);
+
+
+    case k of
+    1: SetColor:='50% Black';
+    2: SetColor:='30% Black';
+    3: SetColor:='Brown';
+    4: SetColor:='Green';
+    5: SetColor:='Pink';
+    6: SetColor:='Magenta';
+    7: SetColor:='Red';
+    8: SetColor:='Purple';
+    9: SetColor:='Deep Yellow';
+   10: SetColor:='Cyan';
+   11: SetColor:='Blue';
+   12: SetColor:='Black';
+    end;
+
+    GraphID:='MonthComp';
+    PlotID:=mn_arr[k];
+    ID:=concat(GraphID,':',PlotID);
+
+    if CheckBox1.Checked then begin
+    Plot.CreateLinePlot(GraphID,PlotID,tsfile,,1,2,,,,,,,,,1,,0.001,10,SetColor);
+    Plot.SetObjectLineProps(ID,SetColor,'.1 in. Dash',0.005);
+    end
+    else begin
+    Plot.CreateLinePlot(GraphID,PlotID,tsfile,,1,2,,,,,,,,,0,,0.001,10,SetColor);
+    Plot.SetObjectLineProps(ID,SetColor,'Invisible',0.005);
+    end;
+
+
+    if CheckBox2.Checked then begin
+    FitTitle:=concat(PlotID,'_RAv',inttostr(RunAvStep));
+    FitID:=concat(GraphID,':',FitTitle);
+    Plot.CreateFit(ID,FitTitle,1,8,5);
+    Plot.SetObjectLineProps(FitID,SetColor,'Solid',0.03);
+    end;
+
+    //lenear fit
+    if CheckBox3.Checked then begin
+    FitTitle:=concat(PlotID,'_L');
+    FitID:=concat(GraphID,':',FitTitle);
+    Plot.CreateFit(ID,FitTitle,1,0);
+    Plot.SetObjectLineProps(FitID,SetColor,'.1 in. Dash',0.03);
+    end;
+
+     xID:=concat(GraphID,':','X Axis 1');
+     yID:=concat(GraphID,':','Y Axis 1');
+     Plot.PositionAxis(xID,0,12,3,3);
+     Plot.PositionAxis(yID,0,20,3,3);
+
+     if CheckBox5.Checked
+     then
+     AxisTitleY:=copy(tblCurrent,3,length(tblCurrent))+' Anomalies'
+     else
+     AxisTitleY:=copy(tblCurrent,3,length(tblCurrent));
+
+     Plot.EditAxis(xID,1,,'Years',   'Times New Roman',12,,1);
+     Plot.EditAxis(yID,1,,AxisTitleY,'Times New Roman',12,,1);
+
+    closefile(f_dat);
+end;
+
+    WMOnum      :=MDBDM.CDS.FieldByName('wmonum').AsInteger;
+    WMOnumSource:=MDBDM.CDS.FieldByName('wmonum').AsInteger;
+    StSource    :=MDBDM.CDS.FieldByName('StSource').AsString;
+    StLat       :=MDBDM.CDS.FieldByName('StLat').AsFloat;
+    StLon       :=MDBDM.CDS.FieldByName('StLon').AsFloat;
+    StName      :=MDBDM.CDS.FieldByName('StName').AsString;
+    StCountry   :=MDBDM.CDS.FieldByName('StCountry').AsString;
+
+
+    txt:='wmonum : '+inttostr(WMOnum)+'  wmonum (datasource): '+inttostr(WMOnumSource);
+    Plot.DrawText(2.5,26.5,txt);
+    txt:='StName :  '+StName;
+    Plot.DrawText(2.5,26,txt);
+    txt:='Country:  '+StCountry;
+    Plot.DrawText(2.5,25.5,txt);
+    txt:='Source :  '+StSource;
+    Plot.DrawText(2.5,25,txt);
+    txt:='Lat    :  '+floattostr(StLat);
+    Plot.DrawText(2.5,24.5,txt);
+    txt:='Lon    :  '+floattostr(StLon);
+    Plot.DrawText(2.5,24,txt);
+    Plot.DrawRectangle(2.3,26.6,15,23.5,'TextBox1');
+
+    Plot.Select(GraphID);
+    Plot.AddLegendEntry('Legend','JAN',,,,,'Custom',0.2);
+    Plot.CreateLegend(ID,'Legend',18,14);
+    Plot.AddLegendEntry('Legend','FEB',,,,,'Custom',0.2);
+    Plot.Maximize;
+    Plot.ViewFitToWindow;
+end;
+end;
+}
 end;
 
 
 procedure Tfrmviewdata.btnPlotColumnClick(Sender: TObject);
 Var
- Ini:TIniFile;
  YY, MN:integer;
  val1:Variant;
- grapherpath, fname, title, par, units, xtitle, cmd, p_type:string;
+ fname, title, par, xtitle, cmd, p_type:string;
 begin
- try
- Ini := TIniFile.Create(IniFileName);
-   grapherpath :=Ini.ReadString( 'Grapher', 'Path', '');
- finally
-  ini.Free;
- end;
-
  fname:=tspath+'timeseries.txt';
+   if fileexists(fname) then DeleteFile(fname);
 
  AssignFile(f_dat, fname); rewrite(f_dat);
  Writeln(f_dat, 'YY':5, 'Value':8);
@@ -410,17 +613,14 @@ begin
  CloseFile(f_dat);
 
  par:=frmdm.CDS2.FieldByName('par').AsString;
- par:=copy(par, 3, length(par));
- par:=StringReplace(par, '_', ' ', [rfReplaceAll, rfIgnoreCase]);
 
  if mn<=12 then title:='Monthly mean '+p_type+' of '+par+', '+GetMonthFromIndex(mn);
  if mn=13  then title:='Annual mean ' +p_type+' of '+par;
- units:='';
  xtitle:='';
 
  PlotTimeSeries(fname, title, par, units, xtitle, 2);
 
- cmd:='"'+grapherpath+'" -x "'+GlobalPath+'unload\timeseries\timeseries.bas"';
+ cmd:='-x "'+GlobalUnloadPath+'timeseries'+PathDelim+'timeseries.bas"';
  frmmain.RunScript(3, cmd, nil);
 end;
 
@@ -431,25 +631,14 @@ Var
  mn:integer;
  val_arr:array of real;
  cnt_arr:array of integer;
- grapherpath, fname, title, par, units, xtitle, cmd:string;
+ grapherpath, fname, title, par, xtitle, cmd:string;
 begin
  SetLength(Val_arr, CDSViewValues.RecordCount);
  SetLength(cnt_arr, CDSViewValues.RecordCount);
 
- try
- Ini := TIniFile.Create(IniFileName);
-   grapherpath :=Ini.ReadString( 'Grapher', 'Path', '');
- finally
-  ini.Free;
- end;
-
- if FileExists(grapherpath)=false then
-    if MessageDlg('Please, set path to Grapher', mtInformation, [mbOk], 0)=mrOk then exit;
-
  fname:=tspath+frmdm.CDS.FieldByName('name').AsString+'_annual_circle.txt';
  par:=frmdm.CDS2.FieldByName('par').AsString;
  title:='Annual circle of '+par;
- units:='';
  xtitle:='';
 
  AssignFile(f_dat, fname); rewrite(f_dat);
@@ -478,7 +667,7 @@ begin
 
  PlotTimeSeries(fname, title, par, units, xtitle, 2);
 
- cmd:='"'+grapherpath+'" -x "'+GlobalPath+'unload\timeseries\timeseries.bas"';
+ cmd:='-x "'+GlobalUnloadPath+'timeseries'+PathDelim+'timeseries.bas"';
  frmmain.RunScript(3, cmd, nil);
 end;
 
@@ -552,20 +741,15 @@ begin
    TDBGrid(Sender).Canvas.Font.Color  := clYellow;
    TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
  end;
-
 end;
 
-procedure Tfrmviewdata.iEditDataClick(Sender: TObject);
+procedure Tfrmviewdata.PMPopup(Sender: TObject);
 begin
-frmeditdata := Tfrmeditdata.Create(Self);
-  try
-   if not frmeditdata.ShowModal = mrOk then exit;
-  finally
-    frmeditdata.Free;
-    frmeditdata := nil;
-  end;
+  if ((frmViewData.PageControl1.PageIndex=0) and
+     (DBGrid1.SelectedField.FieldNo=1)) or
+     ((frmViewData.PageControl1.PageIndex=1) and
+     (DBGrid2.SelectedField.FieldNo=1)) then Abort;
 end;
-
 
 procedure Tfrmviewdata.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin

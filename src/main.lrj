@@ -15,7 +15,6 @@
 {"hash":94120868,"name":"tfrmmain.btnselect.caption","sourcebytes":[83,101,108,101,99,116],"value":"Select"},
 {"hash":138003475,"name":"tfrmmain.chlparameters.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,115],"value":"Parameters"},
 {"hash":12169480,"name":"tfrmmain.groupbox2.caption","sourcebytes":[84,105,109,101,115,101,114,105,101,115,32,108,101,110,103,116,104],"value":"Timeseries length"},
-{"hash":782,"name":"tfrmmain.label6.caption","sourcebytes":[45,62],"value":"->"},
 {"hash":63579230,"name":"tfrmmain.chkstactive.caption","sourcebytes":[83,116,97,116,105,111,110,115,32,98,101,116,119,101,101,110],"value":"Stations between"},
 {"hash":305313,"name":"tfrmmain.tbdata.caption","sourcebytes":[68,97,116,97],"value":"Data"},
 {"hash":1780,"name":"tfrmmain.dbgrid1.columns[0].title.caption","sourcebytes":[105,100],"value":"id"},
@@ -60,7 +59,8 @@
 {"hash":225605863,"name":"tfrmmain.regionalaveraging1.caption","sourcebytes":[82,101,103,105,111,110,97,108,32,65,118,101,114,97,103,105,110,103],"value":"Regional Averaging"},
 {"hash":322608,"name":"tfrmmain.ihelp.caption","sourcebytes":[72,101,108,112],"value":"Help"},
 {"hash":4691652,"name":"tfrmmain.iabout.caption","sourcebytes":[65,98,111,117,116],"value":"About"},
-{"hash":141379496,"name":"tfrmmain.btnviewdata.caption","sourcebytes":[83,104,111,119,32,100,97,116,97,32,97,115,32,109,97,116,114,105,120],"value":"Show data as matrix"},
+{"hash":256926449,"name":"tfrmmain.btnviewdata.caption","sourcebytes":[83,104,111,119,32,47,32,80,108,111,116,32,68,97,116,97],"value":"Show / Plot Data"},
+{"hash":6611729,"name":"tfrmmain.btneditdata.caption","sourcebytes":[69,100,105,116,32,68,97,116,97],"value":"Edit Data"},
 {"hash":426880,"name":"tfrmmain.amap.caption","sourcebytes":[97,109,97,112],"value":"amap"},
 {"hash":1946368,"name":"tfrmmain.menuitem7.caption","sourcebytes":[83,104,111,119,32,115,101,108,101,99,116,101,100,32,115,116,97,116,105,111,110,32,111,110,32,109,97,112],"value":"Show selected station on map"}
 ]}

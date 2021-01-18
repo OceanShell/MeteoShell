@@ -308,13 +308,18 @@ msgctxt "tfrmmain.btndelete.caption"
 msgid "btndelete"
 msgstr ""
 
+#: tfrmmain.btneditdata.caption
+msgctxt "tfrmmain.btneditdata.caption"
+msgid "Edit Data"
+msgstr ""
+
 #: tfrmmain.btnselect.caption
 msgid "Select"
 msgstr ""
 
 #: tfrmmain.btnviewdata.caption
 msgctxt "tfrmmain.btnviewdata.caption"
-msgid "Show data as matrix"
+msgid "Show / Plot Data"
 msgstr ""
 
 #: tfrmmain.caption
@@ -495,11 +500,6 @@ msgctxt "tfrmmain.label5.caption"
 msgid "Station"
 msgstr ""
 
-#: tfrmmain.label6.caption
-msgctxt "tfrmmain.label6.caption"
-msgid "->"
-msgstr ""
-
 #: tfrmmain.lbcoordreset.caption
 msgctxt "tfrmmain.lbcoordreset.caption"
 msgid "Reset"
@@ -638,6 +638,7 @@ msgid "Reset to default"
 msgstr ""
 
 #: tfrmmap_settings.btnsave.caption
+msgctxt "tfrmmap_settings.btnsave.caption"
 msgid "Ok"
 msgstr ""
 
@@ -701,6 +702,106 @@ msgstr ""
 
 #: tfrmmap_settings.tabsheet5.caption
 msgid "Marker"
+msgstr ""
+
+#: tfrmsettings.btncancel.caption
+msgid "Cancel"
+msgstr ""
+
+#: tfrmsettings.btngrapherpath.caption
+msgid "..."
+msgstr ""
+
+#: tfrmsettings.btnok.caption
+msgctxt "tfrmsettings.btnok.caption"
+msgid "Ok"
+msgstr ""
+
+#: tfrmsettings.caption
+msgctxt "tfrmsettings.caption"
+msgid "Settings"
+msgstr ""
+
+#: tfrmsettings.cblanguage.text
+msgid "English"
+msgstr ""
+
+#: tfrmsettings.chklinear.caption
+msgid "Linear"
+msgstr ""
+
+#: tfrmsettings.chkrunning.caption
+msgid "Running average"
+msgstr ""
+
+#: tfrmsettings.edatabase.text
+msgid "edatabase"
+msgstr ""
+
+#: tfrmsettings.ehost.text
+msgid "ehost"
+msgstr ""
+
+#: tfrmsettings.epass.text
+msgid "epass"
+msgstr ""
+
+#: tfrmsettings.euser.text
+msgid "euser"
+msgstr ""
+
+#: tfrmsettings.gbfits.caption
+msgid "Fits"
+msgstr ""
+
+#: tfrmsettings.gbgrapher.caption
+msgid "Grapher (scripter.exe)"
+msgstr ""
+
+#: tfrmsettings.gblanguage.caption
+msgid "Language"
+msgstr ""
+
+#: tfrmsettings.groupbox4.caption
+msgid "Connection"
+msgstr ""
+
+#: tfrmsettings.label1.caption
+msgid "Host"
+msgstr ""
+
+#: tfrmsettings.label2.caption
+msgctxt "tfrmsettings.label2.caption"
+msgid "Database"
+msgstr ""
+
+#: tfrmsettings.label3.caption
+msgid "Password"
+msgstr ""
+
+#: tfrmsettings.label4.caption
+msgid "User"
+msgstr ""
+
+#: tfrmsettings.rgplotsoft.caption
+msgid "Use for plotting"
+msgstr ""
+
+#: tfrmsettings.rgserver.caption
+msgid "Server"
+msgstr ""
+
+#: tfrmsettings.tabsheet1.caption
+msgctxt "tfrmsettings.tabsheet1.caption"
+msgid "Database"
+msgstr ""
+
+#: tfrmsettings.tabsheet2.caption
+msgid "Visualization"
+msgstr ""
+
+#: tfrmsettings.tabsheet3.caption
+msgid "Interface"
 msgstr ""
 
 #: tfrmspatialaveraging.btncalculate.caption
@@ -820,11 +921,11 @@ msgid "Averaging"
 msgstr ""
 
 #: tfrmviewdata.btnplotallmonth.caption
-msgid "Plot All Months"
+msgid "Plot All Columns"
 msgstr ""
 
 #: tfrmviewdata.btnplotcolumn.caption
-msgid "Plot Column"
+msgid "Plot Selected Column"
 msgstr ""
 
 #: tfrmviewdata.btnsave.caption
@@ -977,10 +1078,6 @@ msgstr ""
 #: tfrmviewdata.dbgrid2.columns[9].title.caption
 msgctxt "tfrmviewdata.dbgrid2.columns[9].title.caption"
 msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.ieditdata.caption
-msgid "Edit Data"
 msgstr ""
 
 #: tfrmviewdata.menuitem2.caption
