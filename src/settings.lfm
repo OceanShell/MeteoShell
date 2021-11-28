@@ -37,10 +37,10 @@ object frmsettings: Tfrmsettings
     Height = 400
     Top = 0
     Width = 786
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alTop
     ParentFont = False
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Database'
@@ -48,18 +48,18 @@ object frmsettings: Tfrmsettings
       ClientWidth = 778
       object GroupBox4: TGroupBox
         Left = 24
-        Height = 208
+        Height = 240
         Top = 104
         Width = 728
         Caption = 'Connection'
-        ClientHeight = 178
+        ClientHeight = 210
         ClientWidth = 724
         ParentFont = False
         TabOrder = 0
         object Label1: TLabel
-          Left = 24
+          Left = 23
           Height = 25
-          Top = 72
+          Top = 24
           Width = 38
           Caption = 'Host'
           ParentColor = False
@@ -68,16 +68,16 @@ object frmsettings: Tfrmsettings
         object ehost: TEdit
           Left = 128
           Height = 33
-          Top = 64
+          Top = 16
           Width = 568
           ParentFont = False
           TabOrder = 0
           Text = 'ehost'
         end
         object Label2: TLabel
-          Left = 24
+          Left = 23
           Height = 25
-          Top = 120
+          Top = 72
           Width = 74
           Caption = 'Database'
           ParentColor = False
@@ -86,7 +86,7 @@ object frmsettings: Tfrmsettings
         object edatabase: TEdit
           Left = 128
           Height = 33
-          Top = 112
+          Top = 64
           Width = 568
           ParentFont = False
           TabOrder = 1
@@ -95,17 +95,17 @@ object frmsettings: Tfrmsettings
         object euser: TEdit
           Left = 128
           Height = 33
-          Top = 16
-          Width = 200
+          Top = 112
+          Width = 568
           ParentFont = False
           TabOrder = 2
           Text = 'euser'
         end
         object epass: TEdit
-          Left = 440
+          Left = 128
           Height = 33
-          Top = 16
-          Width = 256
+          Top = 160
+          Width = 568
           EchoMode = emPassword
           ParentFont = False
           PasswordChar = '*'
@@ -113,18 +113,18 @@ object frmsettings: Tfrmsettings
           Text = 'epass'
         end
         object Label3: TLabel
-          Left = 344
+          Left = 23
           Height = 25
-          Top = 24
+          Top = 168
           Width = 75
           Caption = 'Password'
           ParentColor = False
           ParentFont = False
         end
         object Label4: TLabel
-          Left = 24
+          Left = 23
           Height = 25
-          Top = 24
+          Top = 120
           Width = 35
           Caption = 'User'
           ParentColor = False
