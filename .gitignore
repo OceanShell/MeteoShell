@@ -37,6 +37,7 @@ src/src_FB_PG/
 # OceanShell specific files and folders
 *.nc
 MeteoShell
+libfbclient.so.3.0.5
 data/
 distrib/
 databases/
