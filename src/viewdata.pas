@@ -5,8 +5,8 @@ unit viewdata;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  ComCtrls, Menus, StdCtrls, bufdataset, db, math, types, variants,
+  Classes, SysUtils, FileUtil, TAGraph, TASeries, Forms, Controls, Graphics,
+  Dialogs, ComCtrls, Menus, StdCtrls, bufdataset, db, math, types, variants,
   IniFiles, LCLTranslator, DBGrids, Grids, ExtCtrls, SQLDB;
 
 type
@@ -16,6 +16,8 @@ type
   Tfrmviewdata = class(TForm)
     btnPlotAllMonth: TMenuItem;
     btnPlot: TMenuItem;
+    Chart1: TChart;
+    Series1: TLineSeries;
     DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
     MenuItem2: TMenuItem;
@@ -23,12 +25,15 @@ type
     btnPlotColumn: TMenuItem;
     PageControl1: TPageControl;
     PM: TPopupMenu;
+    Splitter1: TSplitter;
     tabValues: TTabSheet;
     tabAnomalies: TTabSheet;
     ToolBar1: TToolBar;
     btnSave: TToolButton;
 
     procedure btnSaveClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBGrid2CellClick(Column: TColumn);
     procedure FormShow(Sender: TObject);
     procedure btnPlotAllMonthClick(Sender: TObject);
     procedure btnPlotClick(Sender: TObject);
@@ -679,6 +684,7 @@ Var
  fout:text;
 begin
  frmmain.SD.DefaultExt:='.txt';
+ frmmain.SD.Filter:='Text Files|*.txt';
  frmmain.SD.InitialDir:=GlobalPath+'unload'+PathDelim;
 
  if frmmain.SD.Execute then begin
@@ -725,6 +731,59 @@ begin
  end;
 end;
 
+procedure Tfrmviewdata.DBGrid1CellClick(Column: TColumn);
+var
+ old_id, YY, mn:integer;
+ Val1: variant;
+begin
+  try
+    if DBGrid1.SelectedField.FieldNo=1 then exit;
+    old_id:=CDSViewValues.FieldByName('YY').AsInteger;
+    mn:=DBGrid1.SelectedField.FieldNo-1;
+    Series1.Clear;
+
+    CDSViewValues.First;
+    CDSViewValues.DisableControls;
+       while not CDSViewValues.EOF do begin
+        YY  :=CDSViewValues.FieldByName('YY').AsInteger;
+        Val1:=CDSViewValues.FieldByName(inttostr(mn)).AsVariant;
+        if Val1=null then Val1:=Nan;
+         Series1.AddXY(YY, Val1);
+        CDSViewValues.Next;
+       end;
+   finally
+    CDSViewValues.Locate('YY', old_id, []);
+    CDSViewValues.EnableControls;
+   end;
+end;
+
+procedure Tfrmviewdata.DBGrid2CellClick(Column: TColumn);
+var
+ old_id, YY, mn:integer;
+ Val1: variant;
+begin
+  try
+    if DBGrid2.SelectedField.FieldNo=1 then exit;
+
+    old_id:=CDSViewAnomalies.FieldByName('YY').AsInteger;
+    mn:=DBGrid2.SelectedField.FieldNo-1;
+    Series1.Clear;
+
+    CDSViewAnomalies.First;
+    CDSViewAnomalies.DisableControls;
+       while not CDSViewAnomalies.EOF do begin
+        YY  :=CDSViewAnomalies.FieldByName('YY').AsInteger;
+        Val1:=CDSViewAnomalies.FieldByName(inttostr(mn)).AsVariant;
+        if Val1=null then Val1:=Nan;
+         Series1.AddXY(YY, Val1);
+        CDSViewAnomalies.Next;
+       end;
+   finally
+    CDSViewAnomalies.Locate('YY', old_id, []);
+    CDSViewAnomalies.EnableControls;
+   end;
+end;
+
 
 procedure Tfrmviewdata.FormResize(Sender: TObject);
 begin
@@ -734,14 +793,21 @@ end;
 procedure Tfrmviewdata.DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
   Column: TColumn; AState: TGridDrawState);
 begin
- if VarIsNull(column.Field.Value)=true then TDBGrid(sender).Canvas.Brush.Color :=clYellow;
+ if (column.Index=0)then TDBGrid(sender).Canvas.Brush.Color := clBtnFace;
 
  if (gdSelected in AState) then begin
    TDBGrid(Sender).Canvas.Brush.Color := clNavy;
    TDBGrid(Sender).Canvas.Font.Color  := clYellow;
    TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
  end;
+
+ if TDBGrid(Sender).SelectedField.Index = DataCol then begin
+   TDBGrid(Sender).Canvas.Brush.Color := clGradientActiveCaption;
+ end;
+
+ if VarIsNull(column.Field.Value)=true then TDBGrid(sender).Canvas.Brush.Color :=clYellow;
 end;
+
 
 procedure Tfrmviewdata.PMPopup(Sender: TObject);
 begin

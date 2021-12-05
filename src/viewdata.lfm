@@ -1,11 +1,11 @@
 object frmviewdata: Tfrmviewdata
-  Left = 435
+  Left = 544
   Height = 744
-  Top = 145
+  Top = 110
   Width = 1275
   Caption = 'View data'
-  ClientHeight = 744
-  ClientWidth = 1275
+  ClientHeight = 0
+  ClientWidth = 0
   DesignTimePPI = 144
   OnClose = FormClose
   OnResize = FormResize
@@ -14,7 +14,7 @@ object frmviewdata: Tfrmviewdata
   LCLVersion = '2.0.6.0'
   object PageControl1: TPageControl
     Left = 0
-    Height = 744
+    Height = 544
     Top = 0
     Width = 1275
     ActivePage = tabValues
@@ -24,12 +24,12 @@ object frmviewdata: Tfrmviewdata
     TabOrder = 0
     object tabValues: TTabSheet
       Caption = 'Values'
-      ClientHeight = 706
+      ClientHeight = 506
       ClientWidth = 1267
       ParentFont = False
       object DBGrid1: TDBGrid
         Left = 0
-        Height = 706
+        Height = 506
         Top = 0
         Width = 1267
         Align = alClient
@@ -133,17 +133,18 @@ object frmviewdata: Tfrmviewdata
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
+        OnCellClick = DBGrid1CellClick
         OnPrepareCanvas = DBGrid1PrepareCanvas
       end
     end
     object tabAnomalies: TTabSheet
       Caption = 'Anomalies'
-      ClientHeight = 706
+      ClientHeight = 506
       ClientWidth = 1267
       ParentFont = False
       object DBGrid2: TDBGrid
         Left = 0
-        Height = 706
+        Height = 506
         Top = 0
         Width = 1267
         Align = alClient
@@ -245,6 +246,7 @@ object frmviewdata: Tfrmviewdata
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
+        OnCellClick = DBGrid2CellClick
         OnPrepareCanvas = DBGrid1PrepareCanvas
       end
     end
@@ -277,6 +279,62 @@ object frmviewdata: Tfrmviewdata
       ImageIndex = 336
       OnClick = btnSaveClick
     end
+  end
+  object Chart1: TChart
+    Left = 0
+    Height = 197
+    Top = 547
+    Width = 1275
+    AxisList = <    
+      item
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Intervals.MinLength = 50
+        Intervals.NiceSteps = '1'
+        Intervals.Tolerance = 1
+        Alignment = calBottom
+        Marks.Format = '%0:.0f'
+        Marks.LabelBrush.Style = bsClear
+        Marks.OverlapPolicy = opHideNeighbour
+        Marks.Style = smsCustom
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    BackColor = clWhite
+    Foot.Brush.Color = clBtnFace
+    Foot.Font.Color = clBlue
+    Title.Brush.Color = clBtnFace
+    Title.Font.Color = clBlue
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Align = alBottom
+    object Series1: TLineSeries
+      Marks.Shape = clsEllipse
+      Marks.Visible = False
+      LinePen.Color = clRed
+      LinePen.Width = 2
+      Pointer.Brush.Color = clBlue
+      Pointer.HorizSize = 2
+      Pointer.Pen.Color = clBlue
+      Pointer.Style = psCircle
+      Pointer.VertSize = 2
+      Pointer.Visible = True
+      ShowPoints = True
+    end
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 3
+    Top = 544
+    Width = 1275
+    Align = alBottom
+    ResizeAnchor = akBottom
   end
   object PM: TPopupMenu
     OnPopup = PMPopup

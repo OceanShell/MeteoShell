@@ -4,8 +4,8 @@ object frmmain: Tfrmmain
   Top = 165
   Width = 1200
   Caption = 'MeteoShell'
-  ClientHeight = 720
-  ClientWidth = 1200
+  ClientHeight = 0
+  ClientWidth = 0
   Constraints.MaxWidth = 1200
   Constraints.MinHeight = 750
   Constraints.MinWidth = 1200
@@ -289,7 +289,7 @@ object frmmain: Tfrmmain
           MinValue = 1800
           ParentFont = False
           TabOrder = 1
-          Value = 2020
+          Value = 2021
         end
         object chkStActive: TCheckBox
           Left = 12
@@ -305,24 +305,24 @@ object frmmain: Tfrmmain
     end
     object tbData: TTabSheet
       Caption = 'Data'
-      ClientHeight = 390
-      ClientWidth = 790
+      ClientHeight = 578
+      ClientWidth = 1192
       ParentFont = False
       TabVisible = False
       object Splitter1: TSplitter
         Cursor = crVSplit
         Left = 0
         Height = 8
-        Top = 219
-        Width = 790
+        Top = 329
+        Width = 1192
         Align = alTop
         ResizeAnchor = akTop
       end
       object DBGrid1: TDBGrid
         Left = 0
         Height = 296
-        Top = 22
-        Width = 790
+        Top = 33
+        Width = 1192
         Align = alTop
         AlternateColor = 13627366
         Color = 13631478
@@ -391,9 +391,9 @@ object frmmain: Tfrmmain
       end
       object DBGrid2: TDBGrid
         Left = 0
-        Height = 166
-        Top = 224
-        Width = 790
+        Height = 241
+        Top = 337
+        Width = 1192
         Align = alClient
         AlternateColor = 13627366
         Color = 13631478
@@ -480,9 +480,9 @@ object frmmain: Tfrmmain
       end
       object ToolBar1: TToolBar
         Left = 0
-        Height = 22
+        Height = 33
         Top = 0
-        Width = 790
+        Width = 1192
         AutoSize = True
         Caption = 'ToolBar1'
         EdgeBorders = []
@@ -495,7 +495,7 @@ object frmmain: Tfrmmain
         ShowCaptions = True
         TabOrder = 3
         object btnadd: TToolButton
-          Left = 2
+          Left = 1
           Top = 0
           Caption = 'btnadd'
           ImageIndex = 1
@@ -509,14 +509,14 @@ object frmmain: Tfrmmain
           ShowCaption = False
         end
         object ToolButton4: TToolButton
-          Left = 70
-          Height = 5
+          Left = 71
+          Height = 33
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
         end
         object btncommit: TToolButton
-          Left = 78
+          Left = 76
           Top = 0
           Caption = 'Save'
           ImageIndex = 940
@@ -737,14 +737,6 @@ object frmmain: Tfrmmain
         Caption = 'ghcn v4'
         OnClick = iLoadGHCN_v4Click
       end
-      object MenuItem6: TMenuItem
-        Caption = '-'
-      end
-      object iUpdateStationInfo: TMenuItem
-        Caption = 'Update Station_Info'
-        ImageIndex = 8
-        OnClick = iUpdateStationInfoClick
-      end
     end
     object MenuItem4: TMenuItem
       Caption = 'Services'
@@ -758,6 +750,13 @@ object frmmain: Tfrmmain
         ImageIndex = 644
         Visible = False
         OnClick = iDeleteEmptyStationsClick
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object iUpdateStationInfo: TMenuItem
+        Caption = 'Update Station_Info'
+        OnClick = iUpdateStationInfoClick
       end
     end
     object iTools: TMenuItem
@@ -791,11 +790,6 @@ object frmmain: Tfrmmain
       Caption = 'Show / Plot Data'
       ImageIndex = 857
       OnClick = btnviewdataClick
-    end
-    object btnEditData: TMenuItem
-      Caption = 'Edit Data'
-      ImageIndex = 13
-      OnClick = btnEditDataClick
     end
   end
   object DS2: TDataSource
@@ -831,7 +825,6 @@ object frmmain: Tfrmmain
     object MenuItem7: TMenuItem
       Caption = 'Show selected station on map'
       ImageIndex = 984
-      OnClick = btnEditDataClick
     end
   end
 end

@@ -155,7 +155,7 @@ try
 
   TRt.Free;
 
-  //ProgressTaskbar(0, 0);
+  ProgressTaskbar(0, 0);
   Result:=true;
  end;
 except

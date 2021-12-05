@@ -46,7 +46,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="25">
+    <Units Count="24">
       <Unit0>
         <Filename Value="MeteoShell.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -63,138 +63,131 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="editdata.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmeditdata"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit3>
-      <Unit4>
         <Filename Value="viewdata.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmviewdata"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit4>
-      <Unit5>
+      </Unit3>
+      <Unit4>
         <Filename Value="grapher.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="timeseries.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmtimeseries"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="settings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmsettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="procedures.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
+      </Unit7>
+      <Unit8>
         <Filename Value="load_ds570.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmload_ds570"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit9>
-      <Unit10>
+      </Unit8>
+      <Unit9>
         <Filename Value="load_ghcn_v3.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmload_ghcn_v3"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
+      </Unit9>
+      <Unit10>
         <Filename Value="spatialaveraging.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmspatialaveraging"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
+      </Unit10>
+      <Unit11>
         <Filename Value="load_gsom.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmloadgsom"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
+      </Unit11>
+      <Unit12>
         <Filename Value="table_management.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmtablemanagement"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit13>
-      <Unit14>
+      </Unit12>
+      <Unit13>
         <Filename Value="icons.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmicons"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="map_datastreams.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="map_datastreams.pas"/>
+        <Filename Value="map_geometry.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="map_geometry.pas"/>
+        <Filename Value="map_wkt.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="map_wkt.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit17>
-      <Unit18>
         <Filename Value="map.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmap"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit18>
-      <Unit19>
+      </Unit17>
+      <Unit18>
         <Filename Value="dm.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmdm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="map_kml.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="map_kml.pas"/>
+        <Filename Value="update_station_info.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="update_station_info.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit21>
-      <Unit22>
         <Filename Value="load_ghcn_v4.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmload_ghcnv4"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit22>
-      <Unit23>
+      </Unit21>
+      <Unit22>
         <Filename Value="load_ghcn_ms.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmloadghcn_ms"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit23>
-      <Unit24>
+      </Unit22>
+      <Unit23>
         <Filename Value="map_settings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmap_settings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit24>
+      </Unit23>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -64,14 +64,13 @@ type
     iMap: TMenuItem;
     iHelp: TMenuItem;
     iAbout: TMenuItem;
-    btnEditData: TMenuItem;
+    N1: TMenuItem;
+    iUpdateStationInfo: TMenuItem;
     MenuItem3: TMenuItem;
     iLoadGHCN_v4: TMenuItem;
     MenuItem4: TMenuItem;
     iDatabaseTables: TMenuItem;
     iDeleteEmptyStations: TMenuItem;
-    iUpdateStationInfo: TMenuItem;
-    MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
     MM: TMainMenu;
     N2: TMenuItem;
@@ -125,7 +124,6 @@ type
     procedure iUpdateStationInfoClick(Sender: TObject);
     procedure lbCoordResetClick(Sender: TObject);
     procedure lbResetMDClick(Sender: TObject);
-    procedure btnEditDataClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure iDatabaseTablesClick(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
@@ -221,7 +219,7 @@ implementation
 
 { Tfrmmain }
 
-uses dm, sortbufds, editdata, viewdata, timeseries, map,
+uses dm, sortbufds, viewdata, timeseries, map,
      settings, procedures, load_ds570, load_ghcn_v4, load_ghcn_v3, icons,
      spatialaveraging, table_management, update_station_info;
 
@@ -394,7 +392,9 @@ if (ID=0) or (NavigationOrder=false) then exit;
   Application.ProcessMessages;
 
   if frmmap_open=true then frmmap.ChangeID;
-  if Open_viewdata=true then frmviewdata.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
+
+  if Open_viewdata=true then
+    frmviewdata.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
 
   NavigationOrder:=true; //Завершили, открываем доступ к навигации
  end;
@@ -760,20 +760,9 @@ end;
 
 procedure Tfrmmain.lbResetMDClick(Sender: TObject);
 begin
-  cbWMO.Text     :='';
-  cbCountry.Text :='';
-  cbStation.Text :='';
-end;
-
-procedure Tfrmmain.btnEditDataClick(Sender: TObject);
-begin
-frmeditdata := Tfrmeditdata.Create(Self);
-  try
-   if not frmeditdata.ShowModal = mrOk then exit;
-  finally
-    frmeditdata.Free;
-    frmeditdata := nil;
-  end;
+  cbWMO.Clear;
+  cbCountry.Clear;
+  cbStation.Clear;
 end;
 
 procedure Tfrmmain.btnviewdataClick(Sender: TObject);
@@ -802,7 +791,9 @@ end;
 
 procedure Tfrmmain.cbCountryDropDown(Sender: TObject);
 begin
- if cbCountry.Items.Count=0 then begin
+ if cbCountry.Items.Count>0 then exit;
+
+ if (cbStation.Text='') and (cbCountry.text='') then begin
   with frmdm.q1 do begin
    Close;
      SQL.Clear;
@@ -810,19 +801,50 @@ begin
      SQL.Add(' order by "name"');
    Open;
   end;
+ end;
+
+ if (cbStation.Text<>'') and (cbWMO.Text='') then begin
+  with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("name") from "country" ');
+     SQL.Add(' where "country"."id" in ');
+     SQL.Add('(select "country_id" from "station" where ');
+     SQL.Add(' "station"."name"=:st_name) ');
+     SQL.Add(' order by "name"');
+     ParamByName('st_name').Value:=cbStation.Text;
+   Open;
+  end;
+ end;
+
+ if (cbStation.Text='') and (cbWMO.Text<>'') then begin
+  with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("name") from "country" ');
+     SQL.Add(' where "country"."id" in ');
+     SQL.Add('(select "country_id" from "station" where ');
+     SQL.Add(' "station"."wmocode"=:wmo) ');
+     SQL.Add(' order by "name"');
+     ParamByName('wmo').Value:=cbWMO.Text;
+   Open;
+  end;
+ end;
    cbCountry.Clear;
   while not frmdm.q1.Eof do begin
    cbCountry.Items.Add(frmdm.q1.Fields[0].AsString);
    frmdm.q1.Next;
   end;
    frmdm.q1.Close;
- end;
+
 end;
 
 
 procedure Tfrmmain.cbStationDropDown(Sender: TObject);
 begin
- if cbStation.Items.Count=0 then begin
+ if cbStation.Items.Count>0 then exit;
+
+ if (cbCountry.Text='') and (cbWMO.Text='') then begin
   with frmdm.q1 do begin
    Close;
      SQL.Clear;
@@ -830,18 +852,48 @@ begin
      SQL.Add(' order by "name"');
    Open;
   end;
+ end;
+
+ if (cbCountry.Text<>'') and (cbWMO.Text='') then begin
+  with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("name") from "station" ');
+     SQL.Add(' where "country_id" in ');
+     SQL.Add('(select "country"."id" from "country" where ');
+     SQL.Add(' "country"."name"=:country_name) ');
+     SQL.Add(' order by "name"');
+     ParamByName('country_name').Value:=cbCountry.Text;
+   Open;
+  end;
+ end;
+
+ if (cbWMO.Text<>'') then begin
+  with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("name") from "station" ');
+     SQL.Add(' where "wmocode"=:wmo_code ');
+     SQL.Add(' order by "name"');
+     ParamByName('wmo_code').Value:=cbWMO.Text;
+   Open;
+  end;
+ end;
+
    cbStation.Clear;
   while not frmdm.q1.Eof do begin
    cbStation.Items.Add(frmdm.q1.Fields[0].AsString);
    frmdm.q1.Next;
   end;
    frmdm.q1.Close;
- end;
+
 end;
 
 procedure Tfrmmain.cbWMODropDown(Sender: TObject);
 begin
-  if cbWMO.Items.Count=0 then begin
+  if cbWMO.Items.Count>0 then exit;
+
+  if (cbCountry.Text='') and (cbStation.Text='') then begin
     with frmdm.q1 do begin
      Close;
        SQL.Clear;
@@ -849,13 +901,40 @@ begin
        SQL.Add(' order by "wmocode"');
      Open;
     end;
+  end;
+
+  if (cbCountry.Text<>'') and (cbStation.Text='') then begin
+  with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("wmocode") from "station" ');
+     SQL.Add(' where "country_id" in ');
+     SQL.Add('(select "country"."id" from "country" where ');
+     SQL.Add(' "country"."name"=:country_name) ');
+     SQL.Add(' order by "name"');
+     ParamByName('country_name').Value:=cbCountry.Text;
+   Open;
+  end;
+ end;
+
+ if (cbStation.Text<>'') then begin
+  with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("wmocode") from "station" ');
+     SQL.Add(' where "station"."name"=:st_name ');
+     SQL.Add(' order by "name"');
+     ParamByName('st_name').Value:=cbStation.Text;
+   Open;
+  end;
+ end;
+
   cbWMO.Clear;
   while not frmdm.q1.Eof do begin
    cbWMO.Items.Add(inttostr(frmdm.q1.Fields[0].AsInteger));
    frmdm.q1.Next;
   end;
    frmdm.q1.Close;
-  end;
 end;
 
 
@@ -897,7 +976,7 @@ end;
 procedure Tfrmmain.DBGrid2KeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-CDSInfoNavigation;
+  CDSInfoNavigation;
 end;
 
 
@@ -1039,7 +1118,7 @@ begin
 
   AboutProgram:='MeteoShell ('+winver+')'+LineEnding+LineEnding+
                 'Alexander Smirnov'+LineEnding+
-                '© 2011-2020';
+                '© 2011-2021';
 
   if messagedlg(AboutProgram, mtInformation, [mbOk], 0)=mrOk then exit;
 

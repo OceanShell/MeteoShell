@@ -319,11 +319,6 @@ msgctxt "tfrmmain.btndelete.caption"
 msgid "btndelete"
 msgstr ""
 
-#: tfrmmain.btneditdata.caption
-msgctxt "tfrmmain.btneditdata.caption"
-msgid "Edit Data"
-msgstr ""
-
 #: tfrmmain.btnselect.caption
 msgid "Select"
 msgstr "Выбрать"
@@ -801,10 +796,6 @@ msgstr ""
 
 #: tfrmsettings.label4.caption
 msgid "User"
-msgstr ""
-
-#: tfrmsettings.rgplotsoft.caption
-msgid "Use for plotting"
 msgstr ""
 
 #: tfrmsettings.rgserver.caption

@@ -33,7 +33,6 @@ type
     Label3: TLabel;
     Label4: TLabel;
     PageControl1: TPageControl;
-    rgPlotSoft: TRadioGroup;
     rgServer: TRadioGroup;
     seRunning: TSpinEdit;
     TabSheet1: TTabSheet;
@@ -75,7 +74,7 @@ begin
   try
      rgServer.ItemIndex   := Ini.ReadInteger ( 'meteo',   'server',         1);
      cbLanguage.ItemIndex := Ini.ReadInteger ( 'meteo',   'language',       0);
-     rgPlotSoft.ItemIndex := Ini.ReadInteger ( 'meteo',   'plotting_soft',  0);
+     //rgPlotSoft.ItemIndex := Ini.ReadInteger ( 'meteo',   'plotting_soft',  0);
      eGrapherPath.Text    := Ini.ReadString  ( 'main',    'GrapherPath',    GrapherDefault);
      chkRunning.Checked   := Ini.ReadBool    ( 'Grapher', 'Running',        true);
      seRunning.Value      := Ini.ReadInteger ( 'Grapher', 'RunWindow',      5);
@@ -94,7 +93,7 @@ begin
 
   {$IFDEF WINDOWS}
      eGrapherPath.OnChange(self);
-     TRadioButton(rgPlotSoft.Controls[1]).Enabled := False;
+  //   TRadioButton(rgPlotSoft.Controls[1]).Enabled := False;
   {$ENDIF}
   Application.ProcessMessages;
 end;
@@ -142,7 +141,7 @@ begin
     if PageControl1.PageIndex<3 then begin
      Ini.WriteInteger ( 'meteo',   'server',        rgServer.ItemIndex);
      Ini.WriteInteger ( 'meteo',   'language',      cbLanguage.ItemIndex);
-     Ini.WriteInteger ( 'meteo',   'plotting_soft', rgPlotSoft.ItemIndex);
+  //   Ini.WriteInteger ( 'meteo',   'plotting_soft', rgPlotSoft.ItemIndex);
      Ini.WriteString  ( 'main',    'GrapherPath',   eGrapherPath.Text);
      Ini.WriteBool    ( 'Grapher', 'Running',       chkRunning.Checked);
      Ini.WriteInteger ( 'Grapher', 'RunWindow',     seRunning.Value);
