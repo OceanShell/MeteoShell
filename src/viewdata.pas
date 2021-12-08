@@ -30,8 +30,10 @@ type
     tabAnomalies: TTabSheet;
     ToolBar1: TToolBar;
     btnSave: TToolButton;
+    btnSettings: TToolButton;
 
     procedure btnSaveClick(Sender: TObject);
+    procedure btnSettingsClick(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure DBGrid2CellClick(Column: TColumn);
     procedure FormShow(Sender: TObject);
@@ -64,7 +66,7 @@ implementation
 
 { Tfrmviewdata }
 
-uses main, dm, timeseries, procedures, grapher;
+uses main, dm, settings, timeseries, procedures, grapher;
 
 procedure Tfrmviewdata.FormShow(Sender: TObject);
 Var
@@ -149,10 +151,10 @@ end;
 
 procedure Tfrmviewdata.GetData(parameter_id:integer);
 Var
-  k, ID, cnt, tot_cnt:integer;
+  k, ID, cnt:integer;
   yy_min, yy_max:integer;
-  yy, mn, dd, yy_old, mn_old, dd_old: word;
-  sum, val1, valn:real;
+  yy, mn, dd: word;
+  sum, val1:real;
   mean_val:array [1..13] of real;
 
   TRt:TSQLTransaction;
@@ -190,7 +192,35 @@ begin
     CDSViewAnomalies.Open;
 
    ID:=frmdm.CDS.FieldByName('id').AsInteger;
-   tot_cnt:=1; yy_min:=9999; yy_max:=-9999;
+
+  with Qt1 do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' select min("yy_min"), max("yy_max") from "station_info"');
+    SQL.Add(' where ');
+    SQL.Add(' "station_id"=:st_id and ');
+    SQL.Add(' "parameter_id"=:par_id ');
+    ParamByName('st_id').AsInteger:=id;
+    ParamByName('par_id').AsInteger:=parameter_id;
+   Open;
+    yy_min:=Qt1.Fields[0].Value;
+    yy_max:=Qt1.Fields[1].Value;
+   Close;
+  end;
+
+   for yy:=yy_min to yy_max do begin
+    with CDSViewValues do begin
+      Append;
+       FieldByName('yy').AsInteger:=yy;
+      Post;
+    end;
+    with CDSViewAnomalies do begin
+      Append;
+       FieldByName('yy').AsInteger:=yy;
+      Post;
+    end;
+  end;
+
     with Qt1 do begin
      Close;
       SQL.Clear;
@@ -200,11 +230,6 @@ begin
       ParamByName('id').AsInteger:=id;
      Open;
     end;
-
-    Qt1.First;
-     DecodeDate(Qt1.FieldByName('date').AsDateTime, yy_old, mn_old, dd_old);
-     valn:=Qt1.FieldByName('value').AsFloat;
-    Qt1.Next;
 
   try
    DBGrid1.Enabled:=false;
@@ -219,64 +244,38 @@ begin
    DecodeDate(Qt1.FieldByName('date').AsDateTime, yy, mn, dd);
    val1:=Qt1.FieldByName('value').AsFloat;
 
-   inc(tot_cnt);
-
-    if cnt=0 then begin
-       CDSViewValues.Append;
-       CDSViewValues.FieldByName('yy').AsInteger:=yy_old;
-       CDSViewValues.FieldByName(inttostr(mn_old)).AsFloat:=valn;
-       CDSViewValues.Post;
-
-       if yy_old<yy_min then yy_min:=yy_old;
-       if yy_old>yy_max then yy_max:=yy_old;
-
-       sum:=sum+valn;
-       inc(cnt);
-     end;
-
-    if cnt>0 then begin
-     //  showmessage(inttostr(cnt)+'   '+floattostr(val1)+'   '+floattostr(valn)+'   '+inttostr(Qt1.RecordCount));
-      if (mn<>mn_old) then begin
-          CDSViewValues.Edit;
-          CDSViewValues.FieldByName(inttostr(mn_old)).AsFloat:=RoundTo(valn, -2);
-          CDSViewValues.Post;
-
-           sum:=sum+valn;
-           inc(cnt);
-           valn:=val1;
-           mn_old:=mn;
-      end;
-
-      if (yy<>yy_old) then begin
-      // showmessage(inttostr(cnt));
-      if (cnt=13) then begin
-       CDSViewValues.Edit;
-       CDSViewValues.FieldByName('13').AsFloat:=RoundTo((sum/12), -2);
-       CDSViewValues.Post;
-      end;
-      CDSViewValues.Next;
-
-      cnt:=0;
-      sum:=0;
-      yy_old:=yy;
-      mn_old:=mn;
-      end;
+   with CDSViewValues do begin
+    if Locate('yy', yy, [])=true then begin
+     Edit;
+      FieldByName(inttostr(mn)).AsFloat:=RoundTo(val1, -2);
+     Post;
     end;
-
-        if (tot_cnt=Qt1.RecordCount) then begin
-          CDSViewValues.Edit;
-          CDSViewValues.FieldByName(inttostr(mn)).AsFloat:=val1;
-          if cnt=12 then
-             CDSViewValues.FieldByName('13').AsFloat:=RoundTo((sum/12), -2);
-          CDSViewValues.Post;
-         end;
+   end;
 
    Qt1.Next;
-   end;
+  end;
   Qt1.Close;
   Qt1.Free;
   Trt.Commit;
   Trt.Free;
+
+  CDSViewValues.First;
+  while not CDSViewValues.EOF do begin
+   sum:=0; cnt:=0;
+   for mn:=1 to 12 do begin
+    if not varisnull(CDSViewValues.FieldByName(inttostr(mn)).Value) then begin
+      sum:=sum+CDSViewValues.FieldByName(inttostr(mn)).Value;
+      inc(cnt);
+    end;
+   end;
+   if cnt=12 then begin
+     CDSViewValues.Edit;
+     CDSViewValues.FieldByName('13').AsFloat:=RoundTo((sum/12), -2);
+     CDSViewValues.Post;
+   end;
+   CDSViewValues.Next;
+  end;
+
 
   for mn:=1 to 13 do mean_val[mn]:=0;
 
@@ -293,10 +292,8 @@ begin
   end;
 
   CDSViewValues.First;
+  CDSViewAnomalies.First;
    while not CDSViewValues.EOF do begin
-    CDSViewAnomalies.Append;
-    CDSViewAnomalies.FieldByName('yy').AsInteger:=CDSViewValues.FieldByName('yy').AsInteger;
-    CDSViewAnomalies.Post;
      for mn:=1 to 13 do begin
       if not VarIsNull(CDSViewValues.FieldByName(Inttostr(mn)).AsVariant) then begin
         CDSViewAnomalies.Edit;
@@ -306,6 +303,7 @@ begin
       end;
      end;
     CDSViewValues.Next;
+    CDSViewAnomalies.Next;
    end;
 
    for k:=yy_min to yy_max do begin
@@ -348,104 +346,81 @@ end;
 
 procedure Tfrmviewdata.btnPlotAllMonthClick(Sender: TObject);
 var
-k,count_ts,count:integer;
+k,count_ts,count, YY:integer;
 year,month:integer;
 val,stlat,stlon,md,anom:real;
-tsFile,tsFileA,mn,GraphID,PlotID,ID,FitTitle,FitID,AxisTitleY:string;
+val1:variant;
+tsFile,mn,GraphID,PlotID,ID,FitTitle,FitID,AxisTitleY:string;
 xID,yID,txt:string;
-mn_arr:array[1..12] of string;
+mn_arr:array[1..13] of string;
 
 stsource,stname,stcountry:string;
 absnum,wmonum,wmonumsource:integer;
+cmd, par, title, xtitle, p_type: string;
 begin
-{
- absnum:=MDBDM.CDS.FieldByName('ABSNUM').AsInteger;
 
-   with MDBDM.ib1q2 do begin
-    Close;
-    SQL.Clear;
-    SQL.Add(' select * from ');
-    SQL.Add(tblCurrent);
-    SQL.Add(' where absnum=:absnum ');
-    SQL.Add(' and month_=:month ');
-    SQL.Add(' order by year_ ');
-    Prepare;
-   end;
-
-    count_ts:=0;
-for k:=1 to 12 do begin
-    md:=0;
-    count:=0;
-
-   case k of
-   1:  mn:='JAN';
-   2:  mn:='FEB';
-   3:  mn:='MAR';
-   4:  mn:='APR';
-   5:  mn:='MAY';
-   6:  mn:='JUN';
-   7:  mn:='JUL';
-   8:  mn:='AUG';
-   9:  mn:='SEP';
-   10: mn:='OCT';
-   11: mn:='NOV';
-   12: mn:='DEC';
-   end;
-
-
-   with MDBDM.ib1q2 do begin
-    ParamByName('absnum').AsInteger:=Absnum;
-    ParamByName('month').AsInteger:=k;
-    Open;
-   end;
-
-if MDBDM.ib1q2.IsEmpty=false then begin
-
-   tsfile :=tspath+mn+'.dat';
-   tsfileA:=tspath+mn+'a.dat';
-
-   Application.ProcessMessages;
+for k:=1 to 13 do begin
+   tsfile :=tspath+inttostr(k)+'.dat';
+      if fileexists(tsfile) then DeleteFile(tsfile);
 
    assignfile(f_dat, tsfile);   rewrite(f_dat);
-   assignfile(fA_dat,tsfileA); rewrite(fA_dat);
    writeln(f_dat ,'year value');
-   writeln(fA_dat,'year anomaly');
 
-   count_ts:=count_ts+1;
-   mn_arr[count_ts]:=mn;
-
-   while not MDBDM.ib1q2.Eof do begin
-    year:=MDBDM.ib1q2.FieldByName('year_').AsInteger;
-    val:=MDBDM.ib1q2.FieldByName('val_').AsFloat;
-    Count:=Count+1;
-    md:=md+val;
-
-    writeln(f_dat,year:4,val:9:3);
-    MDBDM.ib1q2.Next;
+ if frmViewData.PageControl1.PageIndex=0 then begin
+   p_type:='values';
+   try
+    CDSViewValues.First;
+    CDSViewValues.DisableControls;
+       while not CDSViewValues.EOF do begin
+        YY  :=CDSViewValues.FieldByName('YY').AsInteger;
+        Val1:=CDSViewValues.FieldByName(inttostr(k)).AsVariant;
+         if not VarIsNull(Val1) then
+              writeln(f_dat, yy:5, VarToStr(Val1):8) else
+              writeln(f_dat, yy:5, 'NaN':8);
+        CDSViewValues.Next;
+       end;
+   finally
+    CDSViewValues.First;
+    CDSViewValues.EnableControls;
    end;
-    MDBDM.ib1q2.Close;
-    closefile(f_dat);
+ end; //Values
 
+ if frmViewData.PageControl1.PageIndex=1 then begin
+   p_type:='anomalies';
+  try
+   CDSViewAnomalies.DisableControls;
+     CDSViewAnomalies.First;
+      while not CDSViewAnomalies.EOF do begin
+        YY  :=CDSViewAnomalies.FieldByName('YY').AsInteger;
+        Val1:=CDSViewAnomalies.FieldByName(inttostr(k)).AsVariant;
+        if not VarIsNull(Val1) then
+             writeln(f_dat, yy:5, VarToStr(Val1):8) else
+             writeln(f_dat, yy:5, 'NaN':8);
+       CDSViewAnomalies.Next;
+      end;
+  finally
+   CDSViewAnomalies.First;
+   CDSViewAnomalies.EnableControls;
+  end;
+ end; //anomalies
+
+ CloseFile(f_dat);
 end;
 
-if count>0 then begin
-     md:=md/count;
-     reset(f_dat);
-     readln(f_dat);
-    while not EOF(f_dat) do begin
-     readln(f_dat, year, val);
-     anom:=val-md;
-     writeln(fA_dat,year:6,anom:9:4);
-    end;
-     closefile(f_dat);
-     closefile(fA_dat);
-end;
-end;
-    MDBDM.ib1q2.UnPrepare;
+ par:=frmdm.CDS2.FieldByName('par').AsString;
+
+ title:='Monthly composition plot of '+par;
+ xtitle:='';
 
 
+ PlotMonthlyComposition(tspath, title, par, units, xtitle);
 
-   (* Строим серии в Графере *)
+ cmd:='-x "'+GlobalUnloadPath+'timeseries'+PathDelim+'timeseries.bas"';
+ frmmain.RunScript(3, cmd, nil);
+
+ // (fpath, title, par, units, xtitle:string);
+
+ {  (* Строим серии в Графере *)
    if chkplottimeseries.Checked=true then begin
     if count_ts=0 then showmessage('There are no valid time series at station!')
   else begin
@@ -465,21 +440,6 @@ for k:=1 to count_ts do begin
 
     assignfile(f_dat,tsfile); reset(f_dat);
 
-
-    case k of
-    1: SetColor:='50% Black';
-    2: SetColor:='30% Black';
-    3: SetColor:='Brown';
-    4: SetColor:='Green';
-    5: SetColor:='Pink';
-    6: SetColor:='Magenta';
-    7: SetColor:='Red';
-    8: SetColor:='Purple';
-    9: SetColor:='Deep Yellow';
-   10: SetColor:='Cyan';
-   11: SetColor:='Blue';
-   12: SetColor:='Black';
-    end;
 
     GraphID:='MonthComp';
     PlotID:=mn_arr[k];
@@ -606,8 +566,10 @@ begin
      CDSViewAnomalies.First;
       while not CDSViewAnomalies.EOF do begin
         YY  :=CDSViewAnomalies.FieldByName('YY').AsInteger;
-        Val1:=CDSViewAnomalies.FieldByName('13').AsVariant;
-        if not VarIsNull(Val1) then writeln(f_dat, yy:5, VarToStr(Val1):8);
+        Val1:=CDSViewAnomalies.FieldByName(inttostr(mn)).AsVariant;
+        if not VarIsNull(Val1) then
+             writeln(f_dat, yy:5, VarToStr(Val1):8) else
+             writeln(f_dat, yy:5, 'NaN':8);
        CDSViewAnomalies.Next;
       end;
   finally
@@ -729,6 +691,11 @@ begin
   CloseFile(fout);
 
  end;
+end;
+
+procedure Tfrmviewdata.btnSettingsClick(Sender: TObject);
+begin
+  frmmain.OpenSettings(2);
 end;
 
 procedure Tfrmviewdata.DBGrid1CellClick(Column: TColumn);

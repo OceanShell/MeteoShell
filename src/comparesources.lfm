@@ -1,0 +1,131 @@
+object frmcomparesources: Tfrmcomparesources
+  Left = 263
+  Height = 540
+  Top = 327
+  Width = 1318
+  Caption = 'Compare Sources'
+  ClientHeight = 540
+  ClientWidth = 1318
+  DesignTimePPI = 144
+  OnShow = FormShow
+  LCLVersion = '2.0.6.0'
+  object Splitter1: TSplitter
+    Left = 336
+    Height = 540
+    Top = 0
+    Width = 8
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Height = 540
+    Top = 0
+    Width = 336
+    Align = alLeft
+    AlternateColor = 13627366
+    AutoFillColumns = True
+    Color = 13631478
+    Columns = <>
+    FixedCols = 0
+    Flat = True
+    Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    ParentFont = False
+    Scrollbars = ssAutoVertical
+    TabOrder = 1
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    OnPrepareCanvas = DBGrid1PrepareCanvas
+  end
+  object Panel1: TPanel
+    Left = 344
+    Height = 540
+    Top = 0
+    Width = 974
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 540
+    ClientWidth = 974
+    TabOrder = 2
+    object ChartListbox1: TChartListbox
+      Left = 848
+      Height = 540
+      Top = 0
+      Width = 126
+      Chart = Chart1
+      Align = alRight
+      Columns = 1
+      ItemHeight = 0
+      TabOrder = 0
+    end
+    object Chart1: TChart
+      Left = 0
+      Height = 540
+      Top = 0
+      Width = 840
+      AxisList = <      
+        item
+          Marks.LabelBrush.Style = bsClear
+          Minors = <>
+          Title.LabelFont.Orientation = 900
+          Title.LabelBrush.Style = bsClear
+        end      
+        item
+          Intervals.MinLength = 50
+          Intervals.NiceSteps = '1'
+          Intervals.Tolerance = 1
+          Visible = False
+          Alignment = calBottom
+          Marks.Format = '%0:.0f'
+          Marks.LabelBrush.Style = bsClear
+          Marks.OverlapPolicy = opHideNeighbour
+          Marks.Style = smsCustom
+          Minors = <>
+          Title.LabelBrush.Style = bsClear
+        end>
+      BackColor = clWhite
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Legend.Alignment = laBottomCenter
+      Title.Brush.Color = clBtnFace
+      Title.Font.Color = clBlue
+      Title.Text.Strings = (
+        'TAChart'
+      )
+      Toolset = ChartToolset1
+      Align = alClient
+    end
+    object Splitter2: TSplitter
+      Left = 840
+      Height = 540
+      Top = 0
+      Width = 8
+      Align = alRight
+      ResizeAnchor = akRight
+    end
+  end
+  object ChartToolset1: TChartToolset
+    left = 554
+    top = 104
+    object ctDataPointClick: TDataPointClickTool
+      Enabled = False
+      Shift = [ssShift, ssLeft]
+      GrabRadius = 12
+      ActiveCursor = crHandPoint
+      Targets = [nptPoint, nptXList, nptCustom]
+      OnPointClick = ctDataPointClickPointClick
+    end
+    object ctDataPointHint: TDataPointHintTool
+      GrabRadius = 12
+      OnHint = ctDataPointHintHint
+    end
+    object ctZoomDrag: TZoomDragTool
+      Enabled = False
+      Shift = [ssLeft]
+      Brush.Style = bsClear
+      RestoreExtentOn = [zreDragTopLeft, zreDragTopRight, zreDragBottomLeft]
+    end
+    object ctZoomMouseWheel: TZoomMouseWheelTool
+      Enabled = False
+    end
+  end
+end

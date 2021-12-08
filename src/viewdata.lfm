@@ -1,11 +1,11 @@
 object frmviewdata: Tfrmviewdata
-  Left = 544
+  Left = 310
   Height = 744
-  Top = 110
+  Top = 131
   Width = 1275
   Caption = 'View data'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 744
+  ClientWidth = 1275
   DesignTimePPI = 144
   OnClose = FormClose
   OnResize = FormResize
@@ -255,7 +255,7 @@ object frmviewdata: Tfrmviewdata
     Left = 180
     Height = 33
     Top = 0
-    Width = 98
+    Width = 238
     Align = alNone
     AutoSize = True
     Caption = 'ToolBar1'
@@ -271,13 +271,20 @@ object frmviewdata: Tfrmviewdata
     TabOrder = 1
     Wrapable = False
     object btnSave: TToolButton
-      Left = 1
+      Left = 141
       Hint = 'Export timeseries as...'
       Top = 0
       AutoSize = True
       Caption = 'Save as...'
       ImageIndex = 336
       OnClick = btnSaveClick
+    end
+    object btnSettings: TToolButton
+      Left = 1
+      Top = 0
+      Caption = 'Grapher Settings'
+      ImageIndex = 235
+      OnClick = btnSettingsClick
     end
   end
   object Chart1: TChart

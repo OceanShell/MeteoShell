@@ -4,8 +4,8 @@ object frmmain: Tfrmmain
   Top = 165
   Width = 1200
   Caption = 'MeteoShell'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 720
+  ClientWidth = 1200
   Constraints.MaxWidth = 1200
   Constraints.MinHeight = 750
   Constraints.MinWidth = 1200
@@ -510,7 +510,7 @@ object frmmain: Tfrmmain
         end
         object ToolButton4: TToolButton
           Left = 71
-          Height = 33
+          Height = 5
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
@@ -790,6 +790,13 @@ object frmmain: Tfrmmain
       Caption = 'Show / Plot Data'
       ImageIndex = 857
       OnClick = btnviewdataClick
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object iCompareSources: TMenuItem
+      Caption = 'Compare Sources'
+      OnClick = iCompareSourcesClick
     end
   end
   object DS2: TDataSource

@@ -19,7 +19,8 @@
 {"hash":235018462,"name":"tfrmsettings.tabsheet2.caption","sourcebytes":[86,105,115,117,97,108,105,122,97,116,105,111,110],"value":"Visualization"},
 {"hash":51733417,"name":"tfrmsettings.gbgrapher.caption","sourcebytes":[71,114,97,112,104,101,114,32,40,115,99,114,105,112,116,101,114,46,101,120,101,41],"value":"Grapher (scripter.exe)"},
 {"hash":12558,"name":"tfrmsettings.btngrapherpath.caption","sourcebytes":[46,46,46],"value":"..."},
-{"hash":315571,"name":"tfrmsettings.gbfits.caption","sourcebytes":[70,105,116,115],"value":"Fits"},
-{"hash":87051138,"name":"tfrmsettings.chklinear.caption","sourcebytes":[76,105,110,101,97,114],"value":"Linear"},
-{"hash":228366197,"name":"tfrmsettings.chkrunning.caption","sourcebytes":[82,117,110,110,105,110,103,32,97,118,101,114,97,103,101],"value":"Running average"}
+{"hash":357220,"name":"tfrmsettings.gbfits.caption","sourcebytes":[80,108,111,116],"value":"Plot"},
+{"hash":193027396,"name":"tfrmsettings.chklinear.caption","sourcebytes":[76,105,110,101,97,114,32,102,105,116],"value":"Linear fit"},
+{"hash":228366197,"name":"tfrmsettings.chkrunning.caption","sourcebytes":[82,117,110,110,105,110,103,32,97,118,101,114,97,103,101],"value":"Running average"},
+{"hash":211369971,"name":"tfrmsettings.chktimeseries.caption","sourcebytes":[84,105,109,101,115,101,114,105,101,115],"value":"Timeseries"}
 ]}

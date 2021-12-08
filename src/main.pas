@@ -64,6 +64,8 @@ type
     iMap: TMenuItem;
     iHelp: TMenuItem;
     iAbout: TMenuItem;
+    N3: TMenuItem;
+    iCompareSources: TMenuItem;
     N1: TMenuItem;
     iUpdateStationInfo: TMenuItem;
     MenuItem3: TMenuItem;
@@ -110,6 +112,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormResize(Sender: TObject);
     procedure iAboutClick(Sender: TObject);
+    procedure iCompareSourcesClick(Sender: TObject);
     procedure iDeleteEmptyStationsClick(Sender: TObject);
     procedure iLoadGHCN_v4Click(Sender: TObject);
     procedure btnSelectClick(Sender: TObject);
@@ -120,7 +123,6 @@ type
     procedure ds5701Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure iSettingsClick(Sender: TObject);
-    procedure iStationClick(Sender: TObject);
     procedure iUpdateStationInfoClick(Sender: TObject);
     procedure lbCoordResetClick(Sender: TObject);
     procedure lbResetMDClick(Sender: TObject);
@@ -140,6 +142,7 @@ type
     procedure UpdateIBContent;
     procedure CDSInfoNavigation;
     procedure RunScript(ExeFlag:integer; cmd:string; Sender:TMemo);
+    procedure OpenSettings(tab_ind:integer);
   end;
 
 var
@@ -219,7 +222,7 @@ implementation
 
 { Tfrmmain }
 
-uses dm, sortbufds, viewdata, timeseries, map,
+uses dm, sortbufds, viewdata, timeseries, map, comparesources,
      settings, procedures, load_ds570, load_ghcn_v4, load_ghcn_v3, icons,
      spatialaveraging, table_management, update_station_info;
 
@@ -1033,21 +1036,34 @@ begin
 end;
 
 
+procedure Tfrmmain.OpenSettings(tab_ind:integer);
+begin
+frmsettings := Tfrmsettings.Create(self);
+frmsettings.PageControl1.PageIndex:=tab_ind;
+ try
+  if not frmsettings.ShowModal = mrOk then exit;
+ finally
+   frmsettings.Free;
+   frmsettings := nil;
+ end;
+end;
+
 procedure Tfrmmain.iSettingsClick(Sender: TObject);
 begin
-  frmsettings := Tfrmsettings.Create(Self);
-   try
-    if not frmsettings.ShowModal = mrOk then exit;
-   finally
-     frmsettings.Free;
-     frmsettings := nil;
-   end;
+ OpenSettings(0);
 end;
 
-procedure Tfrmmain.iStationClick(Sender: TObject);
+procedure Tfrmmain.iCompareSourcesClick(Sender: TObject);
 begin
-
+frmcomparesources := Tfrmcomparesources.Create(Self);
+ try
+  if not frmcomparesources.ShowModal = mrOk then exit;
+ finally
+   frmcomparesources.Free;
+   frmcomparesources := nil;
+ end;
 end;
+
 
 procedure Tfrmmain.iUpdateStationInfoClick(Sender: TObject);
 begin

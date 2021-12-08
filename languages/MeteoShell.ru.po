@@ -230,6 +230,11 @@ msgstr ""
 msgid "(,) #0"
 msgstr ""
 
+#: tfrmcomparesources.caption
+msgctxt "tfrmcomparesources.caption"
+msgid "Compare Sources"
+msgstr ""
+
 #: tfrmload_ds570.btnloaddata.caption
 msgctxt "tfrmload_ds570.btnloaddata.caption"
 msgid "Update"
@@ -445,6 +450,11 @@ msgstr "Регион"
 #: tfrmmain.iabout.caption
 msgid "About"
 msgstr "О программе..."
+
+#: tfrmmain.icomparesources.caption
+msgctxt "tfrmmain.icomparesources.caption"
+msgid "Compare Sources"
+msgstr ""
 
 #: tfrmmain.idatabasetables.caption
 msgctxt "tfrmmain.idatabasetables.caption"
@@ -742,11 +752,16 @@ msgid "English"
 msgstr ""
 
 #: tfrmsettings.chklinear.caption
-msgid "Linear"
+msgid "Linear fit"
 msgstr ""
 
 #: tfrmsettings.chkrunning.caption
 msgid "Running average"
+msgstr ""
+
+#: tfrmsettings.chktimeseries.caption
+msgctxt "tfrmsettings.chktimeseries.caption"
+msgid "Timeseries"
 msgstr ""
 
 #: tfrmsettings.edatabase.text
@@ -766,7 +781,8 @@ msgid "euser"
 msgstr ""
 
 #: tfrmsettings.gbfits.caption
-msgid "Fits"
+msgctxt "tfrmsettings.gbfits.caption"
+msgid "Plot"
 msgstr ""
 
 #: tfrmsettings.gbgrapher.caption
@@ -929,6 +945,7 @@ msgid "Plot"
 msgstr ""
 
 #: tfrmtimeseries.caption
+msgctxt "tfrmtimeseries.caption"
 msgid "Timeseries"
 msgstr ""
 
@@ -954,6 +971,10 @@ msgstr ""
 
 #: tfrmviewdata.btnsave.hint
 msgid "Export timeseries as..."
+msgstr ""
+
+#: tfrmviewdata.btnsettings.caption
+msgid "Grapher Settings"
 msgstr ""
 
 #: tfrmviewdata.caption

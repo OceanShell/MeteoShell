@@ -228,27 +228,27 @@ object frmsettings: Tfrmsettings
       end
       object gbFits: TGroupBox
         Left = 24
-        Height = 120
+        Height = 144
         Top = 136
         Width = 393
-        Caption = 'Fits'
-        ClientHeight = 90
+        Caption = 'Plot'
+        ClientHeight = 114
         ClientWidth = 389
         ParentFont = False
         TabOrder = 1
         object chkLinear: TCheckBox
           Left = 18
           Height = 29
-          Top = 8
-          Width = 76
-          Caption = 'Linear'
+          Top = 40
+          Width = 97
+          Caption = 'Linear fit'
           ParentFont = False
           TabOrder = 0
         end
         object chkRunning: TCheckBox
           Left = 18
           Height = 29
-          Top = 40
+          Top = 72
           Width = 163
           Caption = 'Running average'
           ParentFont = False
@@ -257,7 +257,7 @@ object frmsettings: Tfrmsettings
         object seRunning: TSpinEdit
           Left = 296
           Height = 33
-          Top = 36
+          Top = 68
           Width = 75
           Increment = 2
           MaxValue = 999
@@ -265,6 +265,14 @@ object frmsettings: Tfrmsettings
           ParentFont = False
           TabOrder = 2
           Value = 3
+        end
+        object chkTimeseries: TCheckBox
+          Left = 18
+          Height = 29
+          Top = 8
+          Width = 112
+          Caption = 'Timeseries'
+          TabOrder = 3
         end
       end
     end

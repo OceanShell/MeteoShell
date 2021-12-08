@@ -17,6 +17,7 @@ type
     btnGrapherPath: TButton;
     btnOk: TButton;
     cblanguage: TComboBox;
+    chkTimeseries: TCheckBox;
     chkLinear: TCheckBox;
     chkRunning: TCheckBox;
     edatabase: TEdit;
@@ -76,6 +77,7 @@ begin
      cbLanguage.ItemIndex := Ini.ReadInteger ( 'meteo',   'language',       0);
      //rgPlotSoft.ItemIndex := Ini.ReadInteger ( 'meteo',   'plotting_soft',  0);
      eGrapherPath.Text    := Ini.ReadString  ( 'main',    'GrapherPath',    GrapherDefault);
+     chkTimeseries.Checked:= Ini.ReadBool    ( 'Grapher', 'Timeseries',     true);
      chkRunning.Checked   := Ini.ReadBool    ( 'Grapher', 'Running',        true);
      seRunning.Value      := Ini.ReadInteger ( 'Grapher', 'RunWindow',      5);
      chkLinear.Checked    := Ini.ReadBool    ( 'Grapher', 'Linear',         true);
@@ -143,6 +145,7 @@ begin
      Ini.WriteInteger ( 'meteo',   'language',      cbLanguage.ItemIndex);
   //   Ini.WriteInteger ( 'meteo',   'plotting_soft', rgPlotSoft.ItemIndex);
      Ini.WriteString  ( 'main',    'GrapherPath',   eGrapherPath.Text);
+     Ini.WriteBool    ( 'Grapher', 'Timeseries',    chkTimeseries.Checked);
      Ini.WriteBool    ( 'Grapher', 'Running',       chkRunning.Checked);
      Ini.WriteInteger ( 'Grapher', 'RunWindow',     seRunning.Value);
      Ini.WriteBool    ( 'Grapher', 'Linear',        chkLinear.Checked);
