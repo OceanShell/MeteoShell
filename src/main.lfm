@@ -302,6 +302,14 @@ object frmmain: Tfrmmain
           TabOrder = 2
         end
       end
+      object chkShowSQL: TCheckBox
+        Left = 1024
+        Height = 29
+        Top = 96
+        Width = 111
+        Caption = 'Show SQL'
+        TabOrder = 5
+      end
     end
     object tbData: TTabSheet
       Caption = 'Data'
@@ -729,9 +737,13 @@ object frmmain: Tfrmmain
         Caption = 'ds570'
         OnClick = ds5701Click
       end
-      object MenuItem3: TMenuItem
-        Caption = 'ghcn v3'
-        OnClick = MenuItem3Click
+      object iLoadGHCNv2: TMenuItem
+        Caption = 'ghcn v2 (obsolete)'
+        OnClick = iLoadGHCNv2Click
+      end
+      object iLoadGHCNv3: TMenuItem
+        Caption = 'ghcn v3 (obsolete)'
+        OnClick = iLoadGHCNv3Click
       end
       object iLoadGHCN_v4: TMenuItem
         Caption = 'ghcn v4'

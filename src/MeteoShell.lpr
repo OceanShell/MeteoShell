@@ -18,7 +18,6 @@ begin
   Application.CreateForm(Tfrmmain, frmmain);
   Application.CreateForm(Tfrmicons, frmicons);
   Application.CreateForm(Tfrmdm, frmdm);
-  Application.CreateForm(Tfrmcomparesources, frmcomparesources);
   Application.Run;
 end.
 

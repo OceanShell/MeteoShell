@@ -6,8 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, DBGrids, ExtCtrls,
+  Variants, SQLDB, DB, BufDataset, Math, Grids, Types,
   TAGraph, TASeries, TACustomSeries, TAChartUtils, TATools, TATypes,
-  TAChartListbox, Variants, SQLDB, DB, BufDataset, Math, Grids, Types;
+  TAChartListbox;
 
 type
 
@@ -19,18 +20,17 @@ type
     ChartToolset1: TChartToolset;
     ctDataPointHint: TDataPointHintTool;
     ctZoomMouseWheel: TZoomMouseWheelTool;
-    ctDataPointClick: TDataPointClickTool;
     ctZoomDrag: TZoomDragTool;
     DBGrid1: TDBGrid;
-    Panel1: TPanel;
+    Panel2: TPanel;
     Splitter1: TSplitter;
-    Splitter2: TSplitter;
 
     procedure ctDataPointClickPointClick(ATool: TChartTool; APoint: TPoint);
     procedure ctDataPointHintHint(ATool: TDataPointHintTool;
       const APoint: TPoint; var AHint: String);
     procedure DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
       Column: TColumn; AState: TGridDrawState);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
 
   private
@@ -169,15 +169,17 @@ begin
   end;
 
 
-  chart1.Series.Clear;
+  Chart1.Series.Clear;
  // chart1.Legend.ColumnCount:=CDSCompare.FieldCount-1;
-// ChartListBox1.Columns:=CDSCompare.FieldCount-1;
- // showmessage(inttostr(CDSCompare.FieldCount));
+  ChartListBox1.Columns:=CDSCompare.FieldCount-1;
+
   for k:=1 to CDSCompare.FieldCount-1 do begin
     case k of
       1: SColor:=clBlue;
       2: SColor:=clRed;
       3: SColor:=clMaroon;
+      4: SColor:=clGreen;
+      5: SColor:=clBlack;
     end;
 
     SName:= CDSCompare.Fields[k].FieldName;
@@ -215,6 +217,7 @@ begin
   if VarIsNull(column.Field.Value)=true then TDBGrid(sender).Canvas.Brush.Color :=clYellow;
 end;
 
+
 procedure Tfrmcomparesources.ctDataPointClickPointClick(ATool: TChartTool;
   APoint: TPoint);
 Var
@@ -236,7 +239,15 @@ end;
 procedure Tfrmcomparesources.ctDataPointHintHint(ATool: TDataPointHintTool;
   const APoint: TPoint; var AHint: String);
 begin
+  showmessage('here');
    AHint := TLineSeries(ATool.Series).Source.Item[ATool.PointIndex]^.Text;
+end;
+
+procedure Tfrmcomparesources.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  DSCompare.Free;
+  CDSCompare.Free;
 end;
 
 

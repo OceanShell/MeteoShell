@@ -244,6 +244,10 @@ msgstr "Обновить"
 msgid "Update metadata (Caution!)"
 msgstr "Обновить метаданные"
 
+#: tfrmload_ds570.button1.caption
+msgid "New long series"
+msgstr ""
+
 #: tfrmload_ds570.caption
 msgid "Load ds570"
 msgstr "Загрузка ds570"
@@ -252,6 +256,10 @@ msgstr "Загрузка ds570"
 msgctxt "tfrmload_ds570.chkshowlog.caption"
 msgid "Show output"
 msgstr "Показать лог"
+
+#: tfrmload_ds570.groupbox1.caption
+msgid "Start with the raw"
+msgstr ""
 
 #: tfrmload_ds570.label3.caption
 msgid "ONLY incremental updates should be used (compare_ds570.py)"
@@ -271,6 +279,18 @@ msgstr "Обновлены"
 msgctxt "tfrmload_ds570.label6.caption"
 msgid "Error"
 msgstr "Ошибка"
+
+#: tfrmload_ds570.tabsheet1.caption
+#, fuzzy
+msgctxt "tfrmload_ds570.tabsheet1.caption"
+msgid "Data"
+msgstr "Данные"
+
+#: tfrmload_ds570.tabsheet2.caption
+#, fuzzy
+msgctxt "tfrmload_ds570.tabsheet2.caption"
+msgid "Metadata"
+msgstr "Метаданные"
 
 #: tfrmload_ghcnv4.btnload.caption
 msgctxt "tfrmload_ghcnv4.btnload.caption"
@@ -305,6 +325,61 @@ msgctxt "tfrmload_ghcnv4.label4.caption"
 msgid "Error"
 msgstr "Ошибка"
 
+#: tfrmload_ghcn_v2.btnghcn_v3_data.caption
+#, fuzzy
+msgctxt "tfrmload_ghcn_v2.btnghcn_v3_data.caption"
+msgid "Data"
+msgstr "Данные"
+
+#: tfrmload_ghcn_v2.btnghcn_v3_md.caption
+#, fuzzy
+msgctxt "tfrmload_ghcn_v2.btnghcn_v3_md.caption"
+msgid "Metadata"
+msgstr "Метаданные"
+
+#: tfrmload_ghcn_v2.button5.caption
+msgctxt "tfrmload_ghcn_v2.button5.caption"
+msgid "QC1"
+msgstr ""
+
+#: tfrmload_ghcn_v2.caption
+msgctxt "tfrmload_ghcn_v2.caption"
+msgid "Compare Sources"
+msgstr ""
+
+#: tfrmload_ghcn_v2.chkoutput.caption
+#, fuzzy
+msgctxt "tfrmload_ghcn_v2.chkoutput.caption"
+msgid "Show output"
+msgstr "Показать лог"
+
+#: tfrmload_ghcn_v3.btnghcn_v3_data.caption
+#, fuzzy
+msgctxt "tfrmload_ghcn_v3.btnghcn_v3_data.caption"
+msgid "Data"
+msgstr "Данные"
+
+#: tfrmload_ghcn_v3.btnghcn_v3_md.caption
+#, fuzzy
+msgctxt "tfrmload_ghcn_v3.btnghcn_v3_md.caption"
+msgid "Metadata"
+msgstr "Метаданные"
+
+#: tfrmload_ghcn_v3.button5.caption
+msgctxt "tfrmload_ghcn_v3.button5.caption"
+msgid "QC1"
+msgstr ""
+
+#: tfrmload_ghcn_v3.caption
+msgid "Load GHCN v3"
+msgstr ""
+
+#: tfrmload_ghcn_v3.chkoutput.caption
+#, fuzzy
+msgctxt "tfrmload_ghcn_v3.chkoutput.caption"
+msgid "Show output"
+msgstr "Показать лог"
+
 #: tfrmmain.amap.caption
 msgid "amap"
 msgstr ""
@@ -337,6 +412,10 @@ msgstr "Показать данные в виде матрицы"
 
 #: tfrmmain.caption
 msgid "MeteoShell"
+msgstr ""
+
+#: tfrmmain.chkshowsql.caption
+msgid "Show SQL"
 msgstr ""
 
 #: tfrmmain.chkstactive.caption
@@ -477,6 +556,14 @@ msgstr "Помощь"
 msgid "Load"
 msgstr "Загрузка"
 
+#: tfrmmain.iloadghcnv2.caption
+msgid "ghcn v2 (obsolete)"
+msgstr ""
+
+#: tfrmmain.iloadghcnv3.caption
+msgid "ghcn v3 (obsolete)"
+msgstr ""
+
 #: tfrmmain.iloadghcn_v4.caption
 msgid "ghcn v4"
 msgstr ""
@@ -547,10 +634,6 @@ msgstr "Мин. долг."
 msgctxt "TFRMMAIN.LBRESETMD.CAPTION"
 msgid "Reset"
 msgstr "Сброс"
-
-#: tfrmmain.menuitem3.caption
-msgid "ghcn v3"
-msgstr ""
 
 #: tfrmmain.menuitem4.caption
 msgctxt "tfrmmain.menuitem4.caption"

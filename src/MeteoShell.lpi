@@ -46,7 +46,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="25">
+    <Units Count="26">
       <Unit0>
         <Filename Value="MeteoShell.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -189,12 +189,19 @@
         <ResourceBaseClass Value="Form"/>
       </Unit23>
       <Unit24>
+        <Filename Value="load_ghcn_v2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmload_ghcn_v2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit24>
+      <Unit25>
         <Filename Value="comparesources.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmcomparesources"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit24>
+      </Unit25>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

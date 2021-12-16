@@ -1,0 +1,7 @@
+{"version":1,"strings":[
+{"hash":250835411,"name":"tfrmload_ghcn_v3.caption","sourcebytes":[76,111,97,100,32,71,72,67,78,32,118,51],"value":"Load GHCN v3"},
+{"hash":305313,"name":"tfrmload_ghcn_v3.btnghcn_v3_data.caption","sourcebytes":[68,97,116,97],"value":"Data"},
+{"hash":212315537,"name":"tfrmload_ghcn_v3.btnghcn_v3_md.caption","sourcebytes":[77,101,116,97,100,97,116,97],"value":"Metadata"},
+{"hash":21857,"name":"tfrmload_ghcn_v3.button5.caption","sourcebytes":[81,67,49],"value":"QC1"},
+{"hash":120930644,"name":"tfrmload_ghcn_v3.chkoutput.caption","sourcebytes":[83,104,111,119,32,111,117,116,112,117,116],"value":"Show output"}
+]}

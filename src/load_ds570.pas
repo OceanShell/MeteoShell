@@ -6,7 +6,8 @@ interface
 
 uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms, LCLTranslator,
-  Dialogs, StdCtrls, ExtCtrls, Buttons, Spin, BufDataset, DateUtils, DB;
+  Dialogs, StdCtrls, ExtCtrls, Buttons, Spin, ComCtrls, BufDataset, DateUtils,
+  DB;
 
 type
 
@@ -15,18 +16,26 @@ type
   Tfrmload_ds570 = class(TForm)
     btnLoadData: TButton;
     btnLoadMetadata: TButton;
+    Button1: TButton;
     chkShowLog: TCheckBox;
+    GroupBox1: TGroupBox;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    mLog: TMemo;
     mError: TMemo;
     mInserted: TMemo;
     mUpdated: TMemo;
+    PageControl1: TPageControl;
     Panel1: TPanel;
+    seSkip: TSpinEdit;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
 
     procedure btnLoadMetadataClick(Sender: TObject);
     procedure btnLoadDataClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -55,7 +64,7 @@ DateCurr: TDate;
 DBVal:Variant;
 begin
   frmmain.OD.InitialDir:=GlobalPath+'data\';
-  frmmain.OD.Filter:='difference.csv|difference.csv';
+ // frmmain.OD.Filter:='difference.csv|difference.csv';
 
   if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
 
@@ -76,15 +85,18 @@ begin
   AssignFile(fi_dat,FileForRead); reset(fi_dat);
 
   //skipping the first rows, if needed
- { k:=0;
+  k:=0;
   if seSkip.Value>0 then
     for k:=1 to seSkip.Value-1 do
-     readln(fi_dat, st0); }
+     readln(fi_dat, st1);
 
-  row_cnt:=0;
+  row_cnt:=k;
   repeat
    readln(fi_dat, st1);
    inc(row_cnt);
+
+ //  if copy(st1, 1, 2)<>'48' then continue;
+  if copy(st1, 1, 1)='S' then continue;
 
    k:=0; slp:=-9999; stnp:=-9999; t:=-9999; prec:=-9999; sun:=-9999;
    for md:=1 to 7 do begin
@@ -99,7 +111,7 @@ begin
          yy:=StrToInt(copy(date1, 1, 4));
          mn:=StrToInt(copy(date1, 6, 2));
          DateCurr:=EncodeDate(yy, mn, trunc(DaysInAMonth(yy, mn)/2));
-       //  memo1.Lines.Add(inttostr(ds570_id)+'   '+datetostr(DateCurr));
+       //  mLog.Lines.Add(inttostr(ds570_id)+'   '+datetostr(DateCurr));
      end;
      if md=3 then if TryStrToFloat(trim(buf_str), slp)  then slp   :=StrToFloat(trim(buf_str)) else slp  :=-9999;
      if md=4 then if TryStrToFloat(trim(buf_str), stnp) then stnp  :=StrToFloat(trim(buf_str)) else stnp :=-9999;
@@ -165,7 +177,7 @@ begin
               ExecSQL;
             end;
             if chkShowLog.Checked then
-             mInserted.lines.add(inttostr(ID)+'   '+
+             mInserted.lines.add(inttostr(ds570_id)+'   '+
                              datetostr(DateCurr)+'   '+
                              floattostr(par));
        end;
@@ -185,7 +197,7 @@ begin
               ExecSQL;
             end;
             if chkShowLog.Checked then
-             mUpdated.lines.add(inttostr(ID)+'   '+
+             mUpdated.lines.add(inttostr(ds570_id)+'   '+
                              datetostr(DateCurr)+'   '+
                              floattostr(par));
          end;
@@ -194,7 +206,7 @@ begin
        frmdm.TR.CommitRetaining;
      except
        frmdm.TR.RollbackRetaining;
-         mError.lines.add(inttostr(ID)+'   '+
+         mError.lines.add(inttostr(ds570_id)+'   '+
                           datetostr(DateCurr)+'   '+
                           floattostr(par));
      end;
@@ -219,6 +231,7 @@ begin
                   mtConfirmation, [mbOk], 0)=mrOk then exit;
 end;
 
+
 (* ONLY WMO STATIONS WITH TIMESERIES LONGER THAN 30 YEARS *)
 procedure Tfrmload_ds570.btnLoadMetadataClick(Sender: TObject);
 var
@@ -231,7 +244,7 @@ var
    stdate1, stdate2:TDateTime;
 begin
  frmmain.OD.InitialDir:=GlobalPath+'data\';
- frmmain.OD.Filter:='csv|*.csv';
+ frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
 
  if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
 
@@ -324,7 +337,7 @@ begin
         ExecSQL;
       end;
 
-    //  memo1.Lines.Add(inttostr(wmo_id)+'   '+stname);
+    //  mLog.Lines.Add(inttostr(wmo_id)+'   '+stname);
     //  Application.ProcessMessages;
 
       frmdm.TR.CommitRetaining;
@@ -336,4 +349,73 @@ begin
  CloseFile(fi_dat);
  showmessage('done');
 end;
+
+
+
+procedure Tfrmload_ds570.Button1Click(Sender: TObject);
+var
+   k, md, wmo_id,cnt, old_id:integer;
+   StLat, StLon, Elev: real;
+   buf_str, ID, ds570, FileForRead :string;
+   absnum, absnum1:integer;
+   st,stName, date1, date2:string;
+   isempty:boolean;
+   stdate1, stdate2, date_min, date_max:TDateTime;
+begin
+  frmmain.OD.InitialDir:=GlobalPath+'data\';
+  frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
+
+  if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
+
+  AssignFile(fi_dat,FileForRead); reset(fi_dat);
+  readln(fi_dat, st);
+  cnt:=0;
+  repeat
+   readln(fi_dat, st);
+    k:=0;
+    for md:=1 to 7 do begin
+     buf_str:='';
+     repeat
+      inc(k);
+      if st[k]<>',' then buf_str:=buf_str+st[k];
+     until (st[k]=',') or (k=length(st));
+      if md=1 then ID    :=trim(buf_str);
+      if md=2 then stname:=trim(buf_str);
+      if md=3 then stLat :=StrToFloat(trim(buf_str));
+      if md=4 then StLon :=StrToFloat(trim(buf_str));
+      if md=5 then Elev  :=StrToFloat(trim(buf_str));
+      if md=6 then date1 :=trim(buf_str);
+      if md=7 then date2 :=trim(buf_str);
+    end;
+
+    if copy(ID, 6, 1)='0' then WMO_id:=StrToInt(copy(ID, 1, 5)) else WMO_id:=-9;
+
+    stdate1:=encodedate(strtoint(copy(date1,1,4)), strtoint(copy(date1, 6, 2)), 1);
+    stdate2:=encodedate(strtoint(copy(date2,1,4)), strtoint(copy(date2, 6, 2)), 1);
+
+    if cnt=0 then begin
+      old_id:=WMO_id;
+      date_min:=stdate1;
+      date_max:=stdate2;
+    end;
+
+    if WMO_ID=old_id then begin
+      if stdate1<date_min then date_min:=stdate1;
+      if stdate2>date_max then date_max:=stdate2;
+    end;
+
+    if WMO_ID<>old_id then begin
+      showmessage(inttostr(old_id)+'   '+datetostr(date_min)+'   '+datetostr(date_max));
+      old_id:=WMO_id;
+      date_min:=stdate1;
+      date_max:=stdate2;
+    end;
+
+    inc(cnt);
+  until eof(fi_dat);
+  CloseFile(fi_dat);
+  showmessage('done');
+end;
+
+
 end.

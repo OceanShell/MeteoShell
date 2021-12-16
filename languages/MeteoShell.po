@@ -233,6 +233,10 @@ msgstr ""
 msgid "Update metadata (Caution!)"
 msgstr ""
 
+#: tfrmload_ds570.button1.caption
+msgid "New long series"
+msgstr ""
+
 #: tfrmload_ds570.caption
 msgid "Load ds570"
 msgstr ""
@@ -240,6 +244,10 @@ msgstr ""
 #: tfrmload_ds570.chkshowlog.caption
 msgctxt "tfrmload_ds570.chkshowlog.caption"
 msgid "Show output"
+msgstr ""
+
+#: tfrmload_ds570.groupbox1.caption
+msgid "Start with the raw"
 msgstr ""
 
 #: tfrmload_ds570.label3.caption
@@ -259,6 +267,16 @@ msgstr ""
 #: tfrmload_ds570.label6.caption
 msgctxt "tfrmload_ds570.label6.caption"
 msgid "Error"
+msgstr ""
+
+#: tfrmload_ds570.tabsheet1.caption
+msgctxt "tfrmload_ds570.tabsheet1.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ds570.tabsheet2.caption
+msgctxt "tfrmload_ds570.tabsheet2.caption"
+msgid "Metadata"
 msgstr ""
 
 #: tfrmload_ghcnv4.btnload.caption
@@ -294,6 +312,55 @@ msgctxt "tfrmload_ghcnv4.label4.caption"
 msgid "Error"
 msgstr ""
 
+#: tfrmload_ghcn_v2.btnghcn_v3_data.caption
+msgctxt "tfrmload_ghcn_v2.btnghcn_v3_data.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ghcn_v2.btnghcn_v3_md.caption
+msgctxt "tfrmload_ghcn_v2.btnghcn_v3_md.caption"
+msgid "Metadata"
+msgstr ""
+
+#: tfrmload_ghcn_v2.button5.caption
+msgctxt "tfrmload_ghcn_v2.button5.caption"
+msgid "QC1"
+msgstr ""
+
+#: tfrmload_ghcn_v2.caption
+msgctxt "tfrmload_ghcn_v2.caption"
+msgid "Compare Sources"
+msgstr ""
+
+#: tfrmload_ghcn_v2.chkoutput.caption
+msgctxt "tfrmload_ghcn_v2.chkoutput.caption"
+msgid "Show output"
+msgstr ""
+
+#: tfrmload_ghcn_v3.btnghcn_v3_data.caption
+msgctxt "tfrmload_ghcn_v3.btnghcn_v3_data.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ghcn_v3.btnghcn_v3_md.caption
+msgctxt "tfrmload_ghcn_v3.btnghcn_v3_md.caption"
+msgid "Metadata"
+msgstr ""
+
+#: tfrmload_ghcn_v3.button5.caption
+msgctxt "tfrmload_ghcn_v3.button5.caption"
+msgid "QC1"
+msgstr ""
+
+#: tfrmload_ghcn_v3.caption
+msgid "Load GHCN v3"
+msgstr ""
+
+#: tfrmload_ghcn_v3.chkoutput.caption
+msgctxt "tfrmload_ghcn_v3.chkoutput.caption"
+msgid "Show output"
+msgstr ""
+
 #: tfrmmain.amap.caption
 msgid "amap"
 msgstr ""
@@ -324,6 +391,10 @@ msgstr ""
 
 #: tfrmmain.caption
 msgid "MeteoShell"
+msgstr ""
+
+#: tfrmmain.chkshowsql.caption
+msgid "Show SQL"
 msgstr ""
 
 #: tfrmmain.chkstactive.caption
@@ -464,6 +535,14 @@ msgstr ""
 msgid "Load"
 msgstr ""
 
+#: tfrmmain.iloadghcnv2.caption
+msgid "ghcn v2 (obsolete)"
+msgstr ""
+
+#: tfrmmain.iloadghcnv3.caption
+msgid "ghcn v3 (obsolete)"
+msgstr ""
+
 #: tfrmmain.iloadghcn_v4.caption
 msgid "ghcn v4"
 msgstr ""
@@ -529,10 +608,6 @@ msgstr ""
 #: tfrmmain.lbresetmd.caption
 msgctxt "tfrmmain.lbresetmd.caption"
 msgid "Reset"
-msgstr ""
-
-#: tfrmmain.menuitem3.caption
-msgid "ghcn v3"
 msgstr ""
 
 #: tfrmmain.menuitem4.caption

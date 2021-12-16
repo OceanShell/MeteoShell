@@ -34,6 +34,7 @@ type
     cbCountry: TComboBox;
     cbStation: TComboBox;
     cbWMO: TComboBox;
+    chkShowSQL: TCheckBox;
     chkStActive: TCheckBox;
     chlParameters: TCheckGroup;
     DBGrid1: TDBGrid;
@@ -64,11 +65,12 @@ type
     iMap: TMenuItem;
     iHelp: TMenuItem;
     iAbout: TMenuItem;
+    iLoadGHCNv2: TMenuItem;
     N3: TMenuItem;
     iCompareSources: TMenuItem;
     N1: TMenuItem;
     iUpdateStationInfo: TMenuItem;
-    MenuItem3: TMenuItem;
+    iLoadGHCNv3: TMenuItem;
     iLoadGHCN_v4: TMenuItem;
     MenuItem4: TMenuItem;
     iDatabaseTables: TMenuItem;
@@ -114,6 +116,7 @@ type
     procedure iAboutClick(Sender: TObject);
     procedure iCompareSourcesClick(Sender: TObject);
     procedure iDeleteEmptyStationsClick(Sender: TObject);
+    procedure iLoadGHCNv2Click(Sender: TObject);
     procedure iLoadGHCN_v4Click(Sender: TObject);
     procedure btnSelectClick(Sender: TObject);
     procedure btnviewdataClick(Sender: TObject);
@@ -126,7 +129,7 @@ type
     procedure iUpdateStationInfoClick(Sender: TObject);
     procedure lbCoordResetClick(Sender: TObject);
     procedure lbResetMDClick(Sender: TObject);
-    procedure MenuItem3Click(Sender: TObject);
+    procedure iLoadGHCNv3Click(Sender: TObject);
     procedure iDatabaseTablesClick(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
     procedure RegionalAveraging1Click(Sender: TObject);
@@ -223,7 +226,8 @@ implementation
 { Tfrmmain }
 
 uses dm, sortbufds, viewdata, timeseries, map, comparesources,
-     settings, procedures, load_ds570, load_ghcn_v4, load_ghcn_v3, icons,
+     settings, procedures, load_ds570,
+     load_ghcn_v2, load_ghcn_v4, load_ghcn_v3, icons,
      spatialaveraging, table_management, update_station_info;
 
 
@@ -542,7 +546,7 @@ try
     SQL.Add(tbl_str);
 
       SQL.Add(' order by "station"."wmocode" ');
-    //  showmessage(SQL.Text);
+      if chkShowSQL.Checked=true then showmessage(SQL.Text);
       ParamByName('ltmin').AsFloat:=Lat1;
       ParamByName('ltmax').AsFloat:=Lat2;
       ParamByName('lnmin').AsFloat:=Lon1;
@@ -1007,7 +1011,19 @@ begin
 end;
 
 
-procedure Tfrmmain.MenuItem3Click(Sender: TObject);
+procedure Tfrmmain.iLoadGHCNv2Click(Sender: TObject);
+begin
+frmload_ghcn_v2 := Tfrmload_ghcn_v2.Create(Self);
+ try
+  if not frmload_ghcn_v2.ShowModal = mrOk then exit;
+ finally
+   frmload_ghcn_v2.Free;
+   frmload_ghcn_v2 := nil;
+ end;
+end;
+
+
+procedure Tfrmmain.iLoadGHCNv3Click(Sender: TObject);
 begin
   frmload_ghcn_v3 := Tfrmload_ghcn_v3.Create(Self);
    try

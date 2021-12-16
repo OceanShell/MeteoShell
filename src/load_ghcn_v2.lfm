@@ -1,30 +1,28 @@
-object frmload_ghcn_v3: Tfrmload_ghcn_v3
-  Left = 407
-  Height = 600
-  Top = 223
-  Width = 1095
-  BorderStyle = bsSingle
-  Caption = 'Load GHCN v3'
-  ClientHeight = 600
-  ClientWidth = 1095
+object frmload_ghcn_v2: Tfrmload_ghcn_v2
+  Left = 340
+  Height = 540
+  Top = 302
+  Width = 1091
+  Caption = 'Compare Sources'
+  ClientHeight = 540
+  ClientWidth = 1091
   DesignTimePPI = 144
-  OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object Panel1: TPanel
     Left = 0
-    Height = 536
-    Top = 64
-    Width = 1095
+    Height = 468
+    Top = 72
+    Width = 1091
     Align = alBottom
     Anchors = [akTop, akLeft, akRight, akBottom]
     BevelOuter = bvNone
-    ClientHeight = 536
-    ClientWidth = 1095
+    ClientHeight = 468
+    ClientWidth = 1091
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 0
     object ListBox1: TListBox
       Left = 0
-      Height = 536
+      Height = 468
       Top = 0
       Width = 344
       Align = alLeft
@@ -34,17 +32,17 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
     end
     object Memo1: TMemo
       Left = 352
-      Height = 536
+      Height = 468
       Top = 0
-      Width = 743
+      Width = 739
       Align = alClient
       ParentFont = False
       ScrollBars = ssBoth
       TabOrder = 1
     end
-    object Splitter1: TSplitter
+    object Splitter2: TSplitter
       Left = 344
-      Height = 536
+      Height = 468
       Top = 0
       Width = 8
     end
@@ -57,7 +55,7 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
     Caption = 'Data'
     OnClick = btnGHCN_v3_DataClick
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
   end
   object btnGHCN_v3_MD: TButton
     Left = 840
@@ -66,9 +64,8 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
     Width = 144
     Caption = 'Metadata'
     Enabled = False
-    OnClick = btnGHCN_v3_MDClick
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
   end
   object Button5: TButton
     Left = 1008
@@ -76,9 +73,8 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
     Top = 12
     Width = 60
     Caption = 'QC1'
-    OnClick = Button5Click
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 3
   end
   object chkOutput: TCheckBox
     Left = 192
@@ -87,6 +83,6 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
     Width = 133
     Caption = 'Show output'
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 4
   end
 end

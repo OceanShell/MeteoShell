@@ -107,10 +107,11 @@ try
     DecodeDate(dmax, yy_max, mn_max, dd_max);
 
     MonthTotal:=MonthsBetween(dmin, dmax);
+    if MonthTotal=0 then MonthTotal:=1;
 
-    if (rcnt>0) and (MonthTotal>0) then begin
+    if (rcnt>0) {and (MonthTotal>0)} then begin
 
-      RowComp:=100*(rcnt/(MonthTotal+2));
+      if MonthTotal>1 then RowComp:=100*(rcnt/(MonthTotal+2)) else RowComp:=100;
 
        With Qt3 do begin
          Close;
