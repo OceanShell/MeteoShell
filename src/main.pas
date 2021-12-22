@@ -66,6 +66,8 @@ type
     iHelp: TMenuItem;
     iAbout: TMenuItem;
     iLoadGHCNv2: TMenuItem;
+    btnInfo: TMenuItem;
+    N4: TMenuItem;
     N3: TMenuItem;
     iCompareSources: TMenuItem;
     N1: TMenuItem;
@@ -103,6 +105,7 @@ type
     procedure amapExecute(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btncommitClick(Sender: TObject);
+    procedure btnInfoClick(Sender: TObject);
     procedure chkStActiveChange(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure DBGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -163,7 +166,7 @@ var
   MapDataset: array of MapDS;
 
   StCount: integer;
-  Open_viewdata, frmmap_open:boolean;
+  Open_viewdata, frmmap_open, Open_metadata_sources:boolean;
 
 resourcestring
   SNoDatabase= 'Please, specify the database and try to connect again';
@@ -226,7 +229,7 @@ implementation
 { Tfrmmain }
 
 uses dm, sortbufds, viewdata, timeseries, map, comparesources,
-     settings, procedures, load_ds570,
+     settings, procedures, load_ds570, metadata_sources,
      load_ghcn_v2, load_ghcn_v4, load_ghcn_v3, icons,
      spatialaveraging, table_management, update_station_info;
 
@@ -399,9 +402,11 @@ if (ID=0) or (NavigationOrder=false) then exit;
   Application.ProcessMessages;
 
   if frmmap_open=true then frmmap.ChangeID;
+  if Open_metadata_sources then frmmetadata_sources.ChangeID;
 
   if Open_viewdata=true then
     frmviewdata.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
+
 
   NavigationOrder:=true; //Завершили, открываем доступ к навигации
  end;
@@ -567,6 +572,7 @@ end;
 
 DBGrid1.Repaint;
 CDSStatistics;
+//amapExecute(Sender: TObject);
 end;
 
 procedure Tfrmmain.CDSStatistics;
@@ -581,7 +587,7 @@ begin
    frmdm.CDS.First;
 
    StCount:=frmdm.CDS.RecordCount;
-   SetLength(MapDataset, StCount);
+   SetLength(MapDataset, StCount+1);
    k:=-1;
    while not frmdm.CDS.eof do begin
      inc(k);
@@ -623,6 +629,7 @@ begin
  end;
 
  amap.Enabled:=true;
+ if frmmap_open=true then amapExecute(self);
  Application.ProcessMessages;
 end;
 
@@ -651,12 +658,23 @@ end;
 
 procedure Tfrmmain.btndeleteClick(Sender: TObject);
 begin
- //
+  frmdm.CDS.Delete;
 end;
 
 procedure Tfrmmain.btncommitClick(Sender: TObject);
 begin
   frmdm.CDS.ApplyUpdates(0);
+end;
+
+procedure Tfrmmain.btnInfoClick(Sender: TObject);
+begin
+if Open_metadata_sources=false then begin
+   frmmetadata_sources := Tfrmmetadata_sources.Create(Self);
+   frmmetadata_sources.Show;
+end else frmmetadata_sources.SetFocus;
+
+Open_metadata_sources:=true;
+CDSInfoNavigation;
 end;
 
 

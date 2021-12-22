@@ -240,12 +240,12 @@ msgctxt "tfrmload_ds570.btnloaddata.caption"
 msgid "Update"
 msgstr "Обновить"
 
-#: tfrmload_ds570.btnloadmetadata.caption
-msgid "Update metadata (Caution!)"
-msgstr "Обновить метаданные"
-
 #: tfrmload_ds570.button1.caption
-msgid "New long series"
+msgid "New long series (very careful!!!!)"
+msgstr ""
+
+#: tfrmload_ds570.button2.caption
+msgid "station_ds570"
 msgstr ""
 
 #: tfrmload_ds570.caption
@@ -256,6 +256,10 @@ msgstr "Загрузка ds570"
 msgctxt "tfrmload_ds570.chkshowlog.caption"
 msgid "Show output"
 msgstr "Показать лог"
+
+#: tfrmload_ds570.chkwrite.caption
+msgid "Write"
+msgstr ""
 
 #: tfrmload_ds570.groupbox1.caption
 msgid "Start with the raw"
@@ -292,10 +296,30 @@ msgctxt "tfrmload_ds570.tabsheet2.caption"
 msgid "Metadata"
 msgstr "Метаданные"
 
+#: tfrmload_ghcnv4.btnduplicates.caption
+msgid "Duplicates"
+msgstr ""
+
 #: tfrmload_ghcnv4.btnload.caption
 msgctxt "tfrmload_ghcnv4.btnload.caption"
 msgid "Update"
 msgstr "Обновить"
+
+#: tfrmload_ghcnv4.button1.caption
+msgid "Missing codes by WMO"
+msgstr ""
+
+#: tfrmload_ghcnv4.button2.caption
+msgid "Missing codes by name"
+msgstr ""
+
+#: tfrmload_ghcnv4.button3.caption
+msgid "Stations not in inventory"
+msgstr ""
+
+#: tfrmload_ghcnv4.button4.caption
+msgid "station_ghcn_v4"
+msgstr ""
 
 #: tfrmload_ghcnv4.caption
 msgid "Load ghcn v4"
@@ -325,21 +349,32 @@ msgctxt "tfrmload_ghcnv4.label4.caption"
 msgid "Error"
 msgstr "Ошибка"
 
+#: tfrmload_ghcnv4.tabsheet1.caption
+#, fuzzy
+msgctxt "tfrmload_ghcnv4.tabsheet1.caption"
+msgid "Data"
+msgstr "Данные"
+
+#: tfrmload_ghcnv4.tabsheet2.caption
+#, fuzzy
+msgctxt "tfrmload_ghcnv4.tabsheet2.caption"
+msgid "Metadata"
+msgstr "Метаданные"
+
 #: tfrmload_ghcn_v2.btnghcn_v3_data.caption
 #, fuzzy
 msgctxt "tfrmload_ghcn_v2.btnghcn_v3_data.caption"
 msgid "Data"
 msgstr "Данные"
 
-#: tfrmload_ghcn_v2.btnghcn_v3_md.caption
+#: tfrmload_ghcn_v2.button1.caption
 #, fuzzy
-msgctxt "tfrmload_ghcn_v2.btnghcn_v3_md.caption"
+msgctxt "tfrmload_ghcn_v2.button1.caption"
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: tfrmload_ghcn_v2.button5.caption
-msgctxt "tfrmload_ghcn_v2.button5.caption"
-msgid "QC1"
+#: tfrmload_ghcn_v2.button2.caption
+msgid "station_ghcn_v2"
 msgstr ""
 
 #: tfrmload_ghcn_v2.caption
@@ -365,9 +400,17 @@ msgctxt "tfrmload_ghcn_v3.btnghcn_v3_md.caption"
 msgid "Metadata"
 msgstr "Метаданные"
 
+#: tfrmload_ghcn_v3.button1.caption
+msgid "station_ghcn_v3"
+msgstr ""
+
 #: tfrmload_ghcn_v3.button5.caption
 msgctxt "tfrmload_ghcn_v3.button5.caption"
 msgid "QC1"
+msgstr ""
+
+#: tfrmload_ghcn_v3.button6.caption
+msgid "QC2"
 msgstr ""
 
 #: tfrmload_ghcn_v3.caption
@@ -397,6 +440,10 @@ msgstr "Сохранить"
 #: tfrmmain.btndelete.caption
 msgctxt "tfrmmain.btndelete.caption"
 msgid "btndelete"
+msgstr ""
+
+#: tfrmmain.btninfo.caption
+msgid "Show detailed metadata"
 msgstr ""
 
 #: tfrmmain.btnselect.caption
@@ -506,6 +553,7 @@ msgid "%"
 msgstr "%"
 
 #: tfrmmain.ds5701.caption
+msgctxt "tfrmmain.ds5701.caption"
 msgid "ds570"
 msgstr ""
 
@@ -809,6 +857,27 @@ msgstr ""
 
 #: tfrmmap_settings.tabsheet5.caption
 msgid "Marker"
+msgstr ""
+
+#: tfrmmetadata_sources.caption
+msgid "Metadata from original sources"
+msgstr ""
+
+#: tfrmmetadata_sources.groupbox1.caption
+msgctxt "tfrmmetadata_sources.groupbox1.caption"
+msgid "ds570"
+msgstr ""
+
+#: tfrmmetadata_sources.groupbox2.caption
+msgid "ghcn_v2"
+msgstr ""
+
+#: tfrmmetadata_sources.groupbox3.caption
+msgid "ghcn_v3"
+msgstr ""
+
+#: tfrmmetadata_sources.groupbox4.caption
+msgid "ghcn_v4"
 msgstr ""
 
 #: tfrmsettings.btncancel.caption

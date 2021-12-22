@@ -15,7 +15,9 @@ type
   Tfrmload_ghcn_v3 = class(TForm)
     btnGHCN_v3_Data: TButton;
     btnGHCN_v3_MD: TButton;
+    Button1: TButton;
     Button5: TButton;
+    Button6: TButton;
     chkOutput: TCheckBox;
     ListBox1: TListBox;
     Memo1: TMemo;
@@ -24,8 +26,10 @@ type
 
     procedure btnGHCN_v3_DataClick(Sender: TObject);
     procedure btnGHCN_v3_MDClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
 
   private
@@ -160,6 +164,7 @@ begin
    end;
     dm.IBTransaction1.CommitRetaining;  }
 end;
+
 
 procedure Tfrmload_ghcn_v3.btnGHCN_v3_DataClick(Sender: TObject);
 Var
@@ -392,6 +397,136 @@ begin
   dm.q1.Close;  }
 end;
 
+
+
+procedure Tfrmload_ghcn_v3.Button1Click(Sender: TObject);
+Var
+   fname, st, v2_id:string;
+   StLat, StLon, Elev: real;
+   buf_str, ID, ds570, FileForRead :string;
+   absnum, absnum1:integer;
+   stName, date1, date2, stcountry:string;
+   datf:text;
+   grelev, popsiz, ocndis, towndis:integer;
+   popcls, topo, stveg, stloc, airstn, grveg, popcss   : string;
+begin
+    fname:='Z:\MeteoShell\data\ghcn_v3\ghcnm.tavg.v3.3.0.20181115.qca.inv';
+    AssignFile(datf, fname);
+    reset(datf);
+
+  with frmdm.q1 do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' Delete from "station_ghcn_v3" ');
+   ExecSQL;
+  end;
+  frmdm.TR.Commit;
+
+   repeat
+    readln(datf, st);
+
+     v2_id :=Copy(st, 1, 11);
+     stlat:=strtofloat(trim(Copy(st, 13, 7)));
+     stlon:=strtofloat(trim(Copy(st, 22, 8)));
+     elev:= strtofloat(trim(Copy(st, 32, 6)));
+     stname:=trim(Copy(st, 39, 30));
+
+     popcls:=trim(Copy(st, 74, 1));
+     topo:=trim(Copy(st, 80, 2));
+     stveg:=trim(Copy(st, 82, 2));
+     stloc:=trim(Copy(st, 84, 2));
+     airstn:=trim(Copy(st, 88, 1));
+     grveg:=trim(Copy(st, 91, 16));
+     popcss:=trim(Copy(st, 107, 1));
+
+     if trystrtoint(trim(Copy(st, 75, 5)), grelev) then grelev:= strtoint(trim(Copy(st, 70, 4))) else grelev :=-9;
+     if trystrtoint(trim(Copy(st, 75, 5)), popsiz) then popsiz:= strtoint(trim(Copy(st, 75, 5))) else popsiz :=-9;
+     if trystrtoint(trim(Copy(st, 86, 2)), ocndis) then ocndis:= strtoint(trim(Copy(st, 86, 2))) else ocndis :=-9;
+     if trystrtoint(trim(Copy(st, 89, 2)), towndis) then towndis:= strtoint(trim(Copy(st, 89, 2))) else towndis :=-9;
+
+     with frmdm.q1 do begin
+        Close;
+         SQL.Clear;
+         SQL.Add(' insert into "station_ghcn_v3"  ');
+         SQL.Add(' ("id", "latitude", "longitude", "elevation", "name", ');
+         SQL.Add(' "grelev", "popcls", "topo", "stveg", "stloc", "airstn", "grveg", ');
+         SQL.Add(' "popcss", "popsiz", "ocndis", "towndis") ');
+         SQL.Add(' values ');
+         SQL.Add(' (:absnum, :StLat, :StLon, :Elevation, :StName, ');
+         SQL.Add('  :grevel, :popcls, :topo, :stveg, :stloc, :airstn, :grveg, ');
+         SQL.Add('  :popcss, :popsiz, :ocndis, :towndis) ');
+         ParamByName('absnum').AsString:=v2_id;
+         ParamByName('StLat').AsFloat:=StLat;
+         ParamByName('StLon').AsFloat:=StLon;
+         ParamByName('Elevation').AsFloat:=Elev;
+         ParamByName('StName').AsString:=stName;
+         ParamByName('grevel').Value:=grelev;
+         ParamByName('popcls').Value:=popcls;
+         ParamByName('topo').Value:=topo;
+         ParamByName('stveg').Value:=stveg;
+         ParamByName('stloc').Value:=stloc;
+         ParamByName('airstn').Value:=airstn;
+         ParamByName('grveg').Value:=grveg;
+         ParamByName('popcss').Value:=popcss;
+         ParamByName('popsiz').Value:=popsiz;
+         ParamByName('ocndis').Value:=ocndis;
+         ParamByName('towndis').Value:=towndis;
+        ExecSQL;
+      end;
+      frmdm.TR.CommitRetaining;
+
+   until eof(datf);
+   frmdm.TR.Commit;
+end;
+
+
+
+procedure Tfrmload_ghcn_v3.Button6Click(Sender: TObject);
+Var
+ fname, st, v2_id:string;
+ numsrc,  absnum: integer;
+ datf:text;
+begin
+  fname:='Z:\MeteoShell\data\ghcn_v3\ghcnm.tavg.v3.3.0.20181115.qca.inv';
+
+  AssignFile(datf, fname);
+  reset(datf);
+
+
+ repeat
+  readln(datf, st);
+
+   v2_id :=Copy(st, 1, 11);
+   numsrc:=StrToInt(trim(Copy(st, 4, 8)));
+
+   absnum:=-9;
+   with frmdm.q1 do begin
+    Close;
+     SQL.Clear;
+     SQL.Add(' select "id" from "station"');
+     SQL.Add(' where "ghcn_v3_id"='+inttostr(numsrc));
+    Open;
+     if frmdm.q1.IsEmpty=false then begin
+      absnum:=frmdm.q1.Fields[0].AsInteger;
+     end;
+   end;
+
+   if (absnum<>-9)  then begin
+    // showmessage(inttostr(absnum));
+           with frmdm.q2 do begin
+          Close;
+            SQL.Clear;
+            SQL.Add(' update "station" set ');
+            SQL.Add(' "ghcn_v3_id"='+trim(v2_id));
+            SQL.Add(' where "id"='+inttostr(absnum));
+          ExecSQL;
+        end;
+   end;
+
+
+ until eof(datf);
+ frmdm.TR.Commit;
+end;
 
 end.
 

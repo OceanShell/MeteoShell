@@ -57,25 +57,6 @@ object frmload_ghcn_v2: Tfrmload_ghcn_v2
     ParentFont = False
     TabOrder = 1
   end
-  object btnGHCN_v3_MD: TButton
-    Left = 840
-    Height = 38
-    Top = 12
-    Width = 144
-    Caption = 'Metadata'
-    Enabled = False
-    ParentFont = False
-    TabOrder = 2
-  end
-  object Button5: TButton
-    Left = 1008
-    Height = 38
-    Top = 12
-    Width = 60
-    Caption = 'QC1'
-    ParentFont = False
-    TabOrder = 3
-  end
   object chkOutput: TCheckBox
     Left = 192
     Height = 29
@@ -83,6 +64,24 @@ object frmload_ghcn_v2: Tfrmload_ghcn_v2
     Width = 133
     Caption = 'Show output'
     ParentFont = False
+    TabOrder = 2
+  end
+  object Button1: TButton
+    Left = 960
+    Height = 38
+    Top = 12
+    Width = 113
+    Caption = 'Metadata'
+    OnClick = Button1Click
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 792
+    Height = 38
+    Top = 12
+    Width = 153
+    Caption = 'station_ghcn_v2'
+    OnClick = Button2Click
     TabOrder = 4
   end
 end

@@ -3,5 +3,7 @@
 {"hash":305313,"name":"tfrmload_ghcn_v3.btnghcn_v3_data.caption","sourcebytes":[68,97,116,97],"value":"Data"},
 {"hash":212315537,"name":"tfrmload_ghcn_v3.btnghcn_v3_md.caption","sourcebytes":[77,101,116,97,100,97,116,97],"value":"Metadata"},
 {"hash":21857,"name":"tfrmload_ghcn_v3.button5.caption","sourcebytes":[81,67,49],"value":"QC1"},
-{"hash":120930644,"name":"tfrmload_ghcn_v3.chkoutput.caption","sourcebytes":[83,104,111,119,32,111,117,116,112,117,116],"value":"Show output"}
+{"hash":120930644,"name":"tfrmload_ghcn_v3.chkoutput.caption","sourcebytes":[83,104,111,119,32,111,117,116,112,117,116],"value":"Show output"},
+{"hash":89791587,"name":"tfrmload_ghcn_v3.button1.caption","sourcebytes":[115,116,97,116,105,111,110,95,103,104,99,110,95,118,51],"value":"station_ghcn_v3"},
+{"hash":21858,"name":"tfrmload_ghcn_v3.button6.caption","sourcebytes":[81,67,50],"value":"QC2"}
 ]}

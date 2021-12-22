@@ -15,8 +15,9 @@ type
 
   Tfrmload_ds570 = class(TForm)
     btnLoadData: TButton;
-    btnLoadMetadata: TButton;
     Button1: TButton;
+    Button2: TButton;
+    chkWrite: TCheckBox;
     chkShowLog: TCheckBox;
     GroupBox1: TGroupBox;
     Label3: TLabel;
@@ -33,9 +34,9 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
 
-    procedure btnLoadMetadataClick(Sender: TObject);
     procedure btnLoadDataClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -79,7 +80,7 @@ begin
  // showmessage(inttostr(cnt));
 
   btnLoadData.Enabled:=false;
-  btnLoadMetadata.Enabled:=false;
+  //btnLoadMetadata.Enabled:=false;
   Application.ProcessMessages;
 
   AssignFile(fi_dat,FileForRead); reset(fi_dat);
@@ -224,7 +225,7 @@ begin
    frmdm.TR.Commit;
 
    btnLoadData.Enabled:=true;
-   btnLoadMetadata.Enabled:=true;
+  // btnLoadMetadata.Enabled:=true;
 
    if MessageDlg('Upload successfully completed. Please, update metadata'+#13+
                  '(Menu->Services->DB Administration->Update STATION_INFO)',
@@ -233,135 +234,17 @@ end;
 
 
 (* ONLY WMO STATIONS WITH TIMESERIES LONGER THAN 30 YEARS *)
-procedure Tfrmload_ds570.btnLoadMetadataClick(Sender: TObject);
-var
-  k, md, wmo_id:integer;
-  StLat, StLon, Elev: real;
-  buf_str, ID, ds570, FileForRead :string;
-  absnum, absnum1:integer;
-  st,stName, date1, date2:string;
-  isempty:boolean;
-   stdate1, stdate2:TDateTime;
-begin
- frmmain.OD.InitialDir:=GlobalPath+'data\';
- frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
-
- if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
-
- AssignFile(fi_dat,FileForRead); reset(fi_dat);
- readln(fi_dat, st);
- repeat
-  readln(fi_dat, st);
-   k:=0;
-   for md:=1 to 7 do begin
-    buf_str:='';
-    repeat
-     inc(k);
-     if st[k]<>',' then buf_str:=buf_str+st[k];
-    until (st[k]=',') or (k=length(st));
-     if md=1 then ID    :=trim(buf_str);
-     if md=2 then stname:=trim(buf_str);
-     if md=3 then stLat :=StrToFloat(trim(buf_str));
-     if md=4 then StLon :=StrToFloat(trim(buf_str));
-     if md=5 then Elev  :=StrToFloat(trim(buf_str));
-     if md=6 then date1 :=trim(buf_str);
-     if md=7 then date2 :=trim(buf_str);
-   end;
-
-   if copy(ID, 6, 1)='0' then WMO_id:=StrToInt(copy(ID, 1, 5)) else WMO_id:=-9;
-
-   stdate1:=encodedate(strtoint(copy(date1,1,4)), strtoint(copy(date1, 6, 2)), 1);
-   stdate2:=encodedate(strtoint(copy(date2,1,4)), strtoint(copy(date2, 6, 2)), 1);
-
-   if (stlat>=-90) and (stlon>=-180) and (stName<>'') and (copy(stname, 1, 1)<>':') then begin
-     frmdm.q1.Close;
-     frmdm.q1.SQL.Text:='Select id from station where ds570_id='+ID;
-     frmdm.q1.Open;
-      isempty:=frmdm.q1.IsEmpty;
-     frmdm.q1.Close;
-
-    // label1.Caption:=id;
-     Application.ProcessMessages;
-
-     if (isempty=true) and (YearsBetween(stdate1, stdate2)>=30) and (WMO_ID<>-9) then begin
-        with frmdm.q1 do begin
-        Close;
-         SQL.Clear;
-         SQL.Add(' select id from STATION where ');
-         SQL.Add(' latitude=:stlat and longitude=:stlon and elevation=:Elev ');
-         ParamByName('StLat').AsFloat:=StLat;
-         ParamByName('StLon').AsFloat:=StLon;
-         ParamByName('Elev').AsFloat:=Elev;
-        Open;
-      end;
-
-      {if frmdm.q1.IsEmpty=false then begin
-         absnum1:=frmdm.q1.FieldByName('id').AsInteger;
-
-         if frmdm.q1.FieldByName('DS570_ID').AsString='-9' then begin
-          with frmdm.q2 do begin
-           Close;
-            SQL.Clear;
-            SQL.Add(' update station set ds570_id=:ds_ID ');
-            SQL.Add(' where id=:WMO ');
-            ParamByName('WMO').AsInteger:=absnum1;
-            ParamByName('ds_ID').AsInteger:=StrToInt(id);
-           ExecSQL;
-          end;
-          dm.TR.CommitRetaining;
-         end;
-       end;  }
-
-       if frmdm.q1.IsEmpty=true then begin
-         frmdm.q2.Close;
-         frmdm.q2.SQL.Text:='Select max(id) from station';
-         frmdm.q2.Open;
-          absnum:=frmdm.q2.Fields[0].AsInteger+1;
-         frmdm.q2.Close;
-
-      with frmdm.q2 do begin
-        Close;
-         SQL.Clear;
-         SQL.Add(' insert into station  ');
-         SQL.Add(' (id, WMO, latitude, longitude, elevation, name, country_id, ds570_id) ');
-         SQL.Add(' values ');
-         SQL.Add(' (:absnum, :WMONum, :StLat, :StLon, :Elevation, :StName, :country_id, :DS570_ID)');
-         ParamByName('absnum').AsInteger:=absnum;
-         ParamByName('WMONum').AsInteger:=wmo_id;
-         ParamByName('StLat').AsFloat:=StLat;
-         ParamByName('StLon').AsFloat:=StLon;
-         ParamByName('Elevation').AsFloat:=Elev;
-         ParamByName('StName').AsString:=stName;
-         ParamByName('country_id').AsInteger:=257;
-         ParamByName('DS570_ID').AsInteger:=StrToInt(ID);
-        ExecSQL;
-      end;
-
-    //  mLog.Lines.Add(inttostr(wmo_id)+'   '+stname);
-    //  Application.ProcessMessages;
-
-      frmdm.TR.CommitRetaining;
-     end;
-   end; // is empty
-  end;
-
- until eof(fi_dat);
- CloseFile(fi_dat);
- showmessage('done');
-end;
-
-
-
 procedure Tfrmload_ds570.Button1Click(Sender: TObject);
 var
    k, md, wmo_id,cnt, old_id:integer;
-   StLat, StLon, Elev: real;
+   StLat, StLon, Elev, StLat_old, StLon_old, Elev_old: real;
    buf_str, ID, ds570, FileForRead :string;
    absnum, absnum1:integer;
-   st,stName, date1, date2:string;
+   st,stName, stname_old, date1, date2:string;
    isempty:boolean;
    stdate1, stdate2, date_min, date_max:TDateTime;
 begin
+  mLog.clear;
   frmmain.OD.InitialDir:=GlobalPath+'data\';
   frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
 
@@ -397,6 +280,10 @@ begin
       old_id:=WMO_id;
       date_min:=stdate1;
       date_max:=stdate2;
+      stname_old:=stname;
+      StLat_old:=StLat;
+      StLon_old:=StLon;
+      Elev_old:=Elev;
     end;
 
     if WMO_ID=old_id then begin
@@ -404,17 +291,140 @@ begin
       if stdate2>date_max then date_max:=stdate2;
     end;
 
-    if WMO_ID<>old_id then begin
-      showmessage(inttostr(old_id)+'   '+datetostr(date_min)+'   '+datetostr(date_max));
+    if (WMO_ID<>old_id) or (eof(fi_dat)) then begin
+      if (old_id<>-9) and (trim(stname_old)<>'') and
+         (yearsbetween(date_max, date_min)>=20) and  //more than 30 years
+         (yearsbetween(now, date_max)<=10) then begin  //active less than 10 years ago
+
+        frmdm.q1.Close;
+        frmdm.q1.SQL.Text:='Select "id" from "station" where "ds570_id"='+inttostr(old_ID)+'0';
+      //  showmessage(frmdm.q1.SQL.Text);
+        frmdm.q1.Open;
+        if frmdm.q1.IsEmpty=true then begin
+
+        mlog.lines.add(inttostr(old_id)+'   '+stname_old+'   '+datetostr(date_min)+'   '+datetostr(date_max));
+
+        if chkWrite.Checked=true then begin
+         frmdm.q2.Close;
+         frmdm.q2.SQL.Text:='Select max("id") from "station"';
+         frmdm.q2.Open;
+          absnum:=frmdm.q2.Fields[0].AsInteger+1;
+         frmdm.q2.Close;
+
+      with frmdm.q2 do begin
+        Close;
+         SQL.Clear;
+         SQL.Add(' insert into "station"  ');
+         SQL.Add(' ("id", "wmocode", "latitude", "longitude", "elevation", "name", "country_id", "ds570_id") ');
+         SQL.Add(' values ');
+         SQL.Add(' (:absnum, :WMONum, :StLat, :StLon, :Elevation, :StName, :country_id, :DS570_ID)');
+         ParamByName('absnum').AsInteger:=absnum;
+         ParamByName('WMONum').AsInteger:=old_ID;
+         ParamByName('StLat').AsFloat:=StLat_old;
+         ParamByName('StLon').AsFloat:=StLon_old;
+         ParamByName('Elevation').AsFloat:=Elev_old;
+         ParamByName('StName').AsString:=stName_old;
+         ParamByName('country_id').AsInteger:=0;
+         ParamByName('DS570_ID').AsInteger:=strtoint(inttostr(old_ID)+'0');
+        ExecSQL;
+      end;
+      frmdm.TR.CommitRetaining;
+        end;
+        end; //writing;
+
+
+      end;
       old_id:=WMO_id;
+      stname_old:=stname;
       date_min:=stdate1;
       date_max:=stdate2;
+      StLat_old:=StLat;
+      StLon_old:=StLon;
+      Elev_old:=Elev;
     end;
 
     inc(cnt);
   until eof(fi_dat);
   CloseFile(fi_dat);
+  frmdm.TR.Commit;
   showmessage('done');
+end;
+
+
+
+procedure Tfrmload_ds570.Button2Click(Sender: TObject);
+var
+   k, md, wmo_id, cnt:integer;
+   StLat, StLon, Elev: real;
+   buf_str, ID, ds570, FileForRead :string;
+   absnum, absnum1:integer;
+   st,stName, date1, date2:string;
+   isempty:boolean;
+   stdate1, stdate2, date_min, date_max:TDateTime;
+begin
+  mLog.clear;
+  frmmain.OD.InitialDir:=GlobalPath+'data\';
+  frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
+
+  if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
+
+  with frmdm.q1 do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' Delete from "station_ds570" ');
+   ExecSQL;
+  end;
+  frmdm.TR.Commit;
+
+
+  AssignFile(fi_dat,FileForRead); reset(fi_dat);
+  readln(fi_dat, st);
+  cnt:=0;
+  repeat
+   readln(fi_dat, st);
+    k:=0;
+    for md:=1 to 7 do begin
+     buf_str:='';
+     repeat
+      inc(k);
+      if st[k]<>',' then buf_str:=buf_str+st[k];
+     until (st[k]=',') or (k=length(st));
+      if md=1 then ID    :=trim(buf_str);
+      if md=2 then stname:=trim(buf_str);
+      if md=3 then stLat :=StrToFloat(trim(buf_str));
+      if md=4 then StLon :=StrToFloat(trim(buf_str));
+      if md=5 then Elev  :=StrToFloat(trim(buf_str));
+      if md=6 then date1 :=trim(buf_str);
+      if md=7 then date2 :=trim(buf_str);
+    end;
+
+    stdate1:=encodedate(strtoint(copy(date1,1,4)), strtoint(copy(date1, 6, 2)), 1);
+    stdate2:=encodedate(strtoint(copy(date2,1,4)), strtoint(copy(date2, 6, 2)), 1);
+
+      with frmdm.q1 do begin
+        Close;
+         SQL.Clear;
+         SQL.Add(' insert into "station_ds570"  ');
+         SQL.Add(' ("id", "latitude", "longitude", "elevation", "name", "start_date", "end_date") ');
+         SQL.Add(' values ');
+         SQL.Add(' (:absnum, :StLat, :StLon, :Elevation, :StName, :Date1, :Date2)');
+         ParamByName('absnum').AsInteger:=strtoint(ID);
+         ParamByName('StLat').AsFloat:=StLat;
+         ParamByName('StLon').AsFloat:=StLon;
+         ParamByName('Elevation').AsFloat:=Elev;
+         ParamByName('StName').AsString:=stName;
+         ParamByName('Date1').AsDateTime:=stDate1;
+         ParamByName('Date2').AsDateTime:=stDate2;
+        ExecSQL;
+      end;
+      frmdm.TR.CommitRetaining;
+
+    inc(cnt);
+  until eof(fi_dat);
+  CloseFile(fi_dat);
+  frmdm.TR.Commit;
+  showmessage('done');
+
 end;
 
 

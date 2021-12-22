@@ -1,9 +1,16 @@
 {"version":1,"strings":[
 {"hash":148730356,"name":"tfrmload_ghcnv4.caption","sourcebytes":[76,111,97,100,32,103,104,99,110,32,118,52],"value":"Load ghcn v4"},
+{"hash":305313,"name":"tfrmload_ghcnv4.tabsheet1.caption","sourcebytes":[68,97,116,97],"value":"Data"},
 {"hash":96905381,"name":"tfrmload_ghcnv4.btnload.caption","sourcebytes":[85,112,100,97,116,101],"value":"Update"},
 {"hash":153750560,"name":"tfrmload_ghcnv4.label1.caption","sourcebytes":[85,115,101,32,79,78,76,89,32,117,110,97,100,106,117,115,116,101,100,32,118,97,108,117,101,115,46,32,73,110,99,114,101,109,101,110,116,97,108,32,117,112,100,97,116,101,115,32,115,104,111,117,108,100,32,98,101,32,117,115,101,100,32],"value":"Use ONLY unadjusted values. Incremental updates should be used "},
 {"hash":120930644,"name":"tfrmload_ghcnv4.chkshowlog.caption","sourcebytes":[83,104,111,119,32,111,117,116,112,117,116],"value":"Show output"},
 {"hash":94150580,"name":"tfrmload_ghcnv4.label2.caption","sourcebytes":[73,110,115,101,114,116,101,100],"value":"Inserted"},
 {"hash":208308964,"name":"tfrmload_ghcnv4.label3.caption","sourcebytes":[85,112,100,97,116,101,100],"value":"Updated"},
-{"hash":5020002,"name":"tfrmload_ghcnv4.label4.caption","sourcebytes":[69,114,114,111,114],"value":"Error"}
+{"hash":5020002,"name":"tfrmload_ghcnv4.label4.caption","sourcebytes":[69,114,114,111,114],"value":"Error"},
+{"hash":212315537,"name":"tfrmload_ghcnv4.tabsheet2.caption","sourcebytes":[77,101,116,97,100,97,116,97],"value":"Metadata"},
+{"hash":13957023,"name":"tfrmload_ghcnv4.button1.caption","sourcebytes":[77,105,115,115,105,110,103,32,99,111,100,101,115,32,98,121,32,87,77,79],"value":"Missing codes by WMO"},
+{"hash":223191093,"name":"tfrmload_ghcnv4.button2.caption","sourcebytes":[77,105,115,115,105,110,103,32,99,111,100,101,115,32,98,121,32,110,97,109,101],"value":"Missing codes by name"},
+{"hash":197516425,"name":"tfrmload_ghcnv4.button3.caption","sourcebytes":[83,116,97,116,105,111,110,115,32,110,111,116,32,105,110,32,105,110,118,101,110,116,111,114,121],"value":"Stations not in inventory"},
+{"hash":50149043,"name":"tfrmload_ghcnv4.btnduplicates.caption","sourcebytes":[68,117,112,108,105,99,97,116,101,115],"value":"Duplicates"},
+{"hash":89791588,"name":"tfrmload_ghcnv4.button4.caption","sourcebytes":[115,116,97,116,105,111,110,95,103,104,99,110,95,118,52],"value":"station_ghcn_v4"}
 ]}

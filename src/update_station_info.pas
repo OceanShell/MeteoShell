@@ -54,6 +54,14 @@ Qt3.Transaction:=TRt;
   end;
   Trt.Commit;
 
+  with Qt1 do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' update "station" set "empty"=false ');
+   ExecSQL;
+  end;
+  Trt.Commit;
+
 
   with Qt2 do begin
     Close;
@@ -137,10 +145,30 @@ try
       end; //row cnt
      Qt2.Next;
     end;
+    TRt.CommitRetaining;
+
+    with Qt3 do begin
+     Close;
+      SQL.Clear;
+      SQL.Add(' select "station_id" from "station_info" ');
+      SQL.Add(' where "station_id"='+inttostr(station_id));
+     Open;
+    end;
+
+    if Qt3.IsEmpty=true then begin
+     with Qt3 do begin
+      Close;
+       SQL.Clear;
+       SQL.Add(' update "station" set "empty"=true where ');
+       SQL.Add(' "id"='+inttostr(station_id));
+      ExecSQL;
+     end;
+     TRt.CommitRetaining;
+    end;
 
     ProgressTaskbar(cnt_stn, cnt_tot);
 
-   TRt.CommitRetaining;
+
    Qt1.next;
   end;
  finally
@@ -163,7 +191,6 @@ except
  Result:=false;
 end;
 end;
-
 
 
 end.

@@ -9,6 +9,7 @@
 {"hash":94150580,"name":"tfrmload_ds570.label4.caption","sourcebytes":[73,110,115,101,114,116,101,100],"value":"Inserted"},
 {"hash":141384599,"name":"tfrmload_ds570.groupbox1.caption","sourcebytes":[83,116,97,114,116,32,119,105,116,104,32,116,104,101,32,114,97,119],"value":"Start with the raw"},
 {"hash":212315537,"name":"tfrmload_ds570.tabsheet2.caption","sourcebytes":[77,101,116,97,100,97,116,97],"value":"Metadata"},
-{"hash":67129737,"name":"tfrmload_ds570.btnloadmetadata.caption","sourcebytes":[85,112,100,97,116,101,32,109,101,116,97,100,97,116,97,32,40,67,97,117,116,105,111,110,33,41],"value":"Update metadata (Caution!)"},
-{"hash":250584979,"name":"tfrmload_ds570.button1.caption","sourcebytes":[78,101,119,32,108,111,110,103,32,115,101,114,105,101,115],"value":"New long series"}
+{"hash":25069801,"name":"tfrmload_ds570.button1.caption","sourcebytes":[78,101,119,32,108,111,110,103,32,115,101,114,105,101,115,32,40,118,101,114,121,32,99,97,114,101,102,117,108,33,33,33,33,41],"value":"New long series (very careful!!!!)"},
+{"hash":6197413,"name":"tfrmload_ds570.chkwrite.caption","sourcebytes":[87,114,105,116,101],"value":"Write"},
+{"hash":183752848,"name":"tfrmload_ds570.button2.caption","sourcebytes":[115,116,97,116,105,111,110,95,100,115,53,55,48],"value":"station_ds570"}
 ]}

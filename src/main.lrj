@@ -64,5 +64,6 @@
 {"hash":256926449,"name":"tfrmmain.btnviewdata.caption","sourcebytes":[83,104,111,119,32,47,32,80,108,111,116,32,68,97,116,97],"value":"Show / Plot Data"},
 {"hash":235160819,"name":"tfrmmain.icomparesources.caption","sourcebytes":[67,111,109,112,97,114,101,32,83,111,117,114,99,101,115],"value":"Compare Sources"},
 {"hash":426880,"name":"tfrmmain.amap.caption","sourcebytes":[97,109,97,112],"value":"amap"},
-{"hash":1946368,"name":"tfrmmain.menuitem7.caption","sourcebytes":[83,104,111,119,32,115,101,108,101,99,116,101,100,32,115,116,97,116,105,111,110,32,111,110,32,109,97,112],"value":"Show selected station on map"}
+{"hash":1946368,"name":"tfrmmain.menuitem7.caption","sourcebytes":[83,104,111,119,32,115,101,108,101,99,116,101,100,32,115,116,97,116,105,111,110,32,111,110,32,109,97,112],"value":"Show selected station on map"},
+{"hash":199466113,"name":"tfrmmain.btninfo.caption","sourcebytes":[83,104,111,119,32,100,101,116,97,105,108,101,100,32,109,101,116,97,100,97,116,97],"value":"Show detailed metadata"}
 ]}

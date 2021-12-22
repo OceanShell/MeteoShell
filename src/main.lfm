@@ -187,7 +187,6 @@ object frmmain: Tfrmmain
           ItemHeight = 25
           OnDropDown = cbWMODropDown
           ParentFont = False
-          Style = csDropDownList
           TabOrder = 0
         end
         object cbCountry: TComboBox
@@ -198,7 +197,6 @@ object frmmain: Tfrmmain
           ItemHeight = 25
           OnDropDown = cbCountryDropDown
           ParentFont = False
-          Style = csDropDownList
           TabOrder = 1
         end
         object cbStation: TComboBox
@@ -209,7 +207,6 @@ object frmmain: Tfrmmain
           ItemHeight = 25
           OnDropDown = cbStationDropDown
           ParentFont = False
-          Style = csDropDownList
           TabOrder = 2
         end
         object lbResetMD: TLabel
@@ -496,7 +493,6 @@ object frmmain: Tfrmmain
         EdgeBorders = []
         EdgeInner = esNone
         EdgeOuter = esNone
-        Enabled = False
         Images = frmicons.IL1
         List = True
         ParentFont = False
@@ -514,11 +510,12 @@ object frmmain: Tfrmmain
           Top = 0
           Caption = 'btndelete'
           ImageIndex = 334
+          OnClick = btndeleteClick
           ShowCaption = False
         end
         object ToolButton4: TToolButton
           Left = 71
-          Height = 5
+          Height = 33
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
@@ -844,6 +841,14 @@ object frmmain: Tfrmmain
     object MenuItem7: TMenuItem
       Caption = 'Show selected station on map'
       ImageIndex = 984
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object btnInfo: TMenuItem
+      Caption = 'Show detailed metadata'
+      ImageIndex = 466
+      OnClick = btnInfoClick
     end
   end
 end
