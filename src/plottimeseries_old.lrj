@@ -1,0 +1,5 @@
+{"version":1,"strings":[
+{"hash":211369971,"name":"tfrmplottimeseriesold.caption","sourcebytes":[84,105,109,101,115,101,114,105,101,115],"value":"Timeseries"},
+{"hash":4658708,"name":"tfrmplottimeseriesold.rgplottype.caption","sourcebytes":[84,121,112,101,32,111,102,32,112,108,111,116],"value":"Type of plot"},
+{"hash":357220,"name":"tfrmplottimeseriesold.btnplot.caption","sourcebytes":[80,108,111,116],"value":"Plot"}
+]}

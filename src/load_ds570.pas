@@ -17,6 +17,7 @@ type
     btnLoadData: TButton;
     Button1: TButton;
     Button2: TButton;
+    Button3: TButton;
     chkWrite: TCheckBox;
     chkShowLog: TCheckBox;
     GroupBox1: TGroupBox;
@@ -37,6 +38,7 @@ type
     procedure btnLoadDataClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -65,7 +67,7 @@ DateCurr: TDate;
 DBVal:Variant;
 begin
   frmmain.OD.InitialDir:=GlobalPath+'data\';
- // frmmain.OD.Filter:='difference.csv|difference.csv';
+  frmmain.OD.Filter:='*.csv|*.csv';
 
   if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
 
@@ -168,13 +170,14 @@ begin
               Close;
                SQL.Clear;
                SQL.Add(' insert into "'+tbl_name+'" ');
-               SQL.Add(' ("station_id", "date", "value", "flag") ');
+               SQL.Add(' ("station_id", "date", "value", "pqf1", "pqf2") ');
                SQL.Add(' values ');
-               SQL.Add(' (:absnum, :date_, :value_, :flag_)');
+               SQL.Add(' (:absnum, :date_, :value_, :pqf1, :pqf2)');
                ParamByName('absnum').Value:=id;
                ParamByName('date_').AsDate:=DateCurr;
                ParamByName('value_').Value:=par;
-               ParamByName('flag_').Value:=0;
+               ParamByName('pqf1').Value:=0;
+               ParamByName('pqf2').Value:=0;
               ExecSQL;
             end;
             if chkShowLog.Checked then
@@ -190,7 +193,7 @@ begin
               Close;
                 SQL.Clear;
                 SQL.Add(' update "'+tbl_name+'" ');
-                SQL.Add(' set "value"=:value_ ');
+                SQL.Add(' set "value"=:value_, "pqf1"=0, "pqf2"=0 ');
                 SQL.Add(' where "station_id"=:absnum and "date"=:date_ ');
                 ParamByName('absnum').Value:=ID;
                 ParamByName('date_').AsDate:=DateCurr;
@@ -424,7 +427,74 @@ begin
   CloseFile(fi_dat);
   frmdm.TR.Commit;
   showmessage('done');
+end;
 
+procedure Tfrmload_ds570.Button3Click(Sender: TObject);
+var
+   k, md, wmo_id, cnt, ds570_wmo:integer;
+   StLat, StLon, Elev: real;
+   buf_str, ID, ds570, FileForRead :string;
+   absnum, absnum1:integer;
+   st,stName, date1, date2:string;
+   isempty:boolean;
+   stdate1, stdate2, date_min, date_max:TDateTime;
+begin
+  mLog.clear;
+  frmmain.OD.InitialDir:=GlobalPath+'data\';
+  frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
+
+  if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
+
+  AssignFile(fi_dat,FileForRead); reset(fi_dat);
+  readln(fi_dat, st);
+  cnt:=0;
+  repeat
+   readln(fi_dat, st);
+    k:=0;
+    for md:=1 to 7 do begin
+     buf_str:='';
+     repeat
+      inc(k);
+      if st[k]<>',' then buf_str:=buf_str+st[k];
+     until (st[k]=',') or (k=length(st));
+      if md=1 then ID    :=trim(buf_str);
+      if md=2 then stname:=trim(buf_str);
+      if md=3 then stLat :=StrToFloat(trim(buf_str));
+      if md=4 then StLon :=StrToFloat(trim(buf_str));
+      if md=5 then Elev  :=StrToFloat(trim(buf_str));
+      if md=6 then date1 :=trim(buf_str);
+      if md=7 then date2 :=trim(buf_str);
+    end;
+
+    stdate1:=encodedate(strtoint(copy(date1,1,4)), strtoint(copy(date1, 6, 2)), 1);
+    stdate2:=encodedate(strtoint(copy(date2,1,4)), strtoint(copy(date2, 6, 2)), 1);
+
+    ds570_wmo:=StrToInt(copy(id, 1, 5));
+    if copy(id, 6, 1)<>'0' then ds570_wmo:=-9;
+
+    frmdm.q1.Close;
+    frmdm.q1.SQL.Text:='Select "ds570_id" from "station" '+
+    'where "wmocode"='+inttostr(ds570_wmo)+' and "ds570_id" is null';
+    frmdm.q1.Open;
+
+    if not frmdm.q1.IsEmpty then begin
+     mLog.Lines.Add(inttostr(ds570_wmo));
+      with frmdm.q3 do begin
+      Close;
+       SQL.Clear;
+       SQL.Add(' update "station" set "ds570_id"='+id);
+       SQL.Add(' where "wmocode"='+inttostr(ds570_wmo));
+      ExecSQL;
+      end;
+      frmdm.TR.CommitRetaining;
+
+    end;
+
+    inc(cnt);
+  until eof(fi_dat);
+  CloseFile(fi_dat);
+  frmdm.TR.Commit;
+  showmessage('done');
 end;
 
 

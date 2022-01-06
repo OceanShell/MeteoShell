@@ -65,7 +65,6 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
     Top = 12
     Width = 144
     Caption = 'Metadata'
-    Enabled = False
     OnClick = btnGHCN_v3_MDClick
     ParentFont = False
     TabOrder = 3
@@ -92,7 +91,7 @@ object frmload_ghcn_v3: Tfrmload_ghcn_v3
   object Button1: TButton
     Left = 576
     Height = 38
-    Top = 16
+    Top = 12
     Width = 145
     Caption = 'station_ghcn_v3'
     OnClick = Button1Click

@@ -1,11 +1,11 @@
 object frmmain: Tfrmmain
-  Left = 390
+  Left = 369
   Height = 750
-  Top = 165
+  Top = 111
   Width = 1200
   Caption = 'MeteoShell'
-  ClientHeight = 720
-  ClientWidth = 1200
+  ClientHeight = 0
+  ClientWidth = 0
   Constraints.MaxWidth = 1200
   Constraints.MinHeight = 750
   Constraints.MinWidth = 1200
@@ -183,7 +183,7 @@ object frmmain: Tfrmmain
           Left = 102
           Height = 33
           Top = 108
-          Width = 246
+          Width = 202
           ItemHeight = 25
           OnDropDown = cbWMODropDown
           ParentFont = False
@@ -211,9 +211,9 @@ object frmmain: Tfrmmain
         end
         object lbResetMD: TLabel
           Cursor = crHandPoint
-          Left = 408
+          Left = 407
           Height = 20
-          Top = 123
+          Top = 121
           Width = 43
           Caption = 'Reset'
           Font.CharSet = RUSSIAN_CHARSET
@@ -306,6 +306,71 @@ object frmmain: Tfrmmain
         Width = 111
         Caption = 'Show SQL'
         TabOrder = 5
+      end
+      object GroupBox4: TGroupBox
+        Left = 12
+        Height = 86
+        Top = 472
+        Width = 478
+        Caption = 'ID range'
+        ClientHeight = 56
+        ClientWidth = 474
+        TabOrder = 6
+        object seIDMin: TSpinEdit
+          Left = 36
+          Height = 33
+          Top = 8
+          Width = 138
+          MaxValue = 999999
+          MinValue = 1
+          TabOrder = 0
+          Value = 1
+        end
+        object seIDMax: TSpinEdit
+          Left = 232
+          Height = 33
+          Top = 8
+          Width = 138
+          MaxValue = 999999
+          MinValue = 1
+          TabOrder = 1
+          Value = 1
+        end
+        object lbResetID: TLabel
+          Cursor = crHandPoint
+          Left = 407
+          Height = 20
+          Top = 21
+          Width = 43
+          Caption = 'Reset'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clBlue
+          Font.Height = -17
+          Font.Name = 'MS Sans Serif'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsUnderline]
+          ParentColor = False
+          ParentFont = False
+          OnClick = lbResetIDClick
+        end
+      end
+      object cgTimeStep: TCheckGroup
+        Left = 516
+        Height = 86
+        Top = 472
+        Width = 492
+        AutoFill = True
+        Caption = 'Time step'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        TabOrder = 7
       end
     end
     object tbData: TTabSheet
@@ -419,30 +484,23 @@ object frmmain: Tfrmmain
           item
             MinSize = 15
             MaxSize = 300
-            Title.Caption = 'Year min'
+            Title.Caption = 'Time step'
             Width = 96
-            FieldName = 'yy_min'
+            FieldName = 'timestep'
           end        
           item
             MinSize = 15
             MaxSize = 300
-            Title.Caption = 'Month min'
-            Width = 105
-            FieldName = 'mn_min'
-          end        
-          item
-            MinSize = 15
-            MaxSize = 300
-            Title.Caption = 'Year max'
+            Title.Caption = 'Date min'
             Width = 96
-            FieldName = 'yy_max'
+            FieldName = 'date_min'
           end        
           item
             MinSize = 15
             MaxSize = 300
-            Title.Caption = 'Month max'
+            Title.Caption = 'Date max'
             Width = 105
-            FieldName = 'mn_max'
+            FieldName = 'date_max'
           end        
           item
             MinSize = 15
@@ -481,7 +539,7 @@ object frmmain: Tfrmmain
         TabOrder = 2
         OnCellClick = DBGrid2CellClick
         OnKeyUp = DBGrid2KeyUp
-        OnPrepareCanvas = DBGrid1PrepareCanvas
+        OnPrepareCanvas = DBGrid2PrepareCanvas
       end
       object ToolBar1: TToolBar
         Left = 0
@@ -515,7 +573,7 @@ object frmmain: Tfrmmain
         end
         object ToolButton4: TToolButton
           Left = 71
-          Height = 33
+          Height = 5
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
@@ -708,6 +766,15 @@ object frmmain: Tfrmmain
     ParentFont = False
     TabOrder = 3
   end
+  object ListBox1: TListBox
+    Left = 848
+    Height = 72
+    Top = 0
+    Width = 216
+    ItemHeight = 0
+    TabOrder = 4
+    Visible = False
+  end
   object MM: TMainMenu
     Images = frmicons.IL1
     left = 468
@@ -735,20 +802,48 @@ object frmmain: Tfrmmain
         OnClick = ds5701Click
       end
       object iLoadGHCNv2: TMenuItem
-        Caption = 'ghcn v2 (obsolete)'
+        Caption = 'GHCN-M v2 (obsolete)'
         OnClick = iLoadGHCNv2Click
       end
       object iLoadGHCNv3: TMenuItem
-        Caption = 'ghcn v3 (obsolete)'
+        Caption = 'GHCN-M v3 (obsolete)'
         OnClick = iLoadGHCNv3Click
       end
       object iLoadGHCN_v4: TMenuItem
-        Caption = 'ghcn v4'
+        Caption = 'GHCN_M v4'
         OnClick = iLoadGHCN_v4Click
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object iLoadGHCND: TMenuItem
+        Caption = 'GHCN-D'
+        OnClick = iLoadGHCNDClick
+      end
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'QC'
+      object iQCProcedures: TMenuItem
+        Caption = 'QC procedures'
+        OnClick = iQCProceduresClick
       end
     end
     object MenuItem4: TMenuItem
       Caption = 'Services'
+      object iUpdateStationInfo: TMenuItem
+        Caption = 'Update Station_Info'
+        OnClick = iUpdateStationInfoClick
+      end
+      object MenuItem5: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem2: TMenuItem
+        Caption = 'Merge sources'
+        OnClick = MenuItem2Click
+      end
+      object MenuItem1: TMenuItem
+        Caption = '-'
+      end
       object iDatabaseTables: TMenuItem
         Caption = 'Table management'
         ImageIndex = 990
@@ -759,13 +854,6 @@ object frmmain: Tfrmmain
         ImageIndex = 644
         Visible = False
         OnClick = iDeleteEmptyStationsClick
-      end
-      object N1: TMenuItem
-        Caption = '-'
-      end
-      object iUpdateStationInfo: TMenuItem
-        Caption = 'Update Station_Info'
-        OnClick = iUpdateStationInfoClick
       end
     end
     object iTools: TMenuItem
@@ -793,14 +881,26 @@ object frmmain: Tfrmmain
   end
   object PM1: TPopupMenu
     Images = frmicons.IL1
+    OnPopup = PM1Popup
     left = 648
     top = 12
-    object btnviewdata: TMenuItem
-      Caption = 'Show / Plot Data'
+    object btnmonthlymatrix: TMenuItem
+      Caption = 'Monthly Matrix'
       ImageIndex = 857
-      OnClick = btnviewdataClick
+      OnClick = btnmonthlymatrixClick
+    end
+    object iShowTimeseries: TMenuItem
+      Caption = 'Show timeseries'
+      OnClick = iShowTimeseriesClick
     end
     object N3: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Compare Parameters'
+      Enabled = False
+    end
+    object N1: TMenuItem
       Caption = '-'
     end
     object iCompareSources: TMenuItem

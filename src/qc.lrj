@@ -1,0 +1,11 @@
+{"version":1,"strings":[
+{"hash":41245836,"name":"tfrmqc.caption","sourcebytes":[81,117,97,108,105,116,121,32,99,111,110,116,114,111,108],"value":"Quality control"},
+{"hash":5929253,"name":"tfrmqc.groupbox1.caption","sourcebytes":[84,97,98,108,101],"value":"Table"},
+{"hash":188134837,"name":"tfrmqc.chkeverytable.caption","sourcebytes":[69,118,101,114,121,32,116,97,98,108,101],"value":"Every table"},
+{"hash":262354460,"name":"tfrmqc.lbcurrenttbl.caption","sourcebytes":[108,98,67,117,114,114,101,110,116,84,98,108],"value":"lbCurrentTbl"},
+{"hash":241779405,"name":"tfrmqc.groupbox2.caption","sourcebytes":[65,108,103,111,114,105,116,104,109],"value":"Algorithm"},
+{"hash":229146365,"name":"tfrmqc.rbsigma.caption","sourcebytes":[79,117,116,108,105,101,114,115,32,98,101,121,111,110,100,32,115,105,103,109,97,61],"value":"Outliers beyond sigma="},
+{"hash":5941396,"name":"tfrmqc.btnstart.caption","sourcebytes":[83,116,97,114,116],"value":"Start"},
+{"hash":46904242,"name":"tfrmqc.chkwrite.caption","sourcebytes":[87,114,105,116,101,32,105,110,116,111,32,68,66],"value":"Write into DB"},
+{"hash":202164739,"name":"tfrmqc.chkdropqcflag.caption","sourcebytes":[83,101,116,32,102,108,97,103,61,48,32,98,101,102,111,114,101,32,81,67],"value":"Set flag=0 before QC"}
+]}

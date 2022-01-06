@@ -16,19 +16,23 @@ type
     DBGrid_ghcn_v2: TDBGrid;
     DBGrid_ghcn_v3: TDBGrid;
     DBGrid_ghcn_v4: TDBGrid;
+    DBGrid_ghcn_v4_prcp: TDBGrid;
     DS_ds570: TDataSource;
     DBGrid_ds570: TDBGrid;
     DS_ghcn_v2: TDataSource;
     DS_ghcn_v3: TDataSource;
     DS_ghcn_v4: TDataSource;
+    DS_ghcn_v4_prcp: TDataSource;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
+    GroupBox5: TGroupBox;
     q_ds570: TSQLQuery;
     q_ghcn_v2: TSQLQuery;
     q_ghcn_v3: TSQLQuery;
     q_ghcn_v4: TSQLQuery;
+    q_ghcn_v4_prcp: TSQLQuery;
 
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -96,6 +100,16 @@ begin
     SQL.Add(' where "id"='+inttostr(id)+')');
    Open;
   end;
+
+  with q_ghcn_v4_prcp do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' select * from "station_ghcn_v4_prcp" ');
+    SQL.Add(' where "id" in (select "ghcn_v4_prcp_id" from "station" ');
+    SQL.Add(' where "id"='+inttostr(id)+')');
+   Open;
+  end;
+
 end;
 
 

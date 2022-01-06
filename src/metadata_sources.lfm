@@ -1,10 +1,10 @@
 object frmmetadata_sources: Tfrmmetadata_sources
   Left = 688
-  Height = 719
-  Top = 216
+  Height = 829
+  Top = 135
   Width = 902
   Caption = 'Metadata from original sources'
-  ClientHeight = 719
+  ClientHeight = 829
   ClientWidth = 902
   DesignTimePPI = 144
   OnClose = FormClose
@@ -12,17 +12,17 @@ object frmmetadata_sources: Tfrmmetadata_sources
   LCLVersion = '2.0.6.0'
   object GroupBox1: TGroupBox
     Left = 24
-    Height = 289
-    Top = 16
+    Height = 272
+    Top = 13
     Width = 856
-    Anchors = [akTop, akLeft, akRight, akBottom]
+    Anchors = [akLeft, akRight]
     Caption = 'ds570'
-    ClientHeight = 259
+    ClientHeight = 242
     ClientWidth = 852
     TabOrder = 0
     object DBGrid_ds570: TDBGrid
       Left = 16
-      Height = 235
+      Height = 218
       Top = 8
       Width = 816
       AlternateColor = 13627366
@@ -41,7 +41,7 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox2: TGroupBox
     Left = 24
     Height = 121
-    Top = 312
+    Top = 296
     Width = 856
     Anchors = [akLeft, akRight]
     Caption = 'ghcn_v2'
@@ -69,7 +69,7 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox3: TGroupBox
     Left = 24
     Height = 120
-    Top = 441
+    Top = 432
     Width = 856
     Anchors = [akLeft, akRight]
     Caption = 'ghcn_v3'
@@ -97,7 +97,7 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox4: TGroupBox
     Left = 24
     Height = 120
-    Top = 569
+    Top = 560
     Width = 856
     Anchors = [akLeft, akRight]
     Caption = 'ghcn_v4'
@@ -114,6 +114,34 @@ object frmmetadata_sources: Tfrmmetadata_sources
       Color = 13631478
       Columns = <>
       DataSource = DS_ghcn_v4
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox5: TGroupBox
+    Left = 24
+    Height = 120
+    Top = 688
+    Width = 856
+    Anchors = [akLeft, akRight]
+    Caption = 'ghcn_v4_prcp'
+    ClientHeight = 90
+    ClientWidth = 852
+    TabOrder = 4
+    object DBGrid_ghcn_v4_prcp: TDBGrid
+      Left = 16
+      Height = 66
+      Top = 8
+      Width = 816
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcn_v4_prcp
       FixedCols = 0
       Flat = True
       Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
@@ -169,5 +197,17 @@ object frmmetadata_sources: Tfrmmetadata_sources
     DataSet = q_ghcn_v4
     left = 240
     top = 616
+  end
+  object q_ghcn_v4_prcp: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    left = 120
+    top = 728
+  end
+  object DS_ghcn_v4_prcp: TDataSource
+    DataSet = q_ghcn_v4_prcp
+    left = 240
+    top = 728
   end
 end

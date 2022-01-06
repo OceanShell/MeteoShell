@@ -1,456 +1,325 @@
 unit timeseries;
 
-{$MODE Delphi}
+{$mode objfpc}{$H+}
 
 interface
 
 uses
-  LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, Grids, DB, sqldb, DBGrids, IniFiles,
-  Menus, CheckLst, Buttons, FileUtil, LCLTranslator;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, DBGrids,
+  StdCtrls, Spin, TAGraph, TASeries, TATools, TADbSource, TAIntervalSources,
+  DateTimePicker, DB, SQLDB, BufDataset, DateUtils, Math, Grids, Variants,
+  Types;
 
 type
+
+  { Tfrmtimeseries }
+
   Tfrmtimeseries = class(TForm)
-    rgPlotType: TRadioGroup;
-    btnPlot: TButton;
-    CheckListBox1: TCheckListBox;
-    btnShowData: TBitBtn;
+    btnGetTimeseries: TButton;
+    Chart1: TChart;
+    chkHideOutliers: TCheckBox;
+    ctDPC: TDataPointClickTool;
+    ctDPH: TDataPointHintTool;
+    cts: TChartToolset;
+    ctZDT: TZoomDragTool;
+    DS: TDataSource;
+    dtInterval: TDateTimeIntervalChartSource;
+    dtp_max: TDateTimePicker;
+    dtp_min: TDateTimePicker;
+    GroupBox1: TGroupBox;
+    rgClipping: TRadioGroup;
+    Series1: TLineSeries;
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    Splitter1: TSplitter;
 
-
-    procedure btnPlotClick(Sender: TObject);
-    procedure rgPlotTypeClick(Sender: TObject);
+    procedure btnGetTimeseriesClick(Sender: TObject);
+    procedure ctDPCPointClick(ATool: TChartTool; APoint: TPoint);
+    procedure ctDPHHint(ATool: TDataPointHintTool; const APoint: TPoint;
+      var AHint: String);
+    procedure DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
+      Column: TColumn; AState: TGridDrawState);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
-    procedure btnShowDataClick(Sender: TObject);
 
   private
 
-    { Private declarations }
-    // procedure PlotAnnualMean;
-     procedure GetMonthComposition;
-     procedure GetSelectedMonth;
-
   public
-    { Public declarations }
+    procedure GetData(table_id:integer);
   end;
 
 var
   frmtimeseries: Tfrmtimeseries;
-  f_dat:text;
-  tspath:string;
+  CDSTimeseries:TBufDataset;
 
 implementation
 
-uses main, dm, viewdata, procedures, grapher;
-
 {$R *.lfm}
+
+uses main, dm;
+
+{ Tfrmtimeseries }
 
 
 procedure Tfrmtimeseries.FormShow(Sender: TObject);
 begin
- tspath:=GlobalPath+'unload\timeseries\';
- //if frmViewData.PageControl1.PageIndex=1 then rgPlotType.;
+
+  CDSTimeseries:=TBufDataSet.Create(self);
+  with CDSTimeseries do begin
+    FieldDefs.Add('date', ftdate, 0, false);
+    FieldDefs.Add('val', ftfloat, 0, false);
+    FieldDefs.Add('flag', ftinteger, 0, false);
+    CreateDataSet;
+    IndexFieldNames:='date';
+  end;
+
+
+ dtp_min.Date:=frmdm.CDS2.FieldByName('date_min').AsDateTime;
+ dtp_min.MinDate:=frmdm.CDS2.FieldByName('date_min').AsDateTime;
+ dtp_min.MaxDate:=frmdm.CDS2.FieldByName('date_max').AsDateTime;
+
+ dtp_max.Date:=dtp_min.MaxDate;
+ dtp_max.MinDate:=dtp_min.MinDate;
+ dtp_min.MaxDate:=dtp_min.MaxDate;
+
 end;
 
-procedure Tfrmtimeseries.btnPlotClick(Sender: TObject);
+
+procedure Tfrmtimeseries.GetData(table_id:integer);
 begin
- case rgPlotType.ItemIndex of
-//  0: PlotAnnualMean;
-  1: GetSelectedMonth;
-  2: GetMonthComposition;
+ Caption:=frmdm.CDS.FieldByName('name').AsString+': '+
+          frmdm.CDS2.FieldByName('par').AsString;
+ Application.ProcessMessages;
+
+
+end;
+
+
+procedure Tfrmtimeseries.DBGrid1PrepareCanvas(sender: TObject;
+  DataCol: Integer; Column: TColumn; AState: TGridDrawState);
+begin
+  if (column.Index=2) and (column.Field.AsString='1') then begin
+     TDBGrid(Sender).Canvas.Brush.Color := clRed;
+     TDBGrid(Sender).Canvas.Font.Color  := clWhite;
+     TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
+  end;
+
+ if (gdSelected in AState) then begin
+   TDBGrid(Sender).Canvas.Brush.Color := clNavy;
+   TDBGrid(Sender).Canvas.Font.Color  := clYellow;
+   TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
  end;
+
+  if VarIsNull(column.Field.Value)=true then TDBGrid(sender).Canvas.Brush.Color :=clYellow;
 end;
 
+procedure Tfrmtimeseries.btnGetTimeseriesClick(Sender: TObject);
+Var
+  k, ID, cnt, table_id:integer;
+  yy_min, yy_max:integer;
+  yy1, mn1, dd1, yy2, mn2, dd2: word;
 
-procedure Tfrmtimeseries.rgPlotTypeClick(Sender: TObject);
+  dat1: TDateTime;
+
+  TRt:TSQLTransaction;
+  Qt1:TSQLQuery;
+  tbl, units, step, txt: string;
+
+  steps_between:integer;
+  val1, pqf2: Variant;
+  clr:TColor;
 begin
- case rgPlotType.ItemIndex of
-  0: CheckListBox1.Enabled:=false;
-  1: CheckListBox1.Enabled:=true;
-  2: CheckListBox1.Enabled:=false;
-  3: CheckListBox1.Enabled:=false;
- end;
-btnPlot.Enabled:=true;
-Application.ProcessMessages;
-end;
+ table_id:=frmdm.CDS2.FieldByName('id').Value;
 
+  (* temporary transaction for support database *)
+ TRt:=TSQLTransaction.Create(nil);
+ TRt.DataBase:=frmdm.TR.DataBase;
 
-procedure Tfrmtimeseries.btnShowDataClick(Sender: TObject);
-begin
-  OpenDocument(PChar(tspath));
-end;
+ (* temporary query for main database *)
+ Qt1:=TSQLQuery.Create(nil);
+ Qt1.Database:=frmdm.TR.DataBase;
+ Qt1.Transaction:=TRt;
 
-
-
-procedure Tfrmtimeseries.GetMonthComposition;
-var
-k,count_ts,count:integer;
-year,month:integer;
-val,stlat,stlon,md,anom:real;
-tsFile,tsFileA,mn,SetColor,GraphID,PlotID,ID,FitTitle,FitID,AxisTitleY:string;
-xID,yID,txt:string;
-mn_arr:array[1..12] of string;
-
-stsource,stname,stcountry:string;
-absnum,wmonum,wmonumsource:integer;
-begin
-{
- absnum:=MDBDM.CDS.FieldByName('ABSNUM').AsInteger;
-
-   with MDBDM.ib1q2 do begin
-    Close;
+  with Qt1 do begin
+   Close;
     SQL.Clear;
-    SQL.Add(' select * from ');
-    SQL.Add(tblCurrent);
-    SQL.Add(' where absnum=:absnum ');
-    SQL.Add(' and month_=:month ');
-    SQL.Add(' order by year_ ');
-    Prepare;
-   end;
+    SQL.Add(' select "table"."name" as tbl, "timestep"."name" as step, ');
+    SQL.Add(' "parameter"."name" as par, "parameter"."units" as units ');
+    SQL.Add(' from "table", "parameter", "timestep" ');
+    SQL.Add(' where ');
+    SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
+    SQL.Add(' "table"."timestep_id"="timestep"."id" and ');
+    SQL.Add(' "table"."id"=:id ');
+    ParamByName('id').AsInteger:=table_id;
+   Open;
+    tbl:=Qt1.FieldByName('tbl').AsString;
+    units:=Qt1.FieldByName('units').AsString;
+    step:=Qt1.FieldByName('step').AsString;
+   Close;
+  end;
 
-    count_ts:=0;
-for k:=1 to 12 do begin
-    md:=0;
-    count:=0;
+  Chart1.LeftAxis.Title.Caption:=frmdm.CDS2.FieldByName('par').AsString+', '+units;
+  Application.ProcessMessages;
 
-   case k of
-   1:  mn:='JAN';
-   2:  mn:='FEB';
-   3:  mn:='MAR';
-   4:  mn:='APR';
-   5:  mn:='MAY';
-   6:  mn:='JUN';
-   7:  mn:='JUL';
-   8:  mn:='AUG';
-   9:  mn:='SEP';
-   10: mn:='OCT';
-   11: mn:='NOV';
-   12: mn:='DEC';
-   end;
+  ID:=frmdm.CDS.FieldByName('id').AsInteger;
+
+ //     showmessage('here2');
+
+  try
+
+  if CDSTimeseries.Active=true then CDSTimeseries.Close;
+     CDSTimeseries.Open;
+
+    DBGrid1.Enabled:=false;
+    CDSTimeseries.DisableControls;
+    CDSTimeseries.First;
 
 
-   with MDBDM.ib1q2 do begin
-    ParamByName('absnum').AsInteger:=Absnum;
-    ParamByName('month').AsInteger:=k;
-    Open;
-   end;
 
-if MDBDM.ib1q2.IsEmpty=false then begin
-
-   tsfile :=tspath+mn+'.dat';
-   tsfileA:=tspath+mn+'a.dat';
-
-   Application.ProcessMessages;
-
-   assignfile(f_dat, tsfile);   rewrite(f_dat);
-   assignfile(fA_dat,tsfileA); rewrite(fA_dat);
-   writeln(f_dat ,'year value');
-   writeln(fA_dat,'year anomaly');
-
-   count_ts:=count_ts+1;
-   mn_arr[count_ts]:=mn;
-
-   while not MDBDM.ib1q2.Eof do begin
-    year:=MDBDM.ib1q2.FieldByName('year_').AsInteger;
-    val:=MDBDM.ib1q2.FieldByName('val_').AsFloat;
-    Count:=Count+1;
-    md:=md+val;
-
-    writeln(f_dat,year:4,val:9:3);
-    MDBDM.ib1q2.Next;
-   end;
-    MDBDM.ib1q2.Close;
-    closefile(f_dat);
-
-end;
-
-if count>0 then begin
-     md:=md/count;
-     reset(f_dat);
-     readln(f_dat);
-    while not EOF(f_dat) do begin
-     readln(f_dat, year, val);
-     anom:=val-md;
-     writeln(fA_dat,year:6,anom:9:4);
+  {if step='Month' then begin
+   steps_between:=MonthsBetween(dtp_min.Date, dtp_max.Date)+2;
+  // showmessage(inttostr(steps_between));
+    for k:=0 to steps_between-1 do begin
+     with CDSTimeseries do begin
+      Append;
+       FieldByName('date').Value:=IncMonth(dtp_min.Date, k);
+      Post;
+     end;
     end;
-     closefile(f_dat);
-     closefile(fA_dat);
-end;
-end;
-    MDBDM.ib1q2.UnPrepare;
+  end;
 
-    {
+  if step='Day' then begin
+   steps_between:=DaysBetween(dtp_min.Date, dtp_max.Date)+2;
+    for k:=0 to steps_between-1 do begin
+     with CDSTimeseries do begin
+      Append;
+       FieldByName('date').Value:=IncDay(dtp_min.Date, k);
+      Post;
+     end;
+    end;
+  end;        }
+  DecodeDate(dtp_min.Date, yy1, mn1, dd1);
+  DecodeDate(dtp_max.Date, yy2, mn2, dd2);
 
-   (* Строим серии в Графере *)
-   if chkplottimeseries.Checked=true then begin
-    if count_ts=0 then showmessage('There are no valid time series at station!')
-  else begin
+ //  showmessage('here2');
 
+    with Qt1 do begin
+     Close;
+      SQL.Clear;
+      SQL.Add(' select * from "'+tbl+'" ');
+      SQL.Add(' where "station_id"=:id ');
+      if rgClipping.ItemIndex=0 then
+        SQL.Add(' and "date" between :date_min and :date_max ');
+      if rgClipping.ItemIndex=1 then begin
+        SQL.Add(' and Extract(Year from "date") between :yy1 and :yy2 ');
+        SQL.Add(' and Extract(Month from "date") between :mn1 and :mn2 ');
+        SQL.Add(' and Extract(Day from "date") between :dd1 and :dd2 ');
+      end;
+      if chkHideOutliers.Checked then
+        SQL.Add(' and "pqf2"=0 ');
 
-    Grapher:=CreateOLEObject('Grapher.Application');
-    Grapher.Visible(1);
-    Plot:=Grapher.Documents.Add(0);
-    GraphID:='g1';
-
-for k:=1 to count_ts do begin
-
-    if CheckBox5.Checked then
-     tsfile:=tspath+mn_arr[k]+'a.dat' else
-     tsfile:=tspath+mn_arr[k]+'.dat';
-
-
-    assignfile(f_dat,tsfile); reset(f_dat);
-
-
-    case k of
-    1: SetColor:='50% Black';
-    2: SetColor:='30% Black';
-    3: SetColor:='Brown';
-    4: SetColor:='Green';
-    5: SetColor:='Pink';
-    6: SetColor:='Magenta';
-    7: SetColor:='Red';
-    8: SetColor:='Purple';
-    9: SetColor:='Deep Yellow';
-   10: SetColor:='Cyan';
-   11: SetColor:='Blue';
-   12: SetColor:='Black';
+      SQL.Add(' order by "date" ');
+      ParamByName('id').Value:=id;
+      if rgClipping.ItemIndex=0 then begin
+        ParamByName('date_min').Value:=dtp_min.Date;
+        ParamByName('date_max').Value:=dtp_max.Date;
+      end;
+      if rgClipping.ItemIndex=1 then begin
+        ParamByName('yy1').Value:=yy1;
+        ParamByName('yy2').Value:=yy2;
+        ParamByName('mn1').Value:=mn1;
+        ParamByName('mn2').Value:=mn2;
+        ParamByName('dd1').Value:=dd1;
+        ParamByName('dd2').Value:=dd2;
+      end;
+    // showmessage(sql.text);
+     Open;
     end;
 
-    GraphID:='MonthComp';
-    PlotID:=mn_arr[k];
-    ID:=concat(GraphID,':',PlotID);
+   //  showmessage('here2');
 
-    if CheckBox1.Checked then begin
-    Plot.CreateLinePlot(GraphID,PlotID,tsfile,,1,2,,,,,,,,,1,,0.001,10,SetColor);
-    Plot.SetObjectLineProps(ID,SetColor,'.1 in. Dash',0.005);
-    end
-    else begin
-    Plot.CreateLinePlot(GraphID,PlotID,tsfile,,1,2,,,,,,,,,0,,0.001,10,SetColor);
-    Plot.SetObjectLineProps(ID,SetColor,'Invisible',0.005);
-    end;
+  Qt1.First;
+  while not Qt1.EOF do begin
+   dat1:=Qt1.FieldByName('date').Value;
+   val1:=Qt1.FieldByName('value').Value;
+   pqf2:=Qt1.FieldByName('pqf2').Value;
+
+     with CDSTimeseries do begin
+      Append;
+      { if VarIsNull(Lookup('date', dat1, 'date')) then Append else begin
+         Locate('date',dat1,[]);
+         Edit;
+       end;  }
+        FieldByName('date').AsDateTime:=dat1;
+        FieldByName('val').AsFloat:=val1;
+        FieldByName('flag').AsInteger:=pqf2;
+       Post;
+     end;
+
+   Qt1.Next;
+  end;
+  Qt1.First;
+
+ //  showmessage('here0');
+  Series1.Clear;
+  CDSTimeseries.First;
+  while not CDSTimeseries.EOF do begin
+    dat1:=CDSTimeseries.FieldByName('date').AsDateTime;
+    val1:=CDSTimeseries.FieldByName('val').Value;
+    pqf2:=CDSTimeseries.FieldByName('flag').Value;
+
+    if Val1=null then Val1:=Nan;
+
+    if pqf2=0 then clr:=clBlue else clr:=clRed;
+
+    txt:='Date: '+datetimetostr(dat1)+'; Value: '+VarToStr(val1);
+    Series1.AddXY(dat1, val1, txt, clr);
+    CDSTimeseries.Next;
+  end;
+  DS.DataSet:=CDSTimeseries;
 
 
-    if CheckBox2.Checked then begin
-    FitTitle:=concat(PlotID,'_RAv',inttostr(RunAvStep));
-    FitID:=concat(GraphID,':',FitTitle);
-    Plot.CreateFit(ID,FitTitle,1,8,5);
-    Plot.SetObjectLineProps(FitID,SetColor,'Solid',0.03);
-    end;
-
-    //lenear fit
-    if CheckBox3.Checked then begin
-    FitTitle:=concat(PlotID,'_L');
-    FitID:=concat(GraphID,':',FitTitle);
-    Plot.CreateFit(ID,FitTitle,1,0);
-    Plot.SetObjectLineProps(FitID,SetColor,'.1 in. Dash',0.03);
-    end;
-
-     xID:=concat(GraphID,':','X Axis 1');
-     yID:=concat(GraphID,':','Y Axis 1');
-     Plot.PositionAxis(xID,0,12,3,3);
-     Plot.PositionAxis(yID,0,20,3,3);
-
-     if CheckBox5.Checked
-     then
-     AxisTitleY:=copy(tblCurrent,3,length(tblCurrent))+' Anomalies'
-     else
-     AxisTitleY:=copy(tblCurrent,3,length(tblCurrent));
-
-     Plot.EditAxis(xID,1,,'Years',   'Times New Roman',12,,1);
-     Plot.EditAxis(yID,1,,AxisTitleY,'Times New Roman',12,,1);
-
-    closefile(f_dat);
+  finally
+    Qt1.Close;
+    Qt1.Free;
+    Trt.Commit;
+    Trt.Free;
+    CDSTimeseries.First;
+    CDSTimeseries.EnableControls;
+    DBGrid1.Enabled:=true;
+    DBGrid1.refresh;
+  end;
 end;
 
-    WMOnum      :=MDBDM.CDS.FieldByName('wmonum').AsInteger;
-    WMOnumSource:=MDBDM.CDS.FieldByName('wmonum').AsInteger;
-    StSource    :=MDBDM.CDS.FieldByName('StSource').AsString;
-    StLat       :=MDBDM.CDS.FieldByName('StLat').AsFloat;
-    StLon       :=MDBDM.CDS.FieldByName('StLon').AsFloat;
-    StName      :=MDBDM.CDS.FieldByName('StName').AsString;
-    StCountry   :=MDBDM.CDS.FieldByName('StCountry').AsString;
-
-
-    txt:='wmonum : '+inttostr(WMOnum)+'  wmonum (datasource): '+inttostr(WMOnumSource);
-    Plot.DrawText(2.5,26.5,txt);
-    txt:='StName :  '+StName;
-    Plot.DrawText(2.5,26,txt);
-    txt:='Country:  '+StCountry;
-    Plot.DrawText(2.5,25.5,txt);
-    txt:='Source :  '+StSource;
-    Plot.DrawText(2.5,25,txt);
-    txt:='Lat    :  '+floattostr(StLat);
-    Plot.DrawText(2.5,24.5,txt);
-    txt:='Lon    :  '+floattostr(StLon);
-    Plot.DrawText(2.5,24,txt);
-    Plot.DrawRectangle(2.3,26.6,15,23.5,'TextBox1');
-
-    Plot.Select(GraphID);
-    Plot.AddLegendEntry('Legend','JAN',,,,,'Custom',0.2);
-    Plot.CreateLegend(ID,'Legend',18,14);
-    Plot.AddLegendEntry('Legend','FEB',,,,,'Custom',0.2);
-    Plot.Maximize;
-    Plot.ViewFitToWindow;
-end;
-end;
-(* Конец построения серий *)   }
-end;
-
-
-
-procedure Tfrmtimeseries.GetSelectedMonth;
-var
-i,ky,km,count,countYear,countMonth,count_md:integer;
-month,currentYear,currentMonth,year:integer;
-md,md_ts,val,anom,stlat,stlon:real;
-abbr,ID,AxisTitleY:string;
-Month_arr :array[0..12] of integer; {first month - december last year}
-stsource,stname,stcountry, tsfile, tsfilea, clr:string;
-currentabsnum, wmonum,wmonumsource, ymax, ymin, ci, RunAvStep:integer;
+procedure Tfrmtimeseries.ctDPCPointClick(ATool: TChartTool; APoint: TPoint);
+Var
+ tool: TDataPointClicktool;
+ series: TLineSeries;
 begin
- //  RunAvStep:=strtoint(edit1.Text);
-   currentabsnum:=frmdm.CDS.FieldByName('ABSNUM').AsInteger;
-
-//   ci:=frmselection.StringGrid1.Row;
- //  ymax:=StrToInt(frmselection.StringGrid1.Cells[3,ci]);
- //  ymin:=StrToInt(frmselection.StringGrid1.Cells[2,ci]);
-
-{
-   with dm.ib1q2 do begin
-    Close;
-    SQL.Clear;
-    SQL.Add(' select * from ');
-    SQL.Add(tblCurrent);
-    SQL.Add(' where absnum=:absnum and year_=:year ');
-    Prepare;
-   end;
-
-   with dm.ib1q2 do begin
-    Close;
-    SQL.Clear;
-    SQL.Add(' select * from ');
-    SQL.Add(tblCurrent);
-    SQL.Add(' where absnum=:absnum and year_=:LastYear ');
-    SQL.Add(' and month_=12 ');
-    Prepare;
-   end;
-
-    count:=0;
-    count_md:=0;
-    abbr:='';
-for i:=0 to CheckListBox1.Items.Count-1 do begin
-   if CheckListBox1.Checked[i] then begin
-    count:=count+1;
-    month_arr[count-1]:=i;   // {last december -> zero index
-
-    abbr:=abbr+copy(CheckListBox1.Items.Strings[i],1,1);
-
-   end;
-end;
-   //label1.Caption:=inttostr(count);
-  // label2.Caption:=abbr;
-   Application.ProcessMessages;
-   if count=0 then begin
-    showmessage('Month not selected!');
-    exit;
-   end;
-
-    WMOnum      :=dm.CDS.FieldByName('wmonum').AsInteger;
-    WMOnumSource:=dm.CDS.FieldByName('wmonum').AsInteger;
-    StSource    :=dm.CDS.FieldByName('StSource').AsString;
-    StLat       :=dm.CDS.FieldByName('StLat').AsFloat;
-    StLon       :=dm.CDS.FieldByName('StLon').AsFloat;
-    StName      :=dm.CDS.FieldByName('StName').AsString;
-    StCountry   :=dm.CDS.FieldByName('StCountry').AsString;
-
-
-   if not DirectoryExistsUTF8(tsPath)  then CreateDirUTF8(tsPath);
-
-   stname:=stringreplace(stname, '/', '_', [rfReplaceAll, rfIgnoreCase]);
-   stname:=stringreplace(stname, '\', '_', [rfReplaceAll, rfIgnoreCase]);
-
-   tsFile :=concat(tspath,inttostr(wmonum),'_',StName,'_',abbr,'.dat');
-   tsFileA:=concat(tspath,inttostr(wmonum),'_',StName,'_',abbr,'_anom.dat');
-  // showmessage(tsfile);
-
-   //lboutput.Caption:='Output: '+tsFile;
-   Application.ProcessMessages;
-
-   assignfile(f_dat,tsFile); rewrite(f_dat);
-   assignfile(fA_dat,tsFileA); rewrite(fA_dat);
-   writeln(f_dat, 'year':5, 'md':10);
-   writeln(fA_dat,'year':5, 'mdAnomaly':10, 'colour':10);
-
-    CountYear:=ymax-ymin+1;
-for ky:=1 to CountYear do begin
-    CurrentYear:=ymin+(ky-1);
-
-   with dm.Ib1q2 do begin
-    ParamByName('absnum').AsInteger:=CurrentAbsnum;
-    ParamByName('lastyear').AsInteger:=CurrentYear-1;
-    Open;
-   end;
-
-   with dm.ib1q2 do begin
-    ParamByName('absnum').AsInteger:=CurrentAbsnum;
-    ParamByName('year').AsInteger:=CurrentYear;
-    Open;
-   end;
-
-    countMonth:=0;
-    md:=0;
-
-   if dm.Ib1q2.IsEmpty=false then begin
-   for km:=0 to count-1 do begin
-   if (month_arr[km]=0) then begin
-     CountMonth:=CountMonth+1;
-    md:=md+dm.Ib1q2.FieldByName('val_').asFloat;
-   end;
-   end;
-   end;
-    dm.Ib1q2.Close;
-
-   while not dm.ib1q2.Eof do begin
-    month:=dm.ib1q2.FieldByName('month_').asInteger;
-   for km:=0 to count-1 do begin
-   if month_arr[km]=month then begin
-    countMonth:=countMonth+1;
-    md:=md+dm.ib1q2.FieldByName('val_').asFloat;
-   end;
-   end;
-    dm.ib1q2.Next;
-   end;
-    dm.ib1q2.Close;
-
-   if countMonth=count then begin
-    md:=md/count;
-    count_md:=count_md+1;
-    md_ts:=md_ts+md;
-   // memo1.Lines.Add(inttostr(currentYear)+#9+floattostrF(md,ffFixed,7,3));
-    writeln(f_dat,currentYear:5,md:10:4);
-   end;
-
-end;
-    closefile(f_dat);
-    dm.ib1q2.UnPrepare;
-    dm.Ib1q3.UnPrepare;
-
-
-if count_md>0 then begin
-     md_ts:=md_ts/count_md;
-     reset(f_dat);
-     readln(f_dat);
-    while not EOF(f_dat) do begin
-     readln(f_dat, year, val);
-     anom:=val-md_ts;
-      if anom>=0 then clr:='red' else clr:='blue';
-     writeln(fA_dat,year:5, anom:10:4, clr:10);
+ showmessage('here');
+  tool := ATool as TDataPointClickTool;
+  if tool.Series is TLineSeries then begin
+    series := TLineSeries(tool.Series);
+    //showmessage(inttostr(tool.PointIndex));
+    if (tool.PointIndex<>-1) then begin
+      //CDSTimeseries.Locate('date', series.XValue[tool.PointIndex], []);
     end;
-    closefile(f_dat);
-    closefile(fA_dat);
+  end;
 end;
-}
+
+procedure Tfrmtimeseries.ctDPHHint(ATool: TDataPointHintTool;
+  const APoint: TPoint; var AHint: String);
+begin
+  AHint := TLineSeries(ATool.Series).Source.Item[ATool.PointIndex]^.Text;
+end;
+
+
+procedure Tfrmtimeseries.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  open_timeseries:=false;
 end;
 
 
 end.
+

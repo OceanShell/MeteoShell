@@ -9,7 +9,7 @@ uses
   Registry, ShlObj, comobj, Win32Int, InterfaceBase,
 {$ENDIF}
 
-  SysUtils, Variants, Dialogs, DateUtils, Forms, Math, main;
+  SysUtils, Variants, Dialogs, DateUtils, Forms, Graphics, Math, main;
 
 function CheckKML:boolean;
 function ClearDir(Dir:string ): boolean;
@@ -22,13 +22,7 @@ procedure Distance(ln0,ln1,lt0,lt1:real; var Dist:real);
 procedure PositionByDistance(Lat0, Lon0, Dist: real; var dlat, dlon:real);
 
 function GetMonthFromIndex(ind:integer):string;
-
-(* Date encoding function *)
-function DateEncode(Year,Month,Day,Hour,Minutes:word;
- Var DaysInAMonthFlag,DateChangedFlag:Boolean):TDateTime;
-
-
-Function  Cond2Sal78 (aConductivity, Temp, Press : Double; Var aSalinity: Double) : Boolean;
+function GetColorFromIndex(ind:integer):TColor;
 
 
 implementation
@@ -150,237 +144,6 @@ begin
 
   dlat:=(lat-lat0)*180/pi;
   dlon:=(lon-lon0)*180/pi;
-
-//  showmessage(floattostr(dlat)+'   '+floattostr(dlon));
-
-end;
-
-{updated 9.10.2004}
-function DateEncode(Year,Month,Day,Hour,Minutes:word;
-  Var DaysInAMonthFlag,DateChangedFlag:Boolean):TDateTime;
-var
-  DateBuf:TDateTime;
-begin
-
-  DaysInAMonthFlag:=False;
-  DateChangedFlag:=False;
-
-  if Day<=DaysInaMonth(Year,Month) then
-  begin
-    DateBuf:=EncodeDateTime(Year+1600,Month,1,0,0,0,0);
-    if (Hour>=0) and (Hour<=24) then
-    begin
-      if ((Minutes<=60) and (Minutes>0) and (Hour<24)) or
-       ((Minutes<60) and (Hour=24)) then
-       DateBuf:=IncMinute(DateBuf,Minutes)  ;
-
-      if (Hour=24) or ((Hour=23) and (Minutes=60)) then
-        DateChangedFlag:=True;
-      if (Hour=24) and (Minutes>60) then
-        DateChangedFlag:=False;
-
-      if (Hour>0) and (Minutes<=60) then
-        DateBuf:=IncHour(DateBuf,Hour);
-    end;
-
-    DateBuf:=IncDay(DateBuf,Day-1);
-    Result:=IncYear(DateBuf,-1600);
-  end
-  else
-  begin
-    DaysInAMonthFlag:=True;
-    if Month<12 then
-      DateBuf:=EncodeDateTime(Year+1600,Month+1,1,0,0,0,0)
-    else
-      DateBuf:=EncodeDateTime(Year+1601,1,1,0,0,0,0);
-
-    if (Hour>=0) and (Hour<=24) then
-    begin
-      if (Minutes<60) and (Minutes>0) then
-       DateBuf:=IncMinute(DateBuf,Minutes)
-      else
-      begin
-       if Minutes=60 then
-          inc(Hour);
-      end;
-
-      if (Hour>=24) or ((Hour=23) and (Minutes=60)) then
-        DateChangedFlag:=True;
-      if (Hour=24) and (Minutes>60) then
-        DateChangedFlag:=False;
-
-      if (Hour>=24) or (Minutes>60) then
-        Hour:=0;
-      DateBuf:=IncHour(DateBuf,Hour);
-    end;
-
-    Result:=IncYear(DateBuf,-1600);
-  end;
-end;
-
-
-{...convert date/time to TdateTime and assign quality flags}
-Procedure ODBPr_ConvertDateTime(StYear,StMonth,StDay,StHour,StMin:word;
-                                var StDate,StTime:TDateTime;
-                                var MonthErr,TimeErr:Boolean);
-label 10;
-var
-DM:integer;
-d:word;
-begin
-
-    DM:=DaysInAMonth(StYear,StMonth);
-    MonthErr:=false;
-    TimeErr:=false;
-    d:=StDay;
-
-    {not considered outside}
-    if (StMin>60) or (StHour>24)then begin
-     StMin:=0;
-     StHour:=0;
-    end;
-
-   {if StDay exceed DM -> next month/year}
-{m}if (StDay>DM) then begin
-    MonthErr:=true; {flag 32}
-    StDay:=1;
-    if StMonth<12 then Stmonth:=StMonth+1;
-    if StMonth=12 then begin
-     StMonth:=1;
-     StYear:=StYear+1;
-    end;
-    if (StHour=23) and (StMin=60) then begin
-                       StHour:=0;
-                       StMin:=0;
-                       TimeErr:=true;
-                       end;
-    if StMin=60  then begin StMin:=0; TimeErr:=true; end;
-    if StHour=24 then begin StHour:=0; TimeErr:=true; end;
-   goto 10;
-{m}end;
-
-   {if StMin >=60 -> next hour/day}
-{h1}if (StDay<DM) then begin
-    if (StMin>=60) then begin
-     StMin:=0;
-     StHour:=StHour+1;
-    end;
-{!} if (StHour>=24) then begin
-     StHour:=0;
-     if (StDay<DM) then StDay:=StDay+1;
-{!} end;
-    if (StDay<>d) then TimeErr:=true; {flag 64}
-{h1}end;
-
-   {if StMin >=60 and StDay=DM -> next day/month/year}
-{h2}if (StDay=DM) then begin
-
-    if (StMin=60) then begin
-     StMin:=0;
-     StHour:=StHour+1;
-    end;
-{!} if (StHour>=24) then begin
-     StHour:=0;
-     StDay:=1;
-     if StMonth<12 then Stmonth:=StMonth+1;
-     if StMonth=12 then begin
-      StMonth:=1;
-      StYear:=StYear+1;
-     end;
-{!} end;
-    if (StDay<>d) then TimeErr:=true; {flag 64}
-{h2}end;
-
-10: StDate:=EncodeDate(StYear,StMonth,StDay);
-    StTime:=EncodeTime(StHour,StMin,0,0);
-end;
-
-
-
-Function Cond2Sal78 (aConductivity, Temp, Press : Double; Var aSalinity: Double) : Boolean;
-// Function Cond2Sal converts a conductivity value of seawater to a value
-// of the pratical-salinity-scale 1978 (PSS-78) for given values of
-// conductivity, temperature and pressure. Result is returned as
-// parameter in aSalinity. A returned boolean result TRUE of the
-// function indicates that the result is reliable.
-// UNITS:
-//   PRESSURE      Press          DECIBARS
-//   TEMPERATURE   Temp           DEG CELSIUS IPTS-68
-//   CONDUCTIVITY  aConductivity  S/m
-//   SALINITY      aSalinity      PSS-78
-// ----------------------------------------------------------
-// CHECKVALUES:
-//   2.) aSalinity=40.00000 for CND=1.888091, T=40 DEG C, P=10000 DECIBARS
-// ----------------------------------------------------------
-// SAL78 RATIO: RETURNS ZERO FOR CONDUCTIVITY RATIO: < 0.0005
-// ----------------------------------------------------------
-// This source code is based on the original fortran code in:
-//   UNESCO technical papers in marine science 44 (1983) -
-//   'Algorithms for computation of fundamental properties of seawater'
-// ----------------------------------------------------------
-// Written in object pascal by:
-//   Dr. Jan Schulz, 26. May 2008, www.code10.info
-
-    Function SAL (XR, XT: Double): Double;
-    // PRACTICAL SALINITY SCALE 1978 DEFINITION WITH TEMPERATURE
-    // CORRECTION;XT :=T-15.0; XR:=SQRT(RT);
-    Begin
-
-      SAL := ((((2.7081*XR-7.0261)*XR+14.0941)*XR+25.3851)*XR
-              - 0.1692)*XR+0.0080
-              + (XT/(1.0+0.0162*XT))*(((((-0.0144*XR
-              + 0.0636)*XR-0.0375)*XR-0.0066)*XR-0.0056)*XR+0.0005);
-    end;
-
-    Function RT35 (XT : Double) : Double;
-    // FUNCTION RT35: C(35,T,0)/C(35,15,0) VARIATION WITH TEMPERATURE
-    Begin
-      RT35 := (((1.0031E-9 * XT - 6.9698E-7) * XT + 1.104259E-4) * XT
-               + 2.00564E-2) * XT + 0.6766097;
-    end;
-
-    Function C (XP : Double) : Double;
-    // C(XP) POLYNOMIAL CORRESPONDS TO A1-A3 CONSTANTS: LEWIS 1980
-    Begin
-      C := ((3.989E-15 * XP - 6.370E-10) * XP + 2.070E-5) * XP;
-    end;
-
-    Function B (XT :Double) : Double;
-    Begin
-      B := (4.464E-4 * XT + 3.426E-2) * XT + 1.0;
-    end;
-
-    Function A (XT : Double): Double;
-    //A(XT) POLYNOMIAL CORRESPONDS TO B3 AND B4 CONSTANTS: LEWIS 1980
-    Begin
-      A := -3.107E-3 * XT + 0.4215;
-    end;
-Var DT : Double;
-    RT : Double;
-Begin
-// we expect the best
-  Cond2Sal78 := True;
-  aSalinity  := 0;
-
-  // equation is not defined for conductivity values below 5e-4
-  If aConductivity <= 0.2 THen
-  Begin
-    Cond2Sal78 := False;
-    Exit;
-  end;
-
-  // start conversion
-  DT        := Temp - 15;
-  aSalinity := aConductivity/4.2914;
-  RT        := aSalinity / (RT35 (Temp) * (1.0 + C (Press) / (B (Temp) + A (Temp) * aSalinity)));
-  RT        := Sqrt (Abs (RT));
-  aSalinity := SAL (RT, DT);
-
-  // control, whether result is in the validity range of PSS-78
-  If (aSalinity < 2) Or (aSalinity > 42) THen
-  Begin
-    Cond2Sal78 := False;
-  end;
 end;
 
 
@@ -400,6 +163,25 @@ begin
   11: result:='November';
   12: result:='December';
  end;
+end;
+
+function GetColorFromIndex(ind:integer):TColor;
+begin
+  case ind of
+    1:  result:=RGBToColor(  0, 204, 204);
+    2:  result:=RGBToColor(153, 204, 255);
+    3:  result:=RGBToColor(  0, 204,   0);
+    4:  result:=RGBToColor(128, 255,   0);
+    5:  result:=RGBToColor(204, 204,   0);
+    6:  result:=RGBToColor(255, 128,   0);
+    7:  result:=RGBToColor(255,   0,   0);
+    8:  result:=RGBToColor(255,   0, 128);
+    9:  result:=RGBToColor(255,   0, 255);
+    10: result:=RGBToColor(153, 153, 255);
+    11: result:=RGBToColor(  0,   0, 255);
+    12: result:=RGBToColor(  0,   0, 153);
+    13: result:=RGBToColor(  0,   0,   0);
+  end;
 end;
 
 end.

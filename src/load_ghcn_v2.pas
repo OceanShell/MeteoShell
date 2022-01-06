@@ -23,7 +23,6 @@ type
     Splitter2: TSplitter;
 
     procedure btnGHCN_v3_DataClick(Sender: TObject);
-  //  procedure btnGHCN_v3_MDClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
 
@@ -48,38 +47,37 @@ uses dm;
 
 procedure Tfrmload_ghcn_v2.btnGHCN_v3_DataClick(Sender: TObject);
 Var
- fname, st, tbl:string;
- k, ff, absnum, yy, mn, numsrc:integer;
+ fname, st, tbl, numsrc:string;
+ k, ff, absnum, yy, mn:integer;
  temp, val0:real;
  DateCurr:TDateTime;
  datf:text;
+ towrite: boolean;
 begin
   fname:='Z:\MeteoShell\data\ghcn_v2\v2.prcp';
   AssignFile(datf, fname);
   reset(datf);
 
-
  repeat
   readln(datf, st);
 
-   numsrc:=StrToInt(trim(Copy(st,4, 5)));
- //  showmessage(inttostr(numsrc));
+   numsrc:=trim(Copy(st, 1, 11));
 
    absnum:=-9;
-   with frmdm.q1 do begin
-    Close;
-     SQL.Clear;
-     SQL.Add(' select "id" from "station"');
-     SQL.Add(' where "wmocode"='+inttostr(numsrc));
-    Open;
-     if frmdm.q1.IsEmpty=false then
-       absnum:=frmdm.q1.Fields[0].AsInteger else absnum:=-9;
-    Close;
-   end;
+     with frmdm.q1 do begin
+      Close;
+       SQL.Clear;
+       SQL.Add(' select "id" from "station"');
+       SQL.Add(' where "ghcn_v2_id"='+numsrc);
+      Open;
+       if frmdm.q1.IsEmpty=false then
+         absnum:=frmdm.q1.Fields[0].AsInteger else absnum:=-9;
+      Close;
+     end;
 
-   if (absnum<>-9) and (copy(st,9,3)='000')  then begin
+   if (absnum<>-9) then begin
+
    yy:=StrToInt(copy(st,13,4));
-   memo1.lines.add(inttostr(numsrc));
 
    k:=17;
    for mn:=1 to 12 do begin
@@ -87,34 +85,37 @@ begin
 
     if (copy(st,k,5)<>'-9999') and (copy(st,k,5)<>'-8888') then begin
      temp:=Strtoint(copy(st,k,5))/10;
-  //   showmessage(floattostr(temp));
 
-      with frmdm.q2 do begin
+      with frmdm.q3 do begin
         Close;
          SQL.Clear;
          SQL.Add(' insert into "p_precipitation_ghcn_v2"');
-         SQL.Add(' ("station_id", "date", "value", "flag") ');
+         SQL.Add(' ("station_id", "date", "value", "pqf1", "pqf2") ');
          SQL.Add(' values ');
-         SQL.Add(' (:absnum, :date_, :value_, :flag_)');
+         SQL.Add(' (:absnum, :date_, :value_, :pqf1, :pqf2)');
          ParamByName('absnum').AsInteger:=absnum;
          ParamByName('date_').AsDate:=DateCurr;
          ParamByName('value_').AsFloat:=temp;
-         ParamByName('flag_').AsInteger:=0;
+         ParamByName('pqf1').AsInteger:=0;
+         ParamByName('pqf2').AsInteger:=0;
         ExecSQL;
        Close;
       end;
       if chkoutput.Checked=true then
       memo1.lines.add('INSERTED: '+inttostr(absnum)+', '+
            inttostr(yy)+' '+inttostr(mn)+', '+floattostr(temp));
-     end; // there's no value
-     k:=k+5;
-    end;
-   end;//12 months
+      Application.ProcessMessages;
+     end; // inserting
 
-  frmdm.TR.CommitRetaining;
+     k:=k+5;
+    end;//12 months
+     frmdm.TR.CommitRetaining;
+   end;
+
  until eof(datf);
  closefile(datf);
 end;
+
 
 
 procedure Tfrmload_ghcn_v2.Button1Click(Sender: TObject);
@@ -143,6 +144,7 @@ procedure Tfrmload_ghcn_v2.Button1Click(Sender: TObject);
       SQL.Clear;
       SQL.Add(' select "id" from "station"');
       SQL.Add(' where "wmocode"='+inttostr(numsrc));
+      SQL.Add(' and "ghcn_v2_id" is null ');
      Open;
       if frmdm.q1.IsEmpty=false then begin
        absnum:=frmdm.q1.Fields[0].AsInteger;
@@ -150,7 +152,7 @@ procedure Tfrmload_ghcn_v2.Button1Click(Sender: TObject);
     end;
 
     if (absnum<>-9)  then begin
-     // showmessage(inttostr(absnum));
+     memo1.lines.add(v2_id);
             with frmdm.q2 do begin
            Close;
              SQL.Clear;

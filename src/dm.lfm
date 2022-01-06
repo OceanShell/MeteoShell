@@ -78,7 +78,15 @@ object frmdm: Tfrmdm
   object DBLoader: TSQLDBLibraryLoader
     Enabled = False
     ConnectionType = 'Firebird'
+    LibraryName = 'fbclient.dll'
     left = 24
     top = 112
+  end
+  object q4: TSQLQuery
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    left = 504
+    top = 24
   end
 end

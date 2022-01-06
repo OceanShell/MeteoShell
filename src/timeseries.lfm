@@ -1,136 +1,232 @@
 object frmtimeseries: Tfrmtimeseries
-  Left = 678
-  Height = 429
-  Top = 292
-  Width = 565
-  BorderIcons = [biSystemMenu]
-  BorderStyle = bsSingle
+  Left = 358
+  Height = 633
+  Top = 145
+  Width = 1202
   Caption = 'Timeseries'
-  ClientHeight = 429
-  ClientWidth = 565
-  Color = clBtnFace
+  ClientHeight = 633
+  ClientWidth = 1202
   DesignTimePPI = 144
-  Font.Color = clWindowText
-  Font.Height = -17
-  Font.Name = 'MS Sans Serif'
+  OnClose = FormClose
   OnShow = FormShow
-  Position = poOwnerFormCenter
   LCLVersion = '2.0.6.0'
-  object rgPlotType: TRadioGroup
-    Left = 24
-    Height = 156
-    Top = 24
-    Width = 248
-    AutoFill = True
-    Caption = 'Type of plot'
-    ChildSizing.LeftRightSpacing = 6
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.EnlargeVertical = crsHomogenousChildResize
-    ChildSizing.ShrinkHorizontal = crsScaleChilds
-    ChildSizing.ShrinkVertical = crsScaleChilds
-    ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 1
-    ClientHeight = 131
-    ClientWidth = 244
-    Font.Color = clWindowText
-    Font.Height = -17
-    Font.Name = 'MS Sans Serif'
-    Items.Strings = (
-      'Annual mean'
-      'Selected month'
-      'Month Composition'
-      'Annual circle'
-    )
-    OnClick = rgPlotTypeClick
-    ParentFont = False
-    TabOrder = 1
-  end
-  object btnPlot: TButton
-    Left = 120
-    Height = 38
-    Top = 200
-    Width = 152
-    Caption = 'Plot'
-    Enabled = False
-    Font.Color = clWindowText
-    Font.Height = -17
-    Font.Name = 'MS Sans Serif'
-    OnClick = btnPlotClick
-    ParentFont = False
+  object Panel1: TPanel
+    Left = 0
+    Height = 112
+    Top = 0
+    Width = 1202
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 112
+    ClientWidth = 1202
     TabOrder = 0
+    object rgClipping: TRadioGroup
+      Left = 336
+      Height = 88
+      Top = 8
+      Width = 262
+      AutoFill = True
+      Caption = 'Options'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 2
+      ClientHeight = 58
+      ClientWidth = 258
+      Columns = 2
+      ItemIndex = 0
+      Items.Strings = (
+        'Date to date'
+        'Period'
+      )
+      TabOrder = 0
+    end
+    object btnGetTimeseries: TButton
+      Left = 616
+      Height = 38
+      Top = 56
+      Width = 135
+      Caption = 'Get data'
+      OnClick = btnGetTimeseriesClick
+      TabOrder = 1
+    end
+    object chkHideOutliers: TCheckBox
+      Left = 616
+      Height = 29
+      Top = 16
+      Width = 130
+      Caption = 'Hide outliers'
+      TabOrder = 2
+    end
+    object GroupBox1: TGroupBox
+      Left = 16
+      Height = 88
+      Top = 8
+      Width = 294
+      Caption = 'Date clipping'
+      ClientHeight = 58
+      ClientWidth = 290
+      TabOrder = 3
+      object dtp_min: TDateTimePicker
+        Left = 16
+        Height = 33
+        Top = 8
+        Width = 122
+        CenturyFrom = 1941
+        MaxDate = 2958465
+        MinDate = -53780
+        TabOrder = 0
+        TrailingSeparator = False
+        TextForNullDate = 'NULL'
+        LeadingZeros = True
+        Kind = dtkDate
+        TimeFormat = tf24
+        TimeDisplay = tdHMS
+        DateMode = dmComboBox
+        Date = 44566
+        Time = 0.651940046293021
+        UseDefaultSeparators = True
+        HideDateTimeParts = []
+        MonthNames = 'Long'
+      end
+      object dtp_max: TDateTimePicker
+        Left = 152
+        Height = 33
+        Top = 8
+        Width = 122
+        CenturyFrom = 1941
+        MaxDate = 2958465
+        MinDate = -53780
+        TabOrder = 1
+        TrailingSeparator = False
+        TextForNullDate = 'NULL'
+        LeadingZeros = True
+        Kind = dtkDate
+        TimeFormat = tf24
+        TimeDisplay = tdHMS
+        DateMode = dmComboBox
+        Date = 44566
+        Time = 0.651940046293021
+        UseDefaultSeparators = True
+        HideDateTimeParts = []
+        MonthNames = 'Long'
+      end
+    end
   end
-  object CheckListBox1: TCheckListBox
-    Left = 296
-    Height = 372
-    Top = 32
-    Width = 244
-    Columns = 1
-    Enabled = False
-    Font.Color = clWindowText
-    Font.Height = -17
-    Font.Name = 'MS Sans Serif'
-    Items.Strings = (
-      'December (Last Year)'
-      'January'
-      'February'
-      'March'
-      'April'
-      'May'
-      'June'
-      'July'
-      'August'
-      'September'
-      'October'
-      'November'
-      'December (This Year)'
+  object Chart1: TChart
+    Left = 342
+    Height = 521
+    Top = 112
+    Width = 860
+    AxisList = <    
+      item
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Intervals.MinLength = 50
+        Intervals.NiceSteps = '1'
+        Intervals.Tolerance = 1
+        Alignment = calBottom
+        Marks.Format = '%2:s'
+        Marks.LabelBrush.Style = bsClear
+        Marks.OverlapPolicy = opHideNeighbour
+        Marks.Source = dtInterval
+        Marks.Style = smsCustom
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    BackColor = clWhite
+    Foot.Brush.Color = clBtnFace
+    Foot.Font.Color = clBlue
+    Legend.Alignment = laBottomCenter
+    Title.Brush.Color = clBtnFace
+    Title.Font.Color = clBlue
+    Title.Text.Strings = (
+      'TAChart'
     )
-    ItemHeight = 27
-    ParentFont = False
-    TabOrder = 2
-    TabStop = False
-    Data = {
-      0D00000000000000000000000000000000
-    }
+    Toolset = cts
+    Align = alClient
+    object Series1: TLineSeries
+      LinePen.Color = clBlue
+      Pointer.Brush.Color = clBlue
+      Pointer.HorizSize = 3
+      Pointer.Pen.Color = clDefault
+      Pointer.Pen.Style = psClear
+      Pointer.Style = psCircle
+      Pointer.VertSize = 3
+      Pointer.Visible = True
+      ShowPoints = True
+    end
   end
-  object btnShowData: TBitBtn
-    Left = 24
-    Height = 38
-    Top = 200
-    Width = 44
-    Enabled = False
-    Font.Color = clWindowText
-    Font.Height = -17
-    Font.Name = 'MS Sans Serif'
-    Glyph.Data = {
-      36030000424D3603000000000000360000002800000010000000100000000100
-      1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFF29ADD631B5DE21ADD6FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF29ADD6
-      9CDEEF84EFFF4AC6E721ADD618A5C618A5C618A5C6FFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFF29ADD652BDE79CFFFF94FFFF73DEF773DEF773
-      DEF773DEF74AC6E721ADD618A5C6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF29ADD6
-      52BDE7ADFFFF8CF7FF8CEFFF8CEFFF8CEFFF73DEF773DEF773DEF74AC6EF21AD
-      D6FFFFFFFFFFFFFFFFFFFFFFFF29ADD629ADD6ADDEEF94F7FF94F7FF8CEFFF8C
-      EFFF8CEFFF8CEFFF73DEF773DEF74AC6EFFFFFFFFFFFFFFFFFFFFFFFFF29ADD6
-      73DEF729ADD69CFFFF8CF7FF8CF7FF8CF7FF8CEFFF8CEFFF8CEFFF73DEF773DE
-      F718A5C6FFFFFFFFFFFFFFFFFF29ADD694F7FF29ADD6ADDEEFA5EFF7A5EFF7A5
-      F7FF8CEFFF8CEFFF8CEFFF73DEF700730818A5C6FFFFFFFFFFFFFFFFFF29ADD6
-      9CFFFF73DEF729ADD618A5C618A5C618A5C6ADDEEF8CF7FF84EFFF0073085AE7
-      8C00730818A5C6FFFFFFFFFFFF29ADD69CFFFF94F7FF73DEF773DEF773DEF76B
-      DEF729ADD6ADDEEF00730852D67B42D66B31C64A007308FFFFFFFFFFFF29ADD6
-      9CFFFF94F7FF94F7FF94F7FF94F7FF73DEF773DEF729ADD618A5C6108C2131C6
-      4A109C2118A5C6FFFFFFFFFFFF29ADD6C6FFFF94FFFF9CFFFFD6FFFFD6FFFF8C
-      EFFF94EFFF73DEF773DEF708841018AD29088410FFFFFFFFFFFFFFFFFF21ADD6
-      9CDEEFC6FFFFC6FFFF9CDEEF18ADD618A5C618A5C618A5C618A5C6088C1008A5
-      18FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF31B5DE29ADD618A5C618A5C6FFFFFFFF
-      FFFFFFFFFFFFFFFF088C1008A518088410FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF007308087B08088C10088C10087B08FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    }
-    OnClick = btnShowDataClick
+  object Splitter1: TSplitter
+    Left = 338
+    Height = 521
+    Top = 112
+    Width = 4
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Height = 521
+    Top = 112
+    Width = 338
+    Align = alLeft
+    AlternateColor = 13627366
+    AutoFillColumns = True
+    Color = 13631478
+    Columns = <>
+    DataSource = DS
+    FixedCols = 0
+    Flat = True
+    Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
+    Scrollbars = ssVertical
     TabOrder = 3
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    OnPrepareCanvas = DBGrid1PrepareCanvas
+  end
+  object cts: TChartToolset
+    left = 608
+    top = 184
+    object ctZDT: TZoomDragTool
+      Shift = [ssLeft]
+      Brush.Style = bsClear
+      RestoreExtentOn = [zreDragTopLeft, zreDragTopRight, zreDragBottomLeft]
+    end
+    object ctDPH: TDataPointHintTool
+      GrabRadius = 6
+      ActiveCursor = crHandPoint
+      Targets = [nptPoint, nptXList]
+      OnHint = ctDPHHint
+    end
+    object ctDPC: TDataPointClickTool
+      Shift = [ssLeft]
+      GrabRadius = 6
+      ActiveCursor = crHandPoint
+      Targets = [nptPoint, nptXList]
+      OnPointClick = ctDPCPointClick
+    end
+  end
+  object dtInterval: TDateTimeIntervalChartSource
+    Params.Count = 10
+    Params.MaxLength = 150
+    Params.MinLength = 20
+    Params.Options = [aipUseCount, aipUseMaxLength, aipUseMinLength, aipUseNiceSteps]
+    DateTimeStepFormat.MonthFormat = 'mm.yyyy'
+    DateTimeStepFormat.WeekFormat = 'dd.mm'
+    DateTimeStepFormat.DayFormat = 'dd.mm'
+    left = 680
+    top = 184
+  end
+  object DS: TDataSource
+    left = 118
+    top = 227
   end
 end

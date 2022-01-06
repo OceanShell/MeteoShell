@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main, icons, dm, comparesources, metadata_sources;
+  Forms, main, icons, dm, load_aari, load_ghcnd, timeseries, datetimectrls;
 
 {$R *.res}
 
@@ -18,7 +18,6 @@ begin
   Application.CreateForm(Tfrmmain, frmmain);
   Application.CreateForm(Tfrmicons, frmicons);
   Application.CreateForm(Tfrmdm, frmdm);
-  Application.CreateForm(Tfrmmetadata_sources, frmmetadata_sources);
   Application.Run;
 end.
 

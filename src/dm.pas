@@ -20,6 +20,7 @@ type
     FBDB: TIBConnection;
     CDS: TSQLQuery;
     DBLoader: TSQLDBLibraryLoader;
+    q4: TSQLQuery;
     TR: TSQLTransaction;
     q1: TSQLQuery;
 

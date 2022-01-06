@@ -20,9 +20,9 @@ object frmload_ds570: Tfrmload_ds570
     Height = 550
     Top = 0
     Width = 936
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Data'
@@ -203,6 +203,15 @@ object frmload_ds570: Tfrmload_ds570
         Caption = 'station_ds570'
         OnClick = Button2Click
         TabOrder = 3
+      end
+      object Button3: TButton
+        Left = 400
+        Height = 38
+        Top = 16
+        Width = 128
+        Caption = 'Find ds570 id'
+        OnClick = Button3Click
+        TabOrder = 4
       end
     end
   end

@@ -6,6 +6,7 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
+      <AutoCreateForms Value="False"/>
       <Title Value="MeteoShell"/>
       <Scaled Value="True"/>
       <UseAppBundle Value="False"/>
@@ -32,21 +33,24 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="TAChartLazarusPkg"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item1>
       <Item2>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="TAChartLazarusPkg"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
       </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="27">
+    <Units Count="35">
       <Unit0>
         <Filename Value="MeteoShell.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -63,9 +67,9 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="viewdata.pas"/>
+        <Filename Value="monthlymatrix.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmviewdata"/>
+        <ComponentName Value="frmmonthlymatrix"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
@@ -74,9 +78,9 @@
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="timeseries.pas"/>
+        <Filename Value="plottimeseries_old.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmtimeseries"/>
+        <ComponentName Value="frmplottimeseriesold"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit5>
@@ -196,7 +200,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit24>
       <Unit25>
-        <Filename Value="comparesources.pas"/>
+        <Filename Value="sources_compare.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmcomparesources"/>
         <HasResources Value="True"/>
@@ -206,8 +210,59 @@
         <Filename Value="metadata_sources.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmetadata_sources"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit26>
+      <Unit27>
+        <Filename Value="qc_sigma.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="qc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmqc"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="parameter_compare.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="correlation.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="sources_merge.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmsourcesmerge"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="load_aari.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmload_aari"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="load_ghcnd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmloadghcnd"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="timeseries.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmtimeseries"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit34>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -226,8 +281,8 @@
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
         <StripSymbols Value="True"/>
-        <UseExternalDbgSyms Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>
       <Options>

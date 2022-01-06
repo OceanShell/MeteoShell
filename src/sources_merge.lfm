@@ -1,0 +1,94 @@
+object frmsourcesmerge: Tfrmsourcesmerge
+  Left = 696
+  Height = 315
+  Top = 240
+  Width = 570
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Merge sources'
+  ClientHeight = 315
+  ClientWidth = 570
+  DesignTimePPI = 144
+  OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.6.0'
+  object btnMerge: TButton
+    Left = 168
+    Height = 38
+    Top = 256
+    Width = 246
+    Caption = 'Merge'
+    OnClick = btnMergeClick
+    TabOrder = 0
+  end
+  object GroupBox1: TGroupBox
+    Left = 296
+    Height = 222
+    Top = 16
+    Width = 246
+    Caption = 'Sources (drag to reorder)'
+    ClientHeight = 192
+    ClientWidth = 242
+    TabOrder = 1
+    object lbSource: TListBox
+      Left = 16
+      Height = 152
+      Top = 16
+      Width = 200
+      DragMode = dmAutomatic
+      ItemHeight = 0
+      OnDragDrop = lbSourceDragDrop
+      OnDragOver = lbSourceDragOver
+      OnMouseDown = lbSourceMouseDown
+      TabOrder = 0
+    end
+  end
+  object rgParameter: TRadioGroup
+    Left = 24
+    Height = 102
+    Top = 16
+    Width = 246
+    AutoFill = True
+    Caption = 'Parameter'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 72
+    ClientWidth = 242
+    ItemIndex = 0
+    Items.Strings = (
+      'Precipitation'
+      'Surface air temperature'
+    )
+    OnClick = rgParameterClick
+    TabOrder = 2
+  end
+  object rgTimestep: TRadioGroup
+    Left = 24
+    Height = 102
+    Top = 136
+    Width = 246
+    AutoFill = True
+    Caption = 'Time step'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 72
+    ClientWidth = 242
+    ItemIndex = 0
+    Items.Strings = (
+      'Month'
+      'Day'
+    )
+    OnClick = rgParameterClick
+    TabOrder = 3
+  end
+end

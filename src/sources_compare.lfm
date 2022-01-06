@@ -1,13 +1,14 @@
 object frmcomparesources: Tfrmcomparesources
-  Left = 340
+  Left = 406
   Height = 540
-  Top = 302
+  Top = 261
   Width = 1318
   Caption = 'Compare Sources'
   ClientHeight = 540
   ClientWidth = 1318
   DesignTimePPI = 144
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object Splitter1: TSplitter
@@ -16,7 +17,7 @@ object frmcomparesources: Tfrmcomparesources
     Top = 0
     Width = 8
   end
-  object Panel2: TPanel
+  object pGrid: TPanel
     Left = 0
     Height = 540
     Top = 0
@@ -28,7 +29,7 @@ object frmcomparesources: Tfrmcomparesources
     TabOrder = 1
     object DBGrid1: TDBGrid
       Left = 0
-      Height = 508
+      Height = 435
       Top = 0
       Width = 328
       Align = alClient
@@ -47,16 +48,35 @@ object frmcomparesources: Tfrmcomparesources
       TitleFont.Name = 'Tahoma'
       OnPrepareCanvas = DBGrid1PrepareCanvas
     end
-    object ChartListbox1: TChartListbox
+    object clb1: TChartListbox
       Left = 0
-      Height = 32
-      Top = 508
+      Height = 68
+      Top = 443
       Width = 328
       Chart = Chart1
       Align = alBottom
-      Columns = 1
       ItemHeight = 0
       TabOrder = 1
+    end
+    object Splitter2: TSplitter
+      Cursor = crVSplit
+      Left = 0
+      Height = 8
+      Top = 435
+      Width = 328
+      Align = alBottom
+      ResizeAnchor = akBottom
+    end
+    object chkShowOutliers: TCheckBox
+      Left = 0
+      Height = 29
+      Top = 511
+      Width = 328
+      Align = alBottom
+      Caption = 'Show outliers'
+      Enabled = False
+      OnChange = chkShowOutliersChange
+      TabOrder = 3
     end
   end
   object Chart1: TChart
@@ -75,12 +95,12 @@ object frmcomparesources: Tfrmcomparesources
         Intervals.MinLength = 50
         Intervals.NiceSteps = '1'
         Intervals.Tolerance = 1
-        Visible = False
         Alignment = calBottom
-        Marks.Format = '%0:.0f'
+        Marks.Format = '%2:s'
         Marks.LabelBrush.Style = bsClear
         Marks.OverlapPolicy = opHideNeighbour
-        Marks.Style = smsCustom
+        Marks.Source = dtInterval
+        Marks.Style = smsLabel
         Minors = <>
         Title.LabelBrush.Style = bsClear
       end>
@@ -93,24 +113,40 @@ object frmcomparesources: Tfrmcomparesources
     Title.Text.Strings = (
       'TAChart'
     )
-    Toolset = ChartToolset1
+    Toolset = cts
     Align = alClient
   end
-  object ChartToolset1: TChartToolset
+  object cts: TChartToolset
     left = 554
     top = 104
-    object ctZoomDrag: TZoomDragTool
+    object ctZDT: TZoomDragTool
       Shift = [ssLeft]
       Brush.Style = bsClear
       RestoreExtentOn = [zreDragTopLeft, zreDragTopRight, zreDragBottomLeft]
     end
-    object ctZoomMouseWheel: TZoomMouseWheelTool
-    end
-    object ctDataPointHint: TDataPointHintTool
-      Enabled = False
+    object ctDPH: TDataPointHintTool
+      GrabRadius = 6
       ActiveCursor = crHandPoint
-      Targets = [nptPoint, nptXList, nptCustom]
-      OnHint = ctDataPointHintHint
+      Targets = [nptPoint, nptXList]
+      OnHint = ctDPHHint
     end
+    object ctDPC: TDataPointClickTool
+      Shift = [ssLeft]
+      GrabRadius = 6
+      ActiveCursor = crHandPoint
+      Targets = [nptPoint, nptXList]
+      OnPointClick = ctDPCPointClick
+    end
+  end
+  object dtInterval: TDateTimeIntervalChartSource
+    Params.Count = 10
+    Params.MaxLength = 150
+    Params.MinLength = 20
+    Params.Options = [aipUseCount, aipUseMaxLength, aipUseMinLength, aipUseNiceSteps]
+    DateTimeStepFormat.MonthFormat = 'mm.yyyy'
+    DateTimeStepFormat.WeekFormat = 'dd.mm'
+    DateTimeStepFormat.DayFormat = 'dd.mm'
+    left = 624
+    top = 104
   end
 end

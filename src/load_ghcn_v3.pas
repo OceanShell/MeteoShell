@@ -57,7 +57,7 @@ procedure Tfrmload_ghcn_v3.FormShow(Sender: TObject);
 Var
 fdb:TSearchRec;
 begin
- ghcn_path:='Y:\MeteoShell\data\ghcn\v3\ghcnm.v3.3.0.20190817\'; //GlobalPath+'data\ghcn_monthly\v3\';
+ ghcn_path:='Z:\MeteoShell\data\ghcn_v3\';
    fdb.Name:='';
    listbox1.Clear;
     FindFirst(ghcn_path+'*.dat',faAnyFile, fdb);
@@ -73,105 +73,63 @@ end;
 
 procedure Tfrmload_ghcn_v3.btnGHCN_v3_MDClick(Sender: TObject);
 Var
- st, st2, stname, country, source, ccode, buf_str:string;
- k, i, int_id, wmssc, wmonum, absnum, numsrc:integer;
- stlat, stlon, elev:real;
-begin
+  fname, st, v2_id:string;
+  numsrc,  absnum: integer;
+  datf:text;
+ begin
+   fname:='Z:\MeteoShell\data\ghcn_v3\ghcnm.tavg.v3.3.0.20181115.qca.inv';
+   AssignFile(datf, fname);
+   reset(datf);
 
-  { CDS:=TClientDataSet.Create(nil);
-   with CDS.FieldDefs do begin
-    Add('int_id',  ftInteger ,0,true);
-    Add('stname',  ftString  , 40);
-    Add('country', ftString  , 40);
-    Add('stlat',   ftFloat   ,0,true);
-    Add('stlon',   ftFloat   ,0,true);
-    Add('elev' ,   ftFloat   ,0,true);
-    Add('wmonum',  ftInteger ,0,true);
-   end;
-    CDS.CreateDataSet;
-    CDS.LogChanges:=false;
 
-//10160355000  36.9300    6.9500    7.0 SKIKDA                           18U  107HIxxCO 1x-9WARM DECIDUOUS  C
-//10160360000  36.8300    7.8200    4.0 ANNABA                           33U  256FLxxCO 1A 7WARM CROPS      C
+  repeat
+   readln(datf, st);
 
- repeat
-  readln(datf, st);
-  inc(k);
+    v2_id :=Copy(st, 1, 11);
+    numsrc:=StrToInt(trim(Copy(st, 4, 5)));
 
-   ccode:=trim(Copy(st,1,3));
-   numsrc:=StrToInt(trim(Copy(st,4,8)));
-   if Copy(st,9,3)='000' then  wmonum:=StrToInt(trim(Copy(st,4,5))) else wmonum:=-9;
+    if copy(st, 9, 3)='000' then begin
+   // showmessage(trim(v2_id)+'   '+inttostr(numsrc));
 
-    AssignFile(datf2, GlobalPath+'\Data\ghcn\country-codes'); reset(datf2);
-    repeat
-      readln(datf2, st2);
-      if copy(st2,1,3)=ccode then country:=trim(copy(st2, 5,40));
-    until (copy(st2,1,3)=ccode) or eof(datf2);
-    CloseFile(datf2);
-
-   stlat  :=StrToFloat(trim(Copy(st,13,8)));
-   stlon  :=StrToFloat(trim(Copy(st,22,9)));
-   elev   :=StrToFloat(trim(Copy(st,32,6)));
-
-   i:=38; stname:='';
-   repeat
-    inc(i);
-    stname:=stname+st[i];
-   until (copy(stname, length(stname)-2, 2)='  ') or (i=69);
-   stname:=Uppercase(trim(stname));
-
-   CDS.Append;
-    CDS.FieldByName('int_id').AsInteger:=numsrc;
-    CDS.FieldByName('stname').Asstring:=UpperCase(stname);
-    CDS.FieldByName('country').Asstring:=UpperCase(country);
-    CDS.FieldByName('stlat').AsFloat:=stlat;
-    CDS.FieldByName('stlon').AsFloat:=stlon;
-    CDS.FieldByName('elev').AsFloat:=elev;
-    CDS.FieldByName('wmonum').AsInteger:=wmonum;
-   CDS.Post;
- //  end;
-  until eof(datf);
- CloseFile(datf);
-
-// showmessage('good');
-
- if chkOutput.Checked=true then begin
-   absnum:=0;
-   CDS.First;
-   for k:=0 to CDS.RecordCount-1 do begin
-   inc(absnum);
-    with dm.ib1qq1 do begin
+    absnum:=-9;
+    with frmdm.q1 do begin
      Close;
       SQL.Clear;
-      SQL.Add(' insert into STATION  ');
-      SQL.Add(' (absnum, WMONum, WMONumSource, StSource, StLat, StLon, ');
-      SQL.Add('  StName, StCountry, elevation) ');
-      SQL.Add(' values ');
-      SQL.Add(' (:absnum, :WMONum, :WMONumSource, :StSource, :StLat, :StLon, ');
-      SQL.Add('  :StName, :StCountry, :elevation) ');
-      ParamByName('absnum').AsInteger  :=absnum;
-      ParamByName('WMONum').AsInteger  :=CDS.FieldByName('wmonum').AsInteger;
-      ParamByName('WMONumSource').AsInteger:=CDS.FieldByName('int_id').AsInteger;
-      ParamByName('StSource').AsString :='GHCN';
-      ParamByName('StLat').AsFloat     :=CDS.FieldByName('stlat').AsFloat;
-      ParamByName('StLon').AsFloat     :=CDS.FieldByName('stlon').AsFloat;
-      ParamByName('Elevation').AsFloat :=CDS.FieldByName('elev').AsFloat;
-      ParamByName('StName').AsString   :=CDS.FieldByName('stname').Asstring;
-      ParamByName('StCountry').AsString:=CDS.FieldByName('country').Asstring;
-     ExecQuery;
-   end;
-    CDS.Next;
-   end;
-    dm.IBTransaction1.CommitRetaining;  }
+      SQL.Add(' select "id" from "station"');
+      SQL.Add(' where "wmocode"='+inttostr(numsrc));
+      SQL.Add(' and "ghcn_v3_id" is null ');
+     Open;
+      if frmdm.q1.IsEmpty=false then begin
+       absnum:=frmdm.q1.Fields[0].AsInteger;
+      end;
+    end;
+
+    if (absnum<>-9)  then begin
+     memo1.lines.add(v2_id);
+            with frmdm.q2 do begin
+           Close;
+             SQL.Clear;
+             SQL.Add(' update "station" set ');
+             SQL.Add(' "ghcn_v3_id"='+trim(v2_id));
+             SQL.Add(' where "id"='+inttostr(absnum));
+           ExecSQL;
+         end;
+    end;
+
+    end;
+
+  until eof(datf);
+  frmdm.TR.Commit;
 end;
 
 
 procedure Tfrmload_ghcn_v3.btnGHCN_v3_DataClick(Sender: TObject);
 Var
- fname, st, tbl:string;
- k, ff, absnum, yy, mn, numsrc:integer;
+ fname, st, tbl, numsrc:string;
+ k, ff, absnum, yy, mn, flag:integer;
  temp, val0:real;
  DateCurr:TDateTime;
+ qcf1, qcf2, qcf3: string;
 begin
 for ff:=0 to ListBox1.Count-1 do begin
   fname:=ListBox1.Items.Strings[ff];
@@ -179,11 +137,9 @@ for ff:=0 to ListBox1.Count-1 do begin
 //  caption:=fname;
  // Application.ProcessMessages;
 
-
-   if (copy (fname, 7, 4)='tmin') and (copy (fname, 28, 3)='qca') then tbl:='p_tmin_qca_ghcn_v330';
-   if (copy (fname, 7, 4)='tmin') and (copy (fname, 28, 3)='qcu') then tbl:='p_tmin_qcu_ghcn_v330';
-   if (copy (fname, 7, 4)='tmax') and (copy (fname, 28, 3)='qca') then tbl:='p_tmax_qca_ghcn_v330';
-   if (copy (fname, 7, 4)='tmax') and (copy (fname, 28, 3)='qcu') then tbl:='p_tmax_qcu_ghcn_v330';
+ if (copy (fname, 7, 4)='tmin') and (copy (fname, 28, 3)='qcu') then tbl:='p_tmin_qcu_ghcn_v330';
+ if (copy (fname, 7, 4)='tmax') and (copy (fname, 28, 3)='qcu') then tbl:='p_tmax_qcu_ghcn_v330';
+ if (copy (fname, 7, 4)='tavg') and (copy (fname, 28, 3)='qcu') then tbl:='p_tavg_qcu_ghcn_v330';
 
   AssignFile(datf, ghcn_path+fname);
   reset(datf);
@@ -193,18 +149,20 @@ for ff:=0 to ListBox1.Count-1 do begin
  repeat
   readln(datf, st);
 
-   numsrc:=StrToInt(trim(Copy(st,4,8)));
+   numsrc:=trim(Copy(st,1,11));
 
    with frmdm.q1 do begin
     Close;
      SQL.Clear;
      SQL.Add(' select "id" from "station"');
-     SQL.Add(' where "ghcn_v3_id"='+inttostr(numsrc));
+     SQL.Add(' where "ghcn_v3_id"='+numsrc);
     Open;
      if frmdm.q1.IsEmpty=false then
        absnum:=frmdm.q1.Fields[0].AsInteger else absnum:=-9;
     Close;
    end;
+
+  // showmessage(numsrc
 
    if absnum<>-9 then begin
    yy:=StrToInt(copy(st,12,4));
@@ -216,24 +174,33 @@ for ff:=0 to ListBox1.Count-1 do begin
     if copy(st,k,5)<>'-9999' then begin
      temp:=Strtoint(copy(st,k,5))/100;
 
+     qcf1:=trim(copy(st, k+5, 1));
+     qcf2:=trim(copy(st, k+6, 1));
+     qcf3:=trim(copy(st, k+7, 1));
+
+     if qcf2='' then flag:=0 else flag:=1;
+
      if frmdm.q1.IsEmpty=true then begin
       with frmdm.q2 do begin
         Close;
          SQL.Clear;
          SQL.Add(' insert into "'+tbl+'"');
-         SQL.Add(' ("station_id", "date", "value", "flag") ');
+         SQL.Add(' ("station_id", "date", "value", "pqf1", "pqf2") ');
          SQL.Add(' values ');
-         SQL.Add(' (:absnum, :date_, :value_, :flag_)');
+         SQL.Add(' (:absnum, :date_, :value_, :pqf1, :pqf2)');
          ParamByName('absnum').AsInteger:=absnum;
          ParamByName('date_').AsDate:=DateCurr;
          ParamByName('value_').AsFloat:=temp;
-         ParamByName('flag_').AsInteger:=0;
+         ParamByName('pqf1').AsInteger:=flag;
+         ParamByName('pqf2').AsInteger:=flag;
         ExecSQL;
-       Close;
       end;
-      if chkoutput.Checked=true then
+      if chkoutput.Checked=true then begin
       memo1.lines.add('INSERTED: '+inttostr(absnum)+', '+
            inttostr(yy)+' '+inttostr(mn)+', '+floattostr(temp));
+      Application.ProcessMessages;
+
+      end;
      end; // there's no value
     end;
      k:=k+8;

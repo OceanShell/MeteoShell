@@ -30,10 +30,11 @@ type
     btncommit: TToolButton;
     btndelete: TToolButton;
     btnSelect: TButton;
-    btnviewdata: TMenuItem;
+    btnmonthlymatrix: TMenuItem;
     cbCountry: TComboBox;
     cbStation: TComboBox;
     cbWMO: TComboBox;
+    cgTimeStep: TCheckGroup;
     chkShowSQL: TCheckBox;
     chkStActive: TCheckBox;
     chlParameters: TCheckGroup;
@@ -48,6 +49,7 @@ type
     Edit4: TEdit;
     Exit1: TMenuItem;
     GroupBox2: TGroupBox;
+    GroupBox4: TGroupBox;
     iFile: TMenuItem;
     GroupBox1: TGroupBox;
     GroupBox3: TGroupBox;
@@ -67,10 +69,21 @@ type
     iAbout: TMenuItem;
     iLoadGHCNv2: TMenuItem;
     btnInfo: TMenuItem;
+    lbResetID: TLabel;
+    ListBox1: TListBox;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem5: TMenuItem;
+    iQCProcedures: TMenuItem;
+    MenuItem6: TMenuItem;
+    iLoadGHCND: TMenuItem;
+    iShowTimeseries: TMenuItem;
+    N5: TMenuItem;
+    N1: TMenuItem;
     N4: TMenuItem;
     N3: TMenuItem;
     iCompareSources: TMenuItem;
-    N1: TMenuItem;
     iUpdateStationInfo: TMenuItem;
     iLoadGHCNv3: TMenuItem;
     iLoadGHCN_v4: TMenuItem;
@@ -90,6 +103,8 @@ type
     ProgressBar1: TProgressBar;
     RegionalAveraging1: TMenuItem;
     SD: TSaveDialog;
+    seIDMin: TSpinEdit;
+    seIDMax: TSpinEdit;
     seYY1: TSpinEdit;
     seYY2: TSpinEdit;
     Splitter1: TSplitter;
@@ -114,27 +129,35 @@ type
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid2CellClick(Column: TColumn);
     procedure DBGrid2KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid2PrepareCanvas(sender: TObject; DataCol: Integer;
+      Column: TColumn; AState: TGridDrawState);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormResize(Sender: TObject);
     procedure iAboutClick(Sender: TObject);
     procedure iCompareSourcesClick(Sender: TObject);
     procedure iDeleteEmptyStationsClick(Sender: TObject);
+    procedure iLoadGHCNDClick(Sender: TObject);
     procedure iLoadGHCNv2Click(Sender: TObject);
     procedure iLoadGHCN_v4Click(Sender: TObject);
     procedure btnSelectClick(Sender: TObject);
-    procedure btnviewdataClick(Sender: TObject);
+    procedure btnmonthlymatrixClick(Sender: TObject);
     procedure cbCountryDropDown(Sender: TObject);
     procedure cbStationDropDown(Sender: TObject);
     procedure cbWMODropDown(Sender: TObject);
     procedure ds5701Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure iSettingsClick(Sender: TObject);
+    procedure iQCProceduresClick(Sender: TObject);
+    procedure iShowTimeseriesClick(Sender: TObject);
     procedure iUpdateStationInfoClick(Sender: TObject);
     procedure lbCoordResetClick(Sender: TObject);
+    procedure lbResetIDClick(Sender: TObject);
     procedure lbResetMDClick(Sender: TObject);
     procedure iLoadGHCNv3Click(Sender: TObject);
     procedure iDatabaseTablesClick(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
+    procedure PM1Popup(Sender: TObject);
     procedure RegionalAveraging1Click(Sender: TObject);
     procedure SelectedMonthComposition1Click(Sender: TObject);
     procedure btnaddClick(Sender: TObject);
@@ -155,7 +178,7 @@ var
   frmmain: Tfrmmain;
   GlobalPath, GlobalUnloadPath, GlobalSupportPath: string;
   IBName, IniFileName, DB_str: string;
-  DBType, IBCount:integer;
+  IDMin, IDMax, DBType, IBCount:integer;
 
   IBLtMin, IBLtMax, IBLnMin, IBLnMax:real;
   SMinLat, SMaxLat, SMinLon, SMaxLon:real;
@@ -166,7 +189,8 @@ var
   MapDataset: array of MapDS;
 
   StCount: integer;
-  Open_viewdata, frmmap_open, Open_metadata_sources:boolean;
+  open_monthlymatrix, frmmap_open, Open_metadata_sources:boolean;
+  open_timeseries:boolean;
 
 resourcestring
   SNoDatabase= 'Please, specify the database and try to connect again';
@@ -185,10 +209,9 @@ resourcestring
   SParameter = 'Parameter';
   SAdjusted  = 'Adj.';
   SSource    = 'Source';
-  SYearMin   = 'Year min';
-  SYearMax   = 'Year max';
-  SMonthMin  = 'Month min';
-  SMonthMax  = 'Month max';
+  STimestep  = 'Time step';
+  SDateMin   = 'Date min';
+  SDateMax   = 'Date max';
   SCount     = 'Count';
   SDate      = 'Date';
   SValueMin  = 'Value min';
@@ -228,9 +251,10 @@ implementation
 
 { Tfrmmain }
 
-uses dm, sortbufds, viewdata, timeseries, map, comparesources,
-     settings, procedures, load_ds570, metadata_sources,
-     load_ghcn_v2, load_ghcn_v4, load_ghcn_v3, icons,
+uses dm, sortbufds, monthlymatrix, plottimeseries_old, map,
+     sources_compare, timeseries,
+     settings, load_ds570, metadata_sources, qc, load_ghcnd,
+     load_ghcn_v2, load_ghcn_v4, load_ghcn_v3, sources_merge,
      spatialaveraging, table_management, update_station_info;
 
 
@@ -309,13 +333,12 @@ begin
   With DBGrid2 do begin
     Columns[0].Title.Caption:=SParameter;
     Columns[1].Title.Caption:=SSource;
-    Columns[2].Title.Caption:=SYearMin;
-    Columns[3].Title.Caption:=SMonthMin;
-    Columns[4].Title.Caption:=SYearMax;
-    Columns[5].Title.Caption:=SMonthMax;
-    Columns[6].Title.Caption:=SValueMin;
-    Columns[7].Title.Caption:=SValueMax;
-    Columns[8].Title.Caption:=SCount;
+    Columns[2].Title.Caption:=STimestep;
+    Columns[3].Title.Caption:=SDateMin;
+    Columns[4].Title.Caption:=SDateMax;
+    Columns[5].Title.Caption:=SValueMin;
+    Columns[6].Title.Caption:=SValueMax;
+    Columns[7].Title.Caption:=SCount;
   end;
 
   lblatmin.Caption:=SLatMin;
@@ -325,7 +348,8 @@ begin
 
   for k:=1 to MM.Items.Count-2 do MM.Items[k].Enabled:=false;
 
-  Open_viewdata:=false; frmmap_open:=false;
+  open_monthlymatrix:=false; frmmap_open:=false;
+  open_timeseries:=false;
 
   OnResize(Self);
   SetFocus;
@@ -383,19 +407,24 @@ if (ID=0) or (NavigationOrder=false) then exit;
   NavigationOrder:=false; //Блокируем перемещение, пока все не завершим
 
   with frmdm.CDS2 do begin
-   Close;
-    SQL.Clear;
-    SQL.Add(' select "parameter"."id" as id, ');
-    SQL.Add(' "parameter"."name" as par, ');
-    SQL.Add(' "parameter"."source" as src, ');
-    SQL.Add(' "yy_min", "yy_max", "mn_min", ');
-    SQL.Add(' "mn_max", "val_min", "val_max", "cnt", "perc" ');
-    SQL.Add(' from "station_info", "parameter" where ');
-    SQL.Add(' "station_info"."station_id"=:station_id and ');
-    SQL.Add(' "station_info"."parameter_id"="parameter"."id" ');
-    SQL.Add(' order by "parameter"."name", "parameter"."source" ');
-    ParamByName('station_id').AsInteger:=ID;
-   Open;
+    Close;
+     SQL.Clear;
+     SQL.Add(' select ');
+     SQL.Add(' "table"."id" as id, "parameter"."name" as par, ');
+     SQL.Add(' "source"."name" as src, ');
+     SQL.Add(' "timestep"."name" as timestep, ');
+     SQL.Add(' "date_min", "date_max",  ');
+     SQL.Add(' "val_min", "val_max", "cnt", "perc" ');
+     SQL.Add(' from "station_info", "table", "parameter", "source", "timestep" ');
+     SQL.Add(' where ');
+     SQL.Add(' "station_info"."station_id"=:station_id and ');
+     SQL.Add(' "station_info"."table_id"="table"."id" and ');
+     SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
+     SQL.Add(' "table"."source_id"="source"."id" and ');
+     SQL.Add(' "table"."timestep_id"="timestep"."id" ');
+     SQL.Add(' order by "table"."parameter_id", "table"."source_id" ');
+     ParamByName('station_id').AsInteger:=ID;
+    Open;
   end;
 
   DBGrid2.Refresh;
@@ -404,9 +433,11 @@ if (ID=0) or (NavigationOrder=false) then exit;
   if frmmap_open=true then frmmap.ChangeID;
   if Open_metadata_sources then frmmetadata_sources.ChangeID;
 
-  if Open_viewdata=true then
-    frmviewdata.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
+  if open_monthlymatrix=true then
+    frmmonthlymatrix.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
 
+  if open_timeseries=true then
+    frmtimeseries.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
 
   NavigationOrder:=true; //Завершили, открываем доступ к навигации
  end;
@@ -418,12 +449,16 @@ procedure Tfrmmain.CDSInfoNavigation;
 begin
  if (NavigationOrder=false) then exit;
 
- if Open_viewdata=true then begin
-   If NavigationOrder=true then begin
-     NavigationOrder:=false; //Блокируем перемещение, пока все не завершим
-       frmviewdata.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
-     NavigationOrder:=true;
-   end;
+ if NavigationOrder=true then begin
+   NavigationOrder:=false; //Блокируем перемещение, пока все не завершим
+
+  if Open_monthlymatrix=true then
+       frmmonthlymatrix.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
+
+  if Open_timeseries=true then
+       frmtimeseries.GetData(frmdm.CDS2.FieldByName('id').AsInteger);
+
+   NavigationOrder:=true;
  end;
 end;
 
@@ -441,12 +476,16 @@ with frmdm.q1 do begin
   Close;
     SQL.Clear;
     SQL.Add(' select count("id") as StCount, ');
+    SQL.Add(' min("id") as IDMin, max("id") as IDMax, ');
     SQL.Add(' min("latitude") as StLatMin, max("latitude") as StLatMax, ');
     SQL.Add(' min("longitude") as StLonMin, max("longitude") as StLonMax ');
     SQL.Add(' from "station"');
     Open;
     IBCount:=FieldByName('StCount').AsInteger;
     if IBCount>0 then begin
+     IDMin:=FieldByName('IDMin').Value;
+     IDMax:=FieldByName('IDMax').Value;
+
      IBLtMin:=FieldByName('StLatMin').AsFloat;
      IBLtMax:=FieldByName('StLatMax').AsFloat;
      IBLnMin:=FieldByName('StLonMin').AsFloat;
@@ -460,6 +499,7 @@ with frmdm.q1 do begin
 
      PageControl1.Enabled:=true;
      lbCoordReset.OnClick(self);
+     lbResetID.OnClick(self);
     end else for k:=1 to 5 do frmMain.statusbar2.Panels[k].Text:='---';
   Close;
  end;
@@ -478,6 +518,22 @@ with frmdm.q1 do begin
  end;
  frmdm.q1.Close;
 
+  with frmdm.q1 do begin
+  Close;
+    SQL.Clear;
+    SQL.Add(' select distinct("name") from "timestep" order by "id" ');
+  Open;
+ end;
+
+ cgTimestep.Items.clear;
+ while not frmdm.q1.EOF do begin
+   cgTimestep.Items.Add(frmdm.q1.Fields[0].AsString);
+  frmdm.q1.Next;
+ end;
+ cgTimestep.Columns:=frmdm.q1.RecordCount;
+ frmdm.q1.Close;
+
+
  for k:=1 to MM.Items.Count-2 do MM.Items[k].Enabled:=true;
  Application.ProcessMessages;
 end;
@@ -487,7 +543,7 @@ procedure Tfrmmain.btnSelectClick(Sender: TObject);
 Var
 Lat1, Lat2, Lon1, Lon2:real;
 k:integer;
-tbl_str, tbl:string;
+tbl_str, timestep_str, timestep_name:string;
 begin
 Lat1:=strtofloat(edit1.Text);
 Lat2:=strtofloat(edit2.Text);
@@ -504,17 +560,19 @@ for k:=0 to chlParameters.Items.Count-1 do begin
    with frmdm.q1 do begin
     Close;
      SQL.Clear;
-     SQL.Add('select "table" from "parameter" ');
-     SQL.Add('where "name"='+QuotedStr(chlParameters.Items.Strings[k]));
+     SQL.Add('select "table"."id" from "table", "parameter" ');
+     SQL.Add('where "table"."parameter_id"="parameter"."id" and ');
+     SQL.Add('"parameter"."name"='+QuotedStr(chlParameters.Items.Strings[k]));
     Open;
    end;
    while not frmdm.q1.EOF do begin
-    tbl:=frmdm.q1.Fields[0].AsString;
-    tbl_str:=tbl_str+'("station"."id" in (select "station_id" from "'+tbl+'"';
+    tbl_str:=tbl_str+'("station"."id" in ('+
+           'select "station_id" from "station_info" '+
+           'where "table_id"='+inttostr(frmdm.q1.Fields[0].Value);
         if chkStActive.Checked=true then
           tbl_str:=tbl_str+' group by "station_id" having '+
-                   'min(extract(year from "date"))<='+seYY1.Text+' and '+
-                   'max(extract(year from "date"))>='+seYY2.Text+'))'
+                   'min(extract(year from "date_min"))<='+seYY1.Text+' and '+
+                   'max(extract(year from "date_max"))>='+seYY2.Text+'))'
         else
           tbl_str:=tbl_str+'))';
      tbl_str:=tbl_str+' or ';
@@ -524,6 +582,21 @@ for k:=0 to chlParameters.Items.Count-1 do begin
   end;
 end;
 //showmessage(tbl_str);
+
+timestep_name:='';
+for k:=0 to cgTimestep.Items.Count-1 do
+  if cgTimestep.Checked[k]=true then
+    timestep_name:=timestep_name+QuotedStr(cgTimestep.Items.Strings[k])+',';
+
+timestep_name:=copy(timestep_name, 1, length(timestep_name)-1);
+
+if trim(timestep_name)<>'' then
+timestep_str:=' and ("station"."id" in ( '+
+     'select "station_id" from "station_info" where "table_id" in ('+
+     'select "table"."id" from "table", "timestep" '+
+     'where "table"."timestep_id"="timestep"."id" and '+
+     '"timestep"."name" in('+timestep_name+'))))' else timestep_str:='';
+//showmessage(timestep_str);
 
 try
   with frmdm.CDS do begin
@@ -535,6 +608,7 @@ try
     SQL.Add(' from "station", "country" ');
     SQL.Add(' where ');
     SQL.Add(' "station"."country_id"="country"."id" and ');
+    SQL.Add(' "station"."id" between :idmin and :idmax and ');
     SQL.Add(' "station"."latitude">=:ltmin and "station"."latitude"<=:ltmax and ');
     if (Lon1<=Lon2) then
       SQL.Add(' "station"."longitude">=:lnmin and "station"."longitude"<=:lnmax ');
@@ -549,6 +623,7 @@ try
 
     // pearmeters
     SQL.Add(tbl_str);
+    SQL.Add(timestep_str);
 
       SQL.Add(' order by "station"."wmocode" ');
       if chkShowSQL.Checked=true then showmessage(SQL.Text);
@@ -556,6 +631,8 @@ try
       ParamByName('ltmax').AsFloat:=Lat2;
       ParamByName('lnmin').AsFloat:=Lon1;
       ParamByName('lnmax').AsFloat:=Lon2;
+      ParamByName('idmin').Value:=seIDMin.Value;
+      ParamByName('idmax').Value:=seIDMax.Value;
 
     Open;
     Last;
@@ -682,6 +759,8 @@ procedure Tfrmmain.BitBtn1Click(Sender: TObject);
 Var
   Ini: TIniFile;
   DBUser, DBPass, DBHost, DBName, server: string;
+  k: integer;
+  TempList:TListBox;
 begin
   try
     Ini := TIniFile.Create(IniFileName);
@@ -723,6 +802,9 @@ begin
           Enabled:=true;
         end;
 
+  (* permanent list for parameter tables *)
+   ListBox1.Clear;
+   TempList:=TListBox.Create(self);
        try
         frmdm.FBDB.UserName:=DBUser;
         frmdm.FBDB.Password:=DBPass;
@@ -735,6 +817,9 @@ begin
         frmdm.q1.DataBase:=frmdm.FBDB;
         frmdm.q2.DataBase:=frmdm.FBDB;
         frmdm.q3.DataBase:=frmdm.FBDB;
+        frmdm.q4.DataBase:=frmdm.FBDB;
+
+        frmdm.FBDB.GetTableNames(TempList.Items,False);
 
         UpdateIBContent;
         except
@@ -759,6 +844,9 @@ begin
          frmdm.q1.DataBase:=frmdm.PGDB;
          frmdm.q2.DataBase:=frmdm.PGDB;
          frmdm.q3.DataBase:=frmdm.PGDB;
+         frmdm.q4.DataBase:=frmdm.PGDB;
+
+         frmdm.PGDB.GetTableNames(TempList.Items,False);
 
          UpdateIBContent;
         except
@@ -769,8 +857,13 @@ begin
       end;
     end;
 
+    for k:=0 to TempList.Items.Count-1 do
+     if (copy(TempList.Items.Strings[k], 1, 2)='p_') then
+       ListBox1.Items.Add(TempList.Items.Strings[k]);
+
  finally
   ini.Free;
+  TempList.Free;
  end;
 end;
 
@@ -783,6 +876,12 @@ begin
   Edit4.Text:=floattostr(IBLnMax);
 end;
 
+procedure Tfrmmain.lbResetIDClick(Sender: TObject);
+begin
+  seIDMin.Value:=IDMin;
+  seIDMax.Value:=IDMax;
+end;
+
 procedure Tfrmmain.lbResetMDClick(Sender: TObject);
 begin
   cbWMO.Clear;
@@ -790,14 +889,26 @@ begin
   cbStation.Clear;
 end;
 
-procedure Tfrmmain.btnviewdataClick(Sender: TObject);
+procedure Tfrmmain.btnmonthlymatrixClick(Sender: TObject);
 begin
- if Open_viewdata=false then begin
-    frmviewdata := Tfrmviewdata.Create(Self);
-    frmviewdata.Show;
- end else frmviewdata.SetFocus;
+ if open_monthlymatrix=false then begin
+    frmmonthlymatrix := Tfrmmonthlymatrix.Create(Self);
+    frmmonthlymatrix.Show;
+ end else frmmonthlymatrix.SetFocus;
 
- Open_viewdata:=true;
+ open_monthlymatrix:=true;
+ CDSInfoNavigation;
+end;
+
+
+procedure Tfrmmain.iShowTimeseriesClick(Sender: TObject);
+begin
+ if Open_timeseries=false then begin
+    frmtimeseries := Tfrmtimeseries.Create(Self);
+    frmtimeseries.Show;
+ end else frmtimeseries.SetFocus;
+
+ Open_timeseries:=true;
  CDSInfoNavigation;
 end;
 
@@ -1028,6 +1139,17 @@ begin
  end
 end;
 
+procedure Tfrmmain.iLoadGHCNDClick(Sender: TObject);
+begin
+frmloadghcnd := Tfrmloadghcnd.Create(Self);
+try
+ if not frmloadghcnd.ShowModal = mrOk then exit;
+finally
+  frmloadghcnd.Free;
+  frmloadghcnd := nil;
+end
+end;
+
 
 procedure Tfrmmain.iLoadGHCNv2Click(Sender: TObject);
 begin
@@ -1064,9 +1186,26 @@ begin
   end;
 end;
 
+procedure Tfrmmain.MenuItem2Click(Sender: TObject);
+begin
+frmsourcesmerge := Tfrmsourcesmerge.Create(Self);
+ try
+  if not frmsourcesmerge.ShowModal = mrOk then exit;
+ finally
+   frmsourcesmerge.Free;
+   frmsourcesmerge := nil;
+ end;
+end;
+
 procedure Tfrmmain.PageControl1Change(Sender: TObject);
 begin
   if PageControl1.PageIndex=1 then Toolbar1.Visible:=true else Toolbar1.Visible:=false;
+end;
+
+procedure Tfrmmain.PM1Popup(Sender: TObject);
+begin
+  if frmdm.CDS2.FieldByName('timestep').AsString='Month' then
+    btnmonthlymatrix.Visible:=true else btnmonthlymatrix.Visible:=false;
 end;
 
 
@@ -1082,10 +1221,24 @@ frmsettings.PageControl1.PageIndex:=tab_ind;
  end;
 end;
 
+
 procedure Tfrmmain.iSettingsClick(Sender: TObject);
 begin
  OpenSettings(0);
 end;
+
+
+procedure Tfrmmain.iQCProceduresClick(Sender: TObject);
+begin
+frmqc := Tfrmqc.Create(Self);
+ try
+  if not frmqc.ShowModal = mrOk then exit;
+ finally
+   frmqc.Free;
+   frmqc := nil;
+ end;
+end;
+
 
 procedure Tfrmmain.iCompareSourcesClick(Sender: TObject);
 begin
@@ -1110,6 +1263,22 @@ begin
   if (column.FieldName='id') then begin
      TDBGrid(Sender).Canvas.Brush.Color := clBtnFace;
      TDBGrid(Sender).Canvas.Font.Color  := clBlack;
+  end;
+
+  if (gdRowHighlight in AState) then begin
+    TDBGrid(Sender).Canvas.Brush.Color := clNavy;
+    TDBGrid(Sender).Canvas.Font.Color  := clYellow;
+    TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
+  end;
+end;
+
+
+procedure Tfrmmain.DBGrid2PrepareCanvas(sender: TObject; DataCol: Integer;
+  Column: TColumn; AState: TGridDrawState);
+begin
+  if (column.Field.AsString='merged') then begin
+     TDBGrid(Sender).Canvas.Font.Color  := clRed;
+     TDBGrid(Sender).Canvas.Font.Style  := [fsBold];
   end;
 
   if (gdRowHighlight in AState) then begin

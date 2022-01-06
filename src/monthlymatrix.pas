@@ -1,41 +1,62 @@
-unit viewdata;
+unit monthlymatrix;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, FileUtil, TAGraph, TASeries, Forms, Controls, Graphics,
-  Dialogs, ComCtrls, Menus, StdCtrls, bufdataset, db, math, types, variants,
-  IniFiles, LCLTranslator, DBGrids, Grids, ExtCtrls, SQLDB;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
+  Menus, StdCtrls, bufdataset, db, math, types, variants, IniFiles,
+  LCLTranslator, DBGrids, Grids, ExtCtrls, Spin,SQLDB, lclintf,
+  TAGraph, TASeries, TACustomSeries, TAChartUtils, TATools, TATypes,
+  TAChartListbox, TASources;
 
 type
 
-  { Tfrmviewdata }
+  { Tfrmmonthlymatrix }
 
-  Tfrmviewdata = class(TForm)
+  Tfrmmonthlymatrix = class(TForm)
     btnPlotAllMonth: TMenuItem;
     btnPlot: TMenuItem;
+    CalculatedChartSource1: TCalculatedChartSource;
     Chart1: TChart;
-    Series1: TLineSeries;
+    chkShowOutliers: TCheckBox;
+    clbViewData: TChartListbox;
+    cts: TChartToolset;
+    ctsDPH: TDataPointHintTool;
+    ctsDPC: TDataPointClickTool;
+    ctsZDT: TZoomDragTool;
+    GroupBox3: TGroupBox;
+    pPlot: TPanel;
     DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     btnPlotColumn: TMenuItem;
     PageControl1: TPageControl;
+    Panel2: TPanel;
+    Panel3: TPanel;
     PM: TPopupMenu;
+    rgPlotType: TRadioGroup;
+    seClip2: TSpinEdit;
+    Series1: TLineSeries;
+    seClip1: TSpinEdit;
     Splitter1: TSplitter;
+    Splitter2: TSplitter;
     tabValues: TTabSheet;
     tabAnomalies: TTabSheet;
     ToolBar1: TToolBar;
     btnSave: TToolButton;
-    btnSettings: TToolButton;
 
     procedure btnSaveClick(Sender: TObject);
-    procedure btnSettingsClick(Sender: TObject);
+    procedure chkShowOutliersClick(Sender: TObject);
+    procedure ctsDPCPointClick(ATool: TChartTool; APoint: TPoint);
+    procedure ctsDPHHint(ATool: TDataPointHintTool; const APoint: TPoint;
+      var AHint: String);
     procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DBGrid2CellClick(Column: TColumn);
+    procedure DBGrid2KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure btnPlotAllMonthClick(Sender: TObject);
     procedure btnPlotClick(Sender: TObject);
@@ -45,17 +66,25 @@ type
     procedure MenuItem2Click(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure PageControl1Change(Sender: TObject);
     procedure PMPopup(Sender: TObject);
+    procedure rbSelectedMonthChange(Sender: TObject);
+    procedure rgPlotTypeClick(Sender: TObject);
+    procedure seClip1Change(Sender: TObject);
+    procedure seClip2Change(Sender: TObject);
 
   private
-    { private declarations }
+    function AddLineSeries (AChart: TChart; ATitle: String;
+      AColor:TColor; sName:string; AWidth:integer):TLineSeries;
+    procedure MoveToCol(aCol: PtrInt);
   public
     { public declarations }
-    procedure GetData(parameter_id:integer);
+    procedure GetData(table_id:integer);
+    procedure CDSMatrixNavigation;
   end;
 
 var
-  frmviewdata: Tfrmviewdata;
+  frmmonthlymatrix: Tfrmmonthlymatrix;
   CDSViewValues, CDSViewAnomalies:TBufDataSet;
   DSViewValues, DSViewAnomalies:TDataSource;
   tspath, units:string;
@@ -64,16 +93,41 @@ implementation
 
 {$R *.lfm}
 
-{ Tfrmviewdata }
+{ Tfrmmonthlymatrix }
 
-uses main, dm, settings, timeseries, procedures, grapher;
+uses main, dm, plottimeseries_old, procedures, grapher;
 
-procedure Tfrmviewdata.FormShow(Sender: TObject);
+
+function Tfrmmonthlymatrix.AddLineSeries(AChart: TChart;
+  ATitle: String; AColor:TColor; sName:string; AWidth:integer): TLineSeries;
+begin
+ Result := TLineSeries.Create(AChart.Owner);
+  with TLineSeries(Result) do begin
+    Title := ATitle;
+    ShowPoints := true;
+    ShowLines := true;
+    LinePen.Style := psSolid;
+    LinePen.Width:=AWidth;
+    SeriesColor := AColor;
+    Pointer.Brush.Color := AColor;
+    Pointer.Pen.Color := AColor;
+    Pointer.Style := psCircle;
+    Pointer.HorizSize:=AWidth+1;
+    Pointer.VertSize:=AWidth+1;
+    Name := sName;
+    ToolTargets := [nptPoint, nptXList, nptCustom];
+  end;
+ AChart.AddSeries(Result);
+end;
+
+
+procedure Tfrmmonthlymatrix.FormShow(Sender: TObject);
 Var
   k:integer;
+  Ini: TIniFile;
 begin
  tspath:=GlobalUnloadPath+'timeseries'+PathDelim;
-   if not DirectoryExists(tspath) then CreateDir(tspath);
+   if not DirectoryExists(tspath) then CreateDir(tspath) else ClearDir(tspath);
 
  (* CDS for values *)
  CDSViewValues:=TBufDataSet.Create(self);
@@ -146,10 +200,32 @@ begin
   DBGrid1.Columns.Items[k].DisplayFormat := ',0.00';
   DBGrid2.Columns.Items[k].DisplayFormat := ',0.00';
  end;
+
+ // loading settings
+ Ini := TIniFile.Create(IniFileName);
+ try
+   frmmonthlymatrix.Top   :=Ini.ReadInteger( 'meteo', 'viewdata_top',    50);
+   frmmonthlymatrix.Left  :=Ini.ReadInteger( 'meteo', 'viewdata_left',   50);
+   frmmonthlymatrix.Width :=Ini.ReadInteger( 'meteo', 'viewdata_width',  1250);
+   frmmonthlymatrix.Height:=Ini.ReadInteger( 'meteo', 'viewdata_height', 750);
+   pPlot.Height      :=Ini.ReadInteger( 'meteo', 'viewdata_plot_height', 380);
+   rgPlotType.ItemIndex :=Ini.ReadInteger( 'meteo', 'viewdata_plot_type',  0);
+   clbViewData.Height:=Ini.ReadInteger( 'meteo', 'viewdata_clb', 40);
+ finally
+  Ini.Free;
+ end;
+
+ Application.QueueAsyncCall(@MoveToCol, 13);
+end;
+
+procedure Tfrmmonthlymatrix.MoveToCol(aCol: PtrInt);
+begin
+  DBGrid1.SelectedIndex := aCol;
+  DBGrid2.SelectedIndex := aCol;
 end;
 
 
-procedure Tfrmviewdata.GetData(parameter_id:integer);
+procedure Tfrmmonthlymatrix.GetData(table_id:integer);
 Var
   k, ID, cnt:integer;
   yy_min, yy_max:integer;
@@ -161,7 +237,7 @@ Var
   Qt1:TSQLQuery;
   tbl: string;
 begin
- frmviewdata.Caption:=frmdm.CDS.FieldByName('name').AsString+': '+
+ frmmonthlymatrix.Caption:=frmdm.CDS.FieldByName('name').AsString+': '+
                       frmdm.CDS2.FieldByName('par').AsString;
  Application.ProcessMessages;
 
@@ -177,14 +253,21 @@ begin
   with Qt1 do begin
    Close;
     SQL.Clear;
-    SQL.Add(' select "table", "units" from "parameter" ');
-    SQL.Add(' where "parameter"."id"=:id ');
-    ParamByName('id').AsInteger:=parameter_id;
+    SQL.Add(' select "table"."name" as tbl, ');
+    SQL.Add(' "parameter"."name" as par, "parameter"."units" as units ');
+    SQL.Add(' from "table", "parameter" ');
+    SQL.Add(' where ');
+    SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
+    SQL.Add(' "table"."id"=:id ');
+    ParamByName('id').AsInteger:=table_id;
    Open;
-    tbl:=Qt1.Fields[0].AsString;
-    units:=Qt1.Fields[1].AsString;
+    tbl:=Qt1.FieldByName('tbl').AsString;
+    units:=Qt1.FieldByName('units').AsString;
    Close;
   end;
+
+  Chart1.LeftAxis.Title.Caption:=frmdm.CDS2.FieldByName('par').AsString+', '+units;
+  Application.ProcessMessages;
 
  if CDSViewValues.Active=true then CDSViewValues.Close;
     CDSViewValues.Open;
@@ -196,12 +279,15 @@ begin
   with Qt1 do begin
    Close;
     SQL.Clear;
-    SQL.Add(' select min("yy_min"), max("yy_max") from "station_info"');
+    SQL.Add(' select ');
+    SQL.Add(' min(Extract(Year from "date_min")), ');
+    SQL.Add(' max(Extract(Year from "date_max")) ');
+    SQL.Add(' from "station_info" ');
     SQL.Add(' where ');
     SQL.Add(' "station_id"=:st_id and ');
-    SQL.Add(' "parameter_id"=:par_id ');
+    SQL.Add(' "table_id"=:tbl ');
     ParamByName('st_id').AsInteger:=id;
-    ParamByName('par_id').AsInteger:=parameter_id;
+    ParamByName('tbl').AsInteger:=table_id;
    Open;
     yy_min:=Qt1.Fields[0].Value;
     yy_max:=Qt1.Fields[1].Value;
@@ -226,6 +312,8 @@ begin
       SQL.Clear;
       SQL.Add(' select * from "'+tbl+'" ');
       SQL.Add(' where "station_id"=:id ');
+      if not chkShowOutliers.Checked then
+        SQL.Add(' and "pqf2"=0 ');
       SQL.Add(' order by "date" ');
       ParamByName('id').AsInteger:=id;
      Open;
@@ -330,21 +418,26 @@ begin
     btnSave.Enabled := not CDSViewValues.IsEmpty ;
     DbGrid1.Enabled := not CDSViewValues.IsEmpty ;
     DbGrid2.Enabled := not CDSViewValues.IsEmpty ;
- end;
+
+  seClip1.Value:=yy_min;
+  seClip2.Value:=yy_max;
+
+  CDSMatrixNavigation;
+end;
 
 
-procedure Tfrmviewdata.btnPlotClick(Sender: TObject);
+procedure Tfrmmonthlymatrix.btnPlotClick(Sender: TObject);
 begin
- frmtimeseries := Tfrmtimeseries.Create(Self);
+{ frmtimeseries := Tfrmtimeseries.Create(Self);
   try
    if not frmtimeseries.ShowModal = mrOk then exit;
   finally
     frmtimeseries.Free;
     frmtimeseries := nil;
-  end;
+  end;  }
 end;
 
-procedure Tfrmviewdata.btnPlotAllMonthClick(Sender: TObject);
+procedure Tfrmmonthlymatrix.btnPlotAllMonthClick(Sender: TObject);
 var
 k,count_ts,count, YY:integer;
 year,month:integer;
@@ -366,7 +459,7 @@ for k:=1 to 13 do begin
    assignfile(f_dat, tsfile);   rewrite(f_dat);
    writeln(f_dat ,'year value');
 
- if frmViewData.PageControl1.PageIndex=0 then begin
+ if frmmonthlymatrix.PageControl1.PageIndex=0 then begin
    p_type:='values';
    try
     CDSViewValues.First;
@@ -385,7 +478,7 @@ for k:=1 to 13 do begin
    end;
  end; //Values
 
- if frmViewData.PageControl1.PageIndex=1 then begin
+ if frmmonthlymatrix.PageControl1.PageIndex=1 then begin
    p_type:='anomalies';
   try
    CDSViewAnomalies.DisableControls;
@@ -455,7 +548,7 @@ for k:=1 to count_ts do begin
     end;
 
 
-    if CheckBox2.Checked then begin
+    if chkShowOutliers.Checked then begin
     FitTitle:=concat(PlotID,'_RAv',inttostr(RunAvStep));
     FitID:=concat(GraphID,':',FitTitle);
     Plot.CreateFit(ID,FitTitle,1,8,5);
@@ -522,7 +615,7 @@ end;
 end;
 
 
-procedure Tfrmviewdata.btnPlotColumnClick(Sender: TObject);
+procedure Tfrmmonthlymatrix.btnPlotColumnClick(Sender: TObject);
 Var
  YY, MN:integer;
  val1:Variant;
@@ -535,7 +628,7 @@ begin
  Writeln(f_dat, 'YY':5, 'Value':8);
 
  (* Plot real values *)
- if frmViewData.PageControl1.PageIndex=0 then begin
+ if frmmonthlymatrix.PageControl1.PageIndex=0 then begin
   par:=DBGrid1.SelectedField.FieldName;
   mn:=DBGrid1.SelectedField.FieldNo-1;
   p_type:='values';
@@ -557,7 +650,7 @@ begin
  end; //Values
 
  (* Plot anomalies *)
- if frmViewData.PageControl1.PageIndex=1 then begin
+ if frmmonthlymatrix.PageControl1.PageIndex=1 then begin
   par:=DBGrid2.SelectedField.FieldName;
   mn:=DBGrid2.SelectedField.FieldNo-1;
   p_type:='anomalies';
@@ -592,7 +685,7 @@ begin
 end;
 
 
-procedure Tfrmviewdata.MenuItem2Click(Sender: TObject);
+procedure Tfrmmonthlymatrix.MenuItem2Click(Sender: TObject);
 Var
  Ini:TIniFile;
  mn:integer;
@@ -612,7 +705,7 @@ begin
  Writeln(f_dat, 'MN':5, 'Value':8);
 
  (* Plot real values *)
- if frmViewData.PageControl1.PageIndex=0 then begin
+ if frmmonthlymatrix.PageControl1.PageIndex=0 then begin
   try
    CDSViewValues.DisableControls;
     for mn:=1 to 12 do begin
@@ -640,124 +733,259 @@ end;
 
 
 
-procedure Tfrmviewdata.btnSaveClick(Sender: TObject);
+procedure Tfrmmonthlymatrix.btnSaveClick(Sender: TObject);
 Var
- k:integer;
+ k, old_id:integer;
  fout:text;
+ upath: string;
+ ActiveCDS:TBufDataset;
 begin
- frmmain.SD.DefaultExt:='.txt';
- frmmain.SD.Filter:='Text Files|*.txt';
- frmmain.SD.InitialDir:=GlobalPath+'unload'+PathDelim;
 
- if frmmain.SD.Execute then begin
-  AssignFile(fout, frmmain.SD.FileName); rewrite(fout);
- (* Export values *)
-  if frmViewData.PageControl1.PageIndex=0 then begin
+ upath:=tspath+StringReplace(Caption, ':', '_', [rfReplaceAll])+PathDelim;
+   if not DirectoryExists(upath) then CreateDir(upath);
+
+ ClearDir(upath);
+
+  // Values or anomalies?
+  Case PageControl1.PageIndex of
+   0: ActiveCDS:=CDSViewValues;
+   1: ActiveCDS:=CDSViewAnomalies;
+  end;
+
+  old_id:=ActiveCDS.FieldByName('YY').AsInteger;
+  AssignFile(fout, upath+'matrix.txt'); rewrite(fout);
+
    try
-    CDSViewValues.First;
-    CDSViewValues.DisableControls;
-       while not CDSViewValues.EOF do begin
-        write(fout, inttostr(CDSViewValues.FieldByName('YY').AsInteger));
+     ActiveCDS.DisableControls;
+     ActiveCDS.First;
+       while not ActiveCDS.EOF do begin
+        write(fout, inttostr(ActiveCDS.FieldByName('YY').AsInteger));
         for k:=1 to 13 do begin
-         write(fout, #9, Floattostr(CDSViewValues.FieldByName(inttostr(k)).AsFloat));
+         write(fout, #9, Vartostr(ActiveCDS.FieldByName(inttostr(k)).Value));
         end;
        writeln(fout);
-    CDSViewValues.Next;
+    ActiveCDS.Next;
    end;
    finally
-    CDSViewValues.First;
-    CDSViewValues.EnableControls;
+    ActiveCDS.Locate('YY', old_id, []);
+    ActiveCDS.EnableControls;
    end;
-  end; //Values
-
-  (* Plot anomalies *)
-  if frmViewData.PageControl1.PageIndex=1 then begin
-   try
-    CDSViewAnomalies.DisableControls;
-      CDSViewAnomalies.First;
-       while not CDSViewAnomalies.EOF do begin
-        write(fout, inttostr(CDSViewAnomalies.FieldByName('YY').AsInteger));
-          for k:=1 to 13 do begin
-            write(fout, #9, Floattostr(CDSViewAnomalies.FieldByName(inttostr(k)).AsFloat));
-          end;
-        writeln(fout);
-       CDSViewAnomalies.Next;
-    end;
-   finally
-    CDSViewAnomalies.First;
-    CDSViewAnomalies.EnableControls;
-   end;
-  end; //Values
   CloseFile(fout);
 
- end;
+  Chart1.SaveToFile(TJPEGImage, upath+'plot.jpg');
+
+ { for k:=0 to Chart1.SeriesCount-1 do begin
+   AssignFile(fout, upath+Chart1.Series[k].Name+'.txt'); reset(fout);
+   for pp:=0 to Chart1.Series[k].
+     if Chart1.Series[k].Name=sName then begin
+       TLineSeries(Chart1.Series[k]).Clear;
+       mik:=k;
+       break;
+     end;
+  end;}
+
+  OpenDocument(upath);
 end;
 
-procedure Tfrmviewdata.btnSettingsClick(Sender: TObject);
+
+procedure Tfrmmonthlymatrix.chkShowOutliersClick(Sender: TObject);
 begin
-  frmmain.OpenSettings(2);
+  GetData(frmdm.CDS2.FieldByName('id').Value);
 end;
 
-procedure Tfrmviewdata.DBGrid1CellClick(Column: TColumn);
+
+procedure Tfrmmonthlymatrix.CDSMatrixNavigation;
 var
- old_id, YY, mn:integer;
- Val1: variant;
+ old_id, YY, mn, mik, cnt:integer;
+ Val1, Sum, mean_val: variant;
+ txt, SName: string;
+ sColor:TColor;
+ ActiveGrid:TDBGrid;
+ ActiveCDS:TBufDataset;
+ date_dec:double;
 begin
-  try
-    if DBGrid1.SelectedField.FieldNo=1 then exit;
-    old_id:=CDSViewValues.FieldByName('YY').AsInteger;
-    mn:=DBGrid1.SelectedField.FieldNo-1;
-    Series1.Clear;
-
-    CDSViewValues.First;
-    CDSViewValues.DisableControls;
-       while not CDSViewValues.EOF do begin
-        YY  :=CDSViewValues.FieldByName('YY').AsInteger;
-        Val1:=CDSViewValues.FieldByName(inttostr(mn)).AsVariant;
-        if Val1=null then Val1:=Nan;
-         Series1.AddXY(YY, Val1);
-        CDSViewValues.Next;
-       end;
-   finally
-    CDSViewValues.Locate('YY', old_id, []);
-    CDSViewValues.EnableControls;
+  // Values or anomalies?
+  Case PageControl1.PageIndex of
+   0: begin
+       ActiveGrid:=DBGrid1;
+       ActiveCDS:=CDSViewValues;
+      end;
+   1: begin
+       ActiveGrid:=DBGrid2;
+       ActiveCDS:=CDSViewAnomalies;
+      end;
    end;
-end;
 
-procedure Tfrmviewdata.DBGrid2CellClick(Column: TColumn);
-var
- old_id, YY, mn:integer;
- Val1: variant;
-begin
-  try
-    if DBGrid2.SelectedField.FieldNo=1 then exit;
 
-    old_id:=CDSViewAnomalies.FieldByName('YY').AsInteger;
-    mn:=DBGrid2.SelectedField.FieldNo-1;
-    Series1.Clear;
+ try
+    if ActiveGrid.SelectedField.FieldNo=1 then exit;
 
-    CDSViewAnomalies.First;
-    CDSViewAnomalies.DisableControls;
-       while not CDSViewAnomalies.EOF do begin
-        YY  :=CDSViewAnomalies.FieldByName('YY').AsInteger;
-        Val1:=CDSViewAnomalies.FieldByName(inttostr(mn)).AsVariant;
+    old_id:=ActiveCDS.FieldByName('YY').AsInteger;
+
+    Chart1.Series.Clear;
+    clbViewData.Columns:=ActiveCDS.FieldCount-2;
+    mik:=0;
+
+    (* Plotting selected month/column *)
+    if rgPlotType.ItemIndex=0 then begin
+
+      mn:=ActiveGrid.SelectedField.FieldNo-1;
+
+      SName:=ActiveGrid.Columns[mn].Title.Caption;
+     // sColor:=GetColorFromIndex(mn);
+      sColor:=clBlue;
+
+      AddLineSeries(Chart1, sName, sColor, sName, 2);
+      inc(mik);
+      try
+      ActiveCDS.DisableControls;
+      ActiveCDS.First;
+       while not ActiveCDS.EOF do begin
+        YY  :=ActiveCDS.FieldByName('YY').AsInteger;
+        Val1:=ActiveCDS.FieldByName(inttostr(mn)).AsVariant;
         if Val1=null then Val1:=Nan;
-         Series1.AddXY(YY, Val1);
-        CDSViewAnomalies.Next;
+
+         txt:='Year: '+inttostr(yy)+'; Month: '+inttostr(mn)+'; Value: '+VarToStr(val1);
+         TLineSeries(Chart1.Series[mik-1]).AddXY(yy, val1, txt);
+
+        ActiveCDS.Next;
        end;
+       finally
+         ActiveCDS.Locate('YY', old_id, []);
+         ActiveCDS.EnableControls;
+       end;
+      Chart1.BottomAxis.Title.Caption:='Years';
+    end;
+
+
+    (* Plotting ALL months *)
+    if rgPlotType.ItemIndex=1 then begin
+     try
+     ActiveCDS.DisableControls;
+     for mn:=1 to 13 do begin
+      SName:=ActiveGrid.Columns[mn].Title.Caption;
+      sColor:=GetColorFromIndex(mn);
+
+      if mn<13 then
+        AddLineSeries(Chart1, sName, sColor, sName, 1) else
+        AddLineSeries(Chart1, sName, sColor, sName, 2);
+      inc(mik);
+
+      ActiveCDS.First;
+       while not ActiveCDS.EOF do begin
+        YY  :=ActiveCDS.FieldByName('YY').AsInteger;
+        Val1:=ActiveCDS.FieldByName(inttostr(mn)).AsVariant;
+        if Val1=null then Val1:=Nan;
+      //  date_dec:=roundto(yy+(mn-1)/12, -2);
+
+         txt:='Year: '+inttostr(yy)+'; Month: '+inttostr(mn)+'; Value: '+VarToStr(val1);
+         TLineSeries(Chart1.Series[mik-1]).AddXY(yy, val1, txt);
+
+        ActiveCDS.Next;
+       end;
+      end;
+      finally
+       ActiveCDS.Locate('YY', old_id, []);
+       ActiveCDS.EnableControls;
+      end;
+     Chart1.BottomAxis.Title.Caption:='Years';
+    end;
+
+
+    (* Plotting selected year (12 values) *)
+    if rgPlotType.ItemIndex=2 then begin
+      SName:='Year_'+inttostr(ActiveCDS.FieldByName('YY').AsInteger);
+      AddLineSeries(Chart1, SName, clBlue, sName, 2);
+      inc(mik);
+     for mn:=1 to 12 do begin
+       Val1:=ActiveCDS.FieldByName(inttostr(mn)).AsVariant;
+       if Val1=null then Val1:=Nan;
+
+         txt:='Month: '+inttostr(mn)+'; Value: '+VarToStr(val1);
+         TLineSeries(Chart1.Series[mik-1]).AddXY(mn, val1, txt);
+       end;
+     Chart1.BottomAxis.Title.Caption:='Months';
+    end;
+
+
+    if rgPlotType.ItemIndex=3 then begin
+      SName:='Annual_cycle';
+      AddLineSeries(Chart1, SName, clBlack, sName, 2);
+      inc(mik);
+     for mn:=1 to 12 do begin
+      try
+        ActiveCDS.DisableControls;
+        ActiveCDS.First;
+        mean_val:=0; sum:=0; cnt:=0;
+          while not ActiveCDS.EOF do begin
+            YY  :=ActiveCDS.FieldByName('YY').AsInteger;
+            Val1:=ActiveCDS.FieldByName(inttostr(mn)).AsVariant;
+            if Val1<>null then begin
+             sum:=sum+Val1;
+             inc(cnt);
+            end;
+           ActiveCDS.Next;
+          end;
+       if cnt>0 then mean_val:=sum/cnt else mean_val:=nan;
+       txt:='Month: '+inttostr(mn)+'; Value: '+VarToStr(mean_val);
+       TLineSeries(Chart1.Series[mik-1]).AddXY(mn,mean_val,txt);
+      finally
+        ActiveCDS.Locate('YY', old_id, []);
+        ActiveCDS.EnableControls;
+      end;
+     end;
+     Chart1.BottomAxis.Title.Caption:='Months';
+    end;
+
    finally
-    CDSViewAnomalies.Locate('YY', old_id, []);
-    CDSViewAnomalies.EnableControls;
+    ActiveCDS.EnableControls;
    end;
+
+   seClip1.OnChange(self);
+   seClip2.OnChange(self);
+   Application.ProcessMessages;
 end;
 
-
-procedure Tfrmviewdata.FormResize(Sender: TObject);
+procedure Tfrmmonthlymatrix.rgPlotTypeClick(Sender: TObject);
 begin
-  Toolbar1.Left:=frmviewdata.Width-Toolbar1.Width;
+  CDSMatrixNavigation;
 end;
 
-procedure Tfrmviewdata.DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
+procedure Tfrmmonthlymatrix.DBGrid1CellClick(Column: TColumn);
+begin
+  CDSMatrixNavigation;
+end;
+
+procedure Tfrmmonthlymatrix.DBGrid1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  CDSMatrixNavigation;
+end;
+
+procedure Tfrmmonthlymatrix.DBGrid2CellClick(Column: TColumn);
+begin
+  CDSMatrixNavigation;
+end;
+
+procedure Tfrmmonthlymatrix.DBGrid2KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  CDSMatrixNavigation;
+end;
+
+
+procedure Tfrmmonthlymatrix.PageControl1Change(Sender: TObject);
+begin
+  CDSMatrixNavigation;
+end;
+
+
+procedure Tfrmmonthlymatrix.FormResize(Sender: TObject);
+begin
+  Toolbar1.Left:=frmmonthlymatrix.Width-Toolbar1.Width;
+end;
+
+procedure Tfrmmonthlymatrix.DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
   Column: TColumn; AState: TGridDrawState);
 begin
  if (column.Index=0)then TDBGrid(sender).Canvas.Brush.Color := clBtnFace;
@@ -776,24 +1004,94 @@ begin
 end;
 
 
-procedure Tfrmviewdata.PMPopup(Sender: TObject);
+procedure Tfrmmonthlymatrix.PMPopup(Sender: TObject);
 begin
-  if ((frmViewData.PageControl1.PageIndex=0) and
+  if ((frmmonthlymatrix.PageControl1.PageIndex=0) and
      (DBGrid1.SelectedField.FieldNo=1)) or
-     ((frmViewData.PageControl1.PageIndex=1) and
+     ((frmmonthlymatrix.PageControl1.PageIndex=1) and
      (DBGrid2.SelectedField.FieldNo=1)) then Abort;
 end;
 
-procedure Tfrmviewdata.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure Tfrmmonthlymatrix.rbSelectedMonthChange(Sender: TObject);
 begin
+  if frmmonthlymatrix.PageControl1.PageIndex=0 then
+    DBGrid1.OnCellClick(DBGrid1.SelectedColumn) else
+    DBGrid2.OnCellClick(DBGrid1.SelectedColumn);
+end;
+
+procedure Tfrmmonthlymatrix.seClip1Change(Sender: TObject);
+begin
+ if rgPlotType.ItemIndex<2 then
+  Chart1.Extent.XMin := seClip1.Value else
+  Chart1.Extent.XMin:=1;
+
+ Chart1.Extent.UseXMin := true;
+end;
+
+procedure Tfrmmonthlymatrix.seClip2Change(Sender: TObject);
+begin
+ if rgPlotType.ItemIndex<2 then
+  Chart1.Extent.XMax := seClip2.Value else
+  Chart1.Extent.XMax:=12;
+
+ Chart1.Extent.UseXMax := true;
+end;
+
+
+procedure Tfrmmonthlymatrix.ctsDPCPointClick(ATool: TChartTool; APoint: TPoint);
+Var
+ tool: TDataPointClicktool;
+ series: TLineSeries;
+begin
+  tool := ATool as TDataPointClickTool;
+  if tool.Series is TLineSeries then begin
+    series := TLineSeries(tool.Series);
+    if (tool.PointIndex<>-1) then begin
+
+     if frmmonthlymatrix.PageControl1.PageIndex=0 then
+      CDSViewValues.Locate('yy', series.XValue[tool.PointIndex], []);
+
+     if frmmonthlymatrix.PageControl1.PageIndex=1 then
+      CDSViewAnomalies.Locate('yy', series.XValue[tool.PointIndex], []);
+
+    end;
+  end;
+end;
+
+procedure Tfrmmonthlymatrix.ctsDPHHint(ATool: TDataPointHintTool;
+  const APoint: TPoint; var AHint: String);
+begin
+  AHint := TLineSeries(ATool.Series).Source.Item[ATool.PointIndex]^.Text;
+end;
+
+procedure Tfrmmonthlymatrix.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+Var
+ Ini:TIniFile;
+begin
+
+// saving settings
+Ini := TIniFile.Create(IniFileName);
+try
+  Ini.WriteInteger( 'meteo', 'viewdata_top',         frmmonthlymatrix.Top);
+  Ini.WriteInteger( 'meteo', 'viewdata_left',        frmmonthlymatrix.Left);
+  Ini.WriteInteger( 'meteo', 'viewdata_width',       frmmonthlymatrix.Width);
+  Ini.WriteInteger( 'meteo', 'viewdata_height',      frmmonthlymatrix.Height);
+  Ini.WriteInteger( 'meteo', 'viewdata_plot_height', pPlot.Height);
+  Ini.WriteInteger( 'meteo', 'viewdata_plot_type',   rgPlotType.ItemIndex);
+  Ini.WriteInteger( 'meteo', 'viewdata_clb',         clbViewData.Height);
+finally
+ Ini.Free;
+end;
+
  CDSViewValues.Free;
  CDSViewAnomalies.Free;
 
  DSViewValues.Free;
  DSViewAnomalies.Free;
 
- Open_viewdata:=false;
+ Open_monthlymatrix:=false;
 end;
+
 
 end.
 

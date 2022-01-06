@@ -1,0 +1,30 @@
+object frmloadghcnd: Tfrmloadghcnd
+  Left = 484
+  Height = 447
+  Top = 305
+  Width = 871
+  Caption = 'Load GHCN-D'
+  ClientHeight = 447
+  ClientWidth = 871
+  DesignTimePPI = 144
+  LCLVersion = '2.0.6.0'
+  object Button1: TButton
+    Left = 32
+    Height = 38
+    Top = 24
+    Width = 113
+    Caption = 'Button1'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object mLog: TMemo
+    Left = 32
+    Height = 335
+    Top = 80
+    Width = 816
+    Lines.Strings = (
+      'mLog'
+    )
+    TabOrder = 1
+  end
+end

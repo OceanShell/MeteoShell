@@ -3,5 +3,6 @@
 {"hash":7039136,"name":"tfrmmetadata_sources.groupbox1.caption","sourcebytes":[100,115,53,55,48],"value":"ds570"},
 {"hash":233457394,"name":"tfrmmetadata_sources.groupbox2.caption","sourcebytes":[103,104,99,110,95,118,50],"value":"ghcn_v2"},
 {"hash":233457395,"name":"tfrmmetadata_sources.groupbox3.caption","sourcebytes":[103,104,99,110,95,118,51],"value":"ghcn_v3"},
-{"hash":233457396,"name":"tfrmmetadata_sources.groupbox4.caption","sourcebytes":[103,104,99,110,95,118,52],"value":"ghcn_v4"}
+{"hash":233457396,"name":"tfrmmetadata_sources.groupbox4.caption","sourcebytes":[103,104,99,110,95,118,52],"value":"ghcn_v4"},
+{"hash":257481920,"name":"tfrmmetadata_sources.groupbox5.caption","sourcebytes":[103,104,99,110,95,118,52,95,112,114,99,112],"value":"ghcn_v4_prcp"}
 ]}
