@@ -1,0 +1,47 @@
+object frmload_unaami: Tfrmload_unaami
+  Left = 448
+  Height = 478
+  Top = 260
+  Width = 1018
+  Caption = 'LoadUnaamiSAT59 [http://www.unaami.noaa.gov/analyses/sat/]'
+  ClientHeight = 478
+  ClientWidth = 1018
+  Color = clBtnFace
+  DesignTimePPI = 144
+  Font.Color = clWindowText
+  Font.Height = -17
+  Font.Name = 'MS Sans Serif'
+  OnCreate = FormCreate
+  LCLVersion = '2.0.6.0'
+  object Button1: TButton
+    Left = 12
+    Height = 38
+    Top = 16
+    Width = 113
+    Caption = 'Button1'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object Memo1: TMemo
+    Left = 280
+    Height = 376
+    Top = 80
+    Width = 710
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    Lines.Strings = (
+      'Memo1'
+    )
+    ParentFont = False
+    TabOrder = 1
+  end
+  object ListBox1: TListBox
+    Left = 12
+    Height = 376
+    Top = 80
+    Width = 252
+    ItemHeight = 0
+    TabOrder = 2
+  end
+end

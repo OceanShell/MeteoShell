@@ -1,0 +1,55 @@
+object frmload_russian_arctic: Tfrmload_russian_arctic
+  Left = 264
+  Height = 612
+  Top = 260
+  Width = 1014
+  Caption = 'LoadRussianArctic [Russian stations from 1961-2000  http://nsidc.org/data/g02141.html]'
+  ClientHeight = 612
+  ClientWidth = 1014
+  Color = clBtnFace
+  DesignTimePPI = 144
+  Font.Color = clWindowText
+  Font.Height = -17
+  Font.Name = 'MS Sans Serif'
+  LCLVersion = '2.0.6.0'
+  object Memo1: TMemo
+    Left = 304
+    Height = 512
+    Top = 72
+    Width = 680
+    Font.Color = clWindowText
+    Font.Height = -17
+    Font.Name = 'MS Sans Serif'
+    Lines.Strings = (
+      'Memo1'
+    )
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 24
+    Height = 38
+    Top = 16
+    Width = 113
+    Caption = 'Open data'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object ListBox1: TListBox
+    Left = 24
+    Height = 512
+    Top = 72
+    Width = 264
+    ItemHeight = 0
+    TabOrder = 2
+  end
+  object Button2: TButton
+    Left = 175
+    Height = 38
+    Top = 16
+    Width = 113
+    Caption = 'Start'
+    OnClick = Button2Click
+    TabOrder = 3
+  end
+end

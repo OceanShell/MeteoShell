@@ -1,0 +1,135 @@
+object frmload_ghcn_v4_prcp: Tfrmload_ghcn_v4_prcp
+  Left = 454
+  Height = 495
+  Top = 277
+  Width = 943
+  Caption = 'Load GHCN v4 precipitation'
+  ClientHeight = 495
+  ClientWidth = 943
+  DesignTimePPI = 144
+  LCLVersion = '2.0.6.0'
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 495
+    Top = 0
+    Width = 943
+    ActivePage = TabSheet1
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'Data'
+      ClientHeight = 457
+      ClientWidth = 935
+      object btnLoad: TButton
+        Left = 24
+        Height = 38
+        Top = 15
+        Width = 152
+        Caption = 'Update'
+        OnClick = btnLoadClick
+        ParentFont = False
+        TabOrder = 0
+      end
+      object mInserted: TMemo
+        Left = 24
+        Height = 353
+        Top = 80
+        Width = 888
+        Anchors = [akTop, akLeft, akBottom]
+        ParentFont = False
+        ScrollBars = ssBoth
+        TabOrder = 1
+      end
+      object chkShowLog: TCheckBox
+        Left = 192
+        Height = 29
+        Top = 24
+        Width = 133
+        Caption = 'Show output'
+        Checked = True
+        ParentFont = False
+        State = cbChecked
+        TabOrder = 2
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Metadata'
+      ClientHeight = 457
+      ClientWidth = 935
+      object mLog: TMemo
+        Left = 288
+        Height = 399
+        Top = 16
+        Width = 624
+        Lines.Strings = (
+          'mLog'
+        )
+        TabOrder = 0
+      end
+      object Button5: TButton
+        Left = 15
+        Height = 38
+        Top = 16
+        Width = 248
+        Caption = 'station_ghcn_v4_prcp'
+        OnClick = Button5Click
+        TabOrder = 1
+      end
+      object Button9: TButton
+        Left = 15
+        Height = 38
+        Top = 64
+        Width = 249
+        Caption = 'Update countries'
+        OnClick = Button9Click
+        TabOrder = 2
+      end
+      object Button10: TButton
+        Left = 15
+        Height = 38
+        Top = 112
+        Width = 248
+        Caption = 'v4_prcp-> v4'
+        OnClick = Button10Click
+        TabOrder = 3
+      end
+      object Button13: TButton
+        Left = 15
+        Height = 38
+        Top = 168
+        Width = 248
+        Caption = 'Missing codes by name prcp'
+        OnClick = Button13Click
+        TabOrder = 4
+      end
+      object btnDuplicates: TButton
+        Left = 16
+        Height = 38
+        Top = 280
+        Width = 247
+        Caption = 'Duplicates'
+        OnClick = btnDuplicatesClick
+        TabOrder = 5
+      end
+      object Button1: TButton
+        Left = 16
+        Height = 38
+        Top = 328
+        Width = 247
+        Caption = 'id by wmo'
+        OnClick = Button1Click
+        TabOrder = 6
+      end
+      object Button2: TButton
+        Left = 15
+        Height = 38
+        Top = 376
+        Width = 248
+        Caption = 'new wmo'
+        OnClick = Button2Click
+        TabOrder = 7
+      end
+    end
+  end
+end

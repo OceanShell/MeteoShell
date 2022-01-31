@@ -17,21 +17,19 @@ type
   Tfrmtimeseries = class(TForm)
     btnGetTimeseries: TButton;
     Chart1: TChart;
-    chkHideOutliers: TCheckBox;
+    chkShowOutliers: TCheckBox;
     ctDPC: TDataPointClickTool;
     ctDPH: TDataPointHintTool;
     cts: TChartToolset;
     ctZDT: TZoomDragTool;
+    DBGrid1: TDBGrid;
     DS: TDataSource;
     dtInterval: TDateTimeIntervalChartSource;
     dtp_max: TDateTimePicker;
     dtp_min: TDateTimePicker;
     GroupBox1: TGroupBox;
-    rgClipping: TRadioGroup;
-    Series1: TLineSeries;
-    DBGrid1: TDBGrid;
     Panel1: TPanel;
-    Splitter1: TSplitter;
+    Series1: TLineSeries;
 
     procedure btnGetTimeseriesClick(Sender: TObject);
     procedure ctDPCPointClick(ATool: TChartTool; APoint: TPoint);
@@ -66,7 +64,7 @@ begin
 
   CDSTimeseries:=TBufDataSet.Create(self);
   with CDSTimeseries do begin
-    FieldDefs.Add('date', ftdate, 0, false);
+    FieldDefs.Add('date', ftdatetime, 0, false);
     FieldDefs.Add('val', ftfloat, 0, false);
     FieldDefs.Add('flag', ftinteger, 0, false);
     CreateDataSet;
@@ -74,11 +72,11 @@ begin
   end;
 
 
- dtp_min.Date:=frmdm.CDS2.FieldByName('date_min').AsDateTime;
+ dtp_min.DateTime:=frmdm.CDS2.FieldByName('date_min').AsDateTime;
  dtp_min.MinDate:=frmdm.CDS2.FieldByName('date_min').AsDateTime;
  dtp_min.MaxDate:=frmdm.CDS2.FieldByName('date_max').AsDateTime;
 
- dtp_max.Date:=dtp_min.MaxDate;
+ dtp_max.DateTime:=dtp_min.MaxDate;
  dtp_max.MinDate:=dtp_min.MinDate;
  dtp_min.MaxDate:=dtp_min.MaxDate;
 
@@ -163,8 +161,6 @@ begin
 
   ID:=frmdm.CDS.FieldByName('id').AsInteger;
 
- //     showmessage('here2');
-
   try
 
   if CDSTimeseries.Active=true then CDSTimeseries.Close;
@@ -174,10 +170,19 @@ begin
     CDSTimeseries.DisableControls;
     CDSTimeseries.First;
 
+  if step='Year' then begin
+   steps_between:=YearsBetween(dtp_min.Date, dtp_max.Date);
+    for k:=0 to steps_between-1 do begin
+     with CDSTimeseries do begin
+      Append;
+       FieldByName('date').Value:=IncYear(dtp_min.DateTime, k);
+      Post;
+     end;
+    end;
+  end;
 
-
-  {if step='Month' then begin
-   steps_between:=MonthsBetween(dtp_min.Date, dtp_max.Date)+2;
+  if step='Month' then begin
+   steps_between:=MonthsBetween(dtp_min.Date, dtp_max.Date)+1;
   // showmessage(inttostr(steps_between));
     for k:=0 to steps_between-1 do begin
      with CDSTimeseries do begin
@@ -189,7 +194,7 @@ begin
   end;
 
   if step='Day' then begin
-   steps_between:=DaysBetween(dtp_min.Date, dtp_max.Date)+2;
+   steps_between:=DaysBetween(dtp_min.Date, dtp_max.Date)+1;
     for k:=0 to steps_between-1 do begin
      with CDSTimeseries do begin
       Append;
@@ -197,9 +202,21 @@ begin
       Post;
      end;
     end;
-  end;        }
-  DecodeDate(dtp_min.Date, yy1, mn1, dd1);
-  DecodeDate(dtp_max.Date, yy2, mn2, dd2);
+  end;
+
+  if step='Hour' then begin
+   steps_between:=HoursBetween(dtp_min.DateTime, dtp_max.DateTime);
+    for k:=0 to steps_between-1 do begin
+     with CDSTimeseries do begin
+      Append;
+       FieldByName('date').Value:=IncHour(dtp_min.DateTime, k);
+      Post;
+     end;
+    end;
+  end;
+  DecodeDate(dtp_min.DateTime, yy1, mn1, dd1);
+  DecodeDate(dtp_max.DateTime, yy2, mn2, dd2);
+
 
  //  showmessage('here2');
 
@@ -208,30 +225,28 @@ begin
       SQL.Clear;
       SQL.Add(' select * from "'+tbl+'" ');
       SQL.Add(' where "station_id"=:id ');
-      if rgClipping.ItemIndex=0 then
-        SQL.Add(' and "date" between :date_min and :date_max ');
-      if rgClipping.ItemIndex=1 then begin
+      SQL.Add(' and "date" between :date_min and :date_max ');
+   {   if rgClipping.ItemIndex=1 then begin
         SQL.Add(' and Extract(Year from "date") between :yy1 and :yy2 ');
         SQL.Add(' and Extract(Month from "date") between :mn1 and :mn2 ');
         SQL.Add(' and Extract(Day from "date") between :dd1 and :dd2 ');
-      end;
-      if chkHideOutliers.Checked then
+      end; }
+      if chkShowOutliers.Checked=false then
         SQL.Add(' and "pqf2"=0 ');
 
       SQL.Add(' order by "date" ');
       ParamByName('id').Value:=id;
-      if rgClipping.ItemIndex=0 then begin
-        ParamByName('date_min').Value:=dtp_min.Date;
-        ParamByName('date_max').Value:=dtp_max.Date;
-      end;
-      if rgClipping.ItemIndex=1 then begin
+      ParamByName('date_min').Value:=dtp_min.Date;
+      ParamByName('date_max').Value:=dtp_max.Date;
+
+      {if rgClipping.ItemIndex=1 then begin
         ParamByName('yy1').Value:=yy1;
         ParamByName('yy2').Value:=yy2;
         ParamByName('mn1').Value:=mn1;
         ParamByName('mn2').Value:=mn2;
         ParamByName('dd1').Value:=dd1;
         ParamByName('dd2').Value:=dd2;
-      end;
+      end; }
     // showmessage(sql.text);
      Open;
     end;
@@ -245,12 +260,9 @@ begin
    pqf2:=Qt1.FieldByName('pqf2').Value;
 
      with CDSTimeseries do begin
-      Append;
-      { if VarIsNull(Lookup('date', dat1, 'date')) then Append else begin
-         Locate('date',dat1,[]);
-         Edit;
-       end;  }
-        FieldByName('date').AsDateTime:=dat1;
+       Locate('date',dat1,[]);
+       Edit;
+       // FieldByName('date').AsDateTime:=dat1;
         FieldByName('val').AsFloat:=val1;
         FieldByName('flag').AsInteger:=pqf2;
        Post;
@@ -260,7 +272,6 @@ begin
   end;
   Qt1.First;
 
- //  showmessage('here0');
   Series1.Clear;
   CDSTimeseries.First;
   while not CDSTimeseries.EOF do begin
@@ -296,7 +307,7 @@ Var
  tool: TDataPointClicktool;
  series: TLineSeries;
 begin
- showmessage('here');
+// showmessage('here');
   tool := ATool as TDataPointClickTool;
   if tool.Series is TLineSeries then begin
     series := TLineSeries(tool.Series);

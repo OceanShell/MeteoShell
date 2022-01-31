@@ -1,4 +1,11 @@
 {"version":1,"strings":[
-{"hash":216892051,"name":"tform1.caption","sourcebytes":[67,111,109,112,97,114,101,32,112,97,114,97,109,101,116,101,114,115],"value":"Compare parameters"},
-{"hash":60021969,"name":"tform1.combobox1.text","sourcebytes":[67,111,109,98,111,66,111,120,49],"value":"ComboBox1"}
+{"hash":216892051,"name":"tfrmcompare_parameters.caption","sourcebytes":[67,111,109,112,97,114,101,32,112,97,114,97,109,101,116,101,114,115],"value":"Compare parameters"},
+{"hash":60574897,"name":"tfrmcompare_parameters.groupbox1.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,32,49],"value":"Parameter 1"},
+{"hash":94831828,"name":"tfrmcompare_parameters.label1.caption","sourcebytes":[83,116,46,32,73,68],"value":"St. ID"},
+{"hash":371392,"name":"tfrmcompare_parameters.label2.caption","sourcebytes":[83,116,101,112],"value":"Step"},
+{"hash":346165,"name":"tfrmcompare_parameters.label3.caption","sourcebytes":[78,97,109,101],"value":"Name"},
+{"hash":60574898,"name":"tfrmcompare_parameters.groupbox2.caption","sourcebytes":[80,97,114,97,109,101,116,101,114,32,50],"value":"Parameter 2"},
+{"hash":94831828,"name":"tfrmcompare_parameters.label4.caption","sourcebytes":[83,116,46,32,73,68],"value":"St. ID"},
+{"hash":346165,"name":"tfrmcompare_parameters.label6.caption","sourcebytes":[78,97,109,101],"value":"Name"},
+{"hash":174352581,"name":"tfrmcompare_parameters.btncompare.caption","sourcebytes":[67,111,109,112,97,114,101],"value":"Compare"}
 ]}

@@ -78,9 +78,9 @@ begin
      SQL.Add(' "parameter"."name"=:par and ');
      SQL.Add(' "timestep"."name"=:tim and ');
      SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
-     SQL.Add(' "table"."source_id"="source"."id" ');
+     SQL.Add(' "table"."source_id"="source"."id" and ');
      SQL.Add(' "table"."timestep_id"="timestep"."id" ');
-     SQL.Add(' order by "source"."name"');
+     SQL.Add(' order by "source"."priority", "source"."name"');
      ParamByName('par').AsString:=rgParameter.Items.Strings[rgParameter.ItemIndex];
      ParamByName('tim').AsString:=rgTimestep.Items.Strings[rgTimestep.ItemIndex];
      Open;
@@ -130,7 +130,7 @@ begin
         parameter_id:=2;
        end;
     1: begin
-        TableTo:='p_surface_air_temperature';
+        TableTo:='p_surface_air_temp';
         parameter_id:=1;
        end;
   end;
@@ -164,16 +164,18 @@ begin
        Close;
         SQL.Clear;
         SQL.Add(' select count("station_id") ');
-        SQL.Add(' from "station_info", "table", "parameter" ');
+        SQL.Add(' from "station_info", "table", "parameter", "timestep" ');
         SQL.Add(' where ');
         SQL.Add(' "station_info"."station_id"=:id and ');
         SQL.Add(' "parameter"."name"=:par and ');
         SQL.Add(' "station_info"."table_id"="table"."id" and ');
         SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
-        SQL.Add(' "table"."id"<90 ');
+        SQL.Add(' "table"."timestep_id"="timestep"."id" and ');
+        SQL.Add(' "table"."id"<90 and ');
+        SQL.Add(' "timestep"."name"=:timestep ');
         ParamByName('id').Value:=id;
         ParamByName('par').Value:=rgParameter.Items.Strings[rgParameter.ItemIndex];;
-     //   showmessage(sql.text);
+        ParamByName('timestep').Value:=rgtimestep.Items.Strings[rgTimestep.ItemIndex];;
        Open;
         cnt_par:=frmdm.q2.Fields[0].Value;
        Close;

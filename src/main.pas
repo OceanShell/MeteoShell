@@ -34,7 +34,7 @@ type
     cbCountry: TComboBox;
     cbStation: TComboBox;
     cbWMO: TComboBox;
-    cgTimeStep: TCheckGroup;
+    cgSource: TCheckGroup;
     chkShowSQL: TCheckBox;
     chkStActive: TCheckBox;
     chlParameters: TCheckGroup;
@@ -72,6 +72,9 @@ type
     lbResetID: TLabel;
     ListBox1: TListBox;
     MenuItem1: TMenuItem;
+    iLoadGHCN_v4_prcp: TMenuItem;
+    btnload_isd: TMenuItem;
+    btnWindChartRose: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem5: TMenuItem;
@@ -79,11 +82,18 @@ type
     MenuItem6: TMenuItem;
     iLoadGHCND: TMenuItem;
     iShowTimeseries: TMenuItem;
+    btnLoadAARI: TMenuItem;
+    MenuItem8: TMenuItem;
+    btnload_unaami: TMenuItem;
+    btnload_amca: TMenuItem;
+    iLoadGHCN_v4_t2m: TMenuItem;
+    btnLoad_ECAD: TMenuItem;
+    MenuItem9: TMenuItem;
     N5: TMenuItem;
     N1: TMenuItem;
     N4: TMenuItem;
     N3: TMenuItem;
-    iCompareSources: TMenuItem;
+    btnCompareSources: TMenuItem;
     iUpdateStationInfo: TMenuItem;
     iLoadGHCNv3: TMenuItem;
     iLoadGHCN_v4: TMenuItem;
@@ -101,10 +111,12 @@ type
     PM1: TPopupMenu;
     PM2: TPopupMenu;
     ProgressBar1: TProgressBar;
+    rgTimestep: TRadioGroup;
     RegionalAveraging1: TMenuItem;
     SD: TSaveDialog;
     seIDMin: TSpinEdit;
     seIDMax: TSpinEdit;
+    ODD: TSelectDirectoryDialog;
     seYY1: TSpinEdit;
     seYY2: TSpinEdit;
     Splitter1: TSplitter;
@@ -121,6 +133,12 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure btncommitClick(Sender: TObject);
     procedure btnInfoClick(Sender: TObject);
+    procedure btnLoadAARIClick(Sender: TObject);
+    procedure btnload_amcaClick(Sender: TObject);
+    procedure btnLoad_ECADClick(Sender: TObject);
+    procedure btnload_isdClick(Sender: TObject);
+    procedure btnload_unaamiClick(Sender: TObject);
+    procedure btnWindChartRoseClick(Sender: TObject);
     procedure chkStActiveChange(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
     procedure DBGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -134,11 +152,10 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormResize(Sender: TObject);
     procedure iAboutClick(Sender: TObject);
-    procedure iCompareSourcesClick(Sender: TObject);
+    procedure btnCompareSourcesClick(Sender: TObject);
     procedure iDeleteEmptyStationsClick(Sender: TObject);
     procedure iLoadGHCNDClick(Sender: TObject);
     procedure iLoadGHCNv2Click(Sender: TObject);
-    procedure iLoadGHCN_v4Click(Sender: TObject);
     procedure btnSelectClick(Sender: TObject);
     procedure btnmonthlymatrixClick(Sender: TObject);
     procedure cbCountryDropDown(Sender: TObject);
@@ -146,6 +163,8 @@ type
     procedure cbWMODropDown(Sender: TObject);
     procedure ds5701Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure iLoadGHCN_v4_prcpClick(Sender: TObject);
+    procedure iLoadGHCN_v4_t2mClick(Sender: TObject);
     procedure iSettingsClick(Sender: TObject);
     procedure iQCProceduresClick(Sender: TObject);
     procedure iShowTimeseriesClick(Sender: TObject);
@@ -156,9 +175,12 @@ type
     procedure iLoadGHCNv3Click(Sender: TObject);
     procedure iDatabaseTablesClick(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
+    procedure MenuItem6Click(Sender: TObject);
+    procedure MenuItem8Click(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
     procedure PM1Popup(Sender: TObject);
     procedure RegionalAveraging1Click(Sender: TObject);
+    procedure rgTimestepClick(Sender: TObject);
     procedure SelectedMonthComposition1Click(Sender: TObject);
     procedure btnaddClick(Sender: TObject);
     procedure btndeleteClick(Sender: TObject);
@@ -252,10 +274,15 @@ implementation
 { Tfrmmain }
 
 uses dm, sortbufds, monthlymatrix, plottimeseries_old, map,
-     sources_compare, timeseries,
-     settings, load_ds570, metadata_sources, qc, load_ghcnd,
-     load_ghcn_v2, load_ghcn_v4, load_ghcn_v3, sources_merge,
-     spatialaveraging, table_management, update_station_info;
+     sources_compare, timeseries, parameter_compare,
+     settings,  info, qc,
+     sources_merge, windchartrose,
+     spatialaveraging, table_management, update_station_info,
+
+     (* load *)
+     load_ghcnd,load_ds570,load_aari, load_russian_arctic,
+     load_ghcn_v2, load_ghcn_v4, load_ghcn_v3, load_unaami,
+     load_amca, load_ghcnv4_prcp, load_ecad, load_isd;
 
 
 procedure Tfrmmain.FormShow(Sender: TObject);
@@ -418,12 +445,15 @@ if (ID=0) or (NavigationOrder=false) then exit;
      SQL.Add(' from "station_info", "table", "parameter", "source", "timestep" ');
      SQL.Add(' where ');
      SQL.Add(' "station_info"."station_id"=:station_id and ');
+     SQL.Add(' "timestep"."name"=:timestep_name and ');
      SQL.Add(' "station_info"."table_id"="table"."id" and ');
      SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
      SQL.Add(' "table"."source_id"="source"."id" and ');
      SQL.Add(' "table"."timestep_id"="timestep"."id" ');
-     SQL.Add(' order by "table"."parameter_id", "table"."source_id" ');
+     SQL.Add(' order by "table"."parameter_id", "timestep"."id", ');
+     SQL.Add(' "table"."source_id" ');
      ParamByName('station_id').AsInteger:=ID;
+     ParamByName('timestep_name').AsString:=rgTimestep.Items.Strings[rgTimestep.ItemIndex];
     Open;
   end;
 
@@ -504,10 +534,42 @@ with frmdm.q1 do begin
   Close;
  end;
 
- with frmdm.q1 do begin
+
+  with frmdm.q1 do begin
   Close;
     SQL.Clear;
-    SQL.Add(' select distinct("name") from "parameter" order by "name" ');
+    SQL.Add(' select distinct("name") from "timestep" order by "id" ');
+  Open;
+ end;
+
+ rgTimestep.Items.clear;
+ while not frmdm.q1.EOF do begin
+   rgTimestep.Items.Add(frmdm.q1.Fields[0].AsString);
+  frmdm.q1.Next;
+ end;
+ rgTimestep.Columns:=frmdm.q1.RecordCount;
+ frmdm.q1.Close;
+ rgTimestep.ItemIndex:=1;
+ rgTimestep.OnClick(self);
+
+
+ for k:=1 to MM.Items.Count-2 do MM.Items[k].Enabled:=true;
+ Application.ProcessMessages;
+end;
+
+
+procedure Tfrmmain.rgTimestepClick(Sender: TObject);
+begin
+  with frmdm.q1 do begin
+  Close;
+    SQL.Clear;
+    SQL.Add(' select distinct("parameter"."name") ');
+    SQL.Add(' from "parameter", "table", "timestep" ');
+    SQL.Add(' where ');
+    SQL.Add(' "table"."parameter_id"="parameter"."id" and ');
+    SQL.Add(' "table"."timestep_id"="timestep"."id" and ');
+    SQL.Add(' "timestep"."name"='+QuotedStr(rgTimestep.Items.Strings[rgTimestep.ItemIndex]));
+    SQL.Add(' order by "name" ');
   Open;
  end;
 
@@ -518,24 +580,26 @@ with frmdm.q1 do begin
  end;
  frmdm.q1.Close;
 
+
   with frmdm.q1 do begin
-  Close;
-    SQL.Clear;
-    SQL.Add(' select distinct("name") from "timestep" order by "id" ');
-  Open;
- end;
+    Close;
+     SQL.Clear;
+     SQL.Add(' select distinct("source"."name") ');
+     SQL.Add(' from "source", "table", "timestep" ');
+     SQL.Add(' where ');
+     SQL.Add(' "table"."source_id"="source"."id" and ');
+     SQL.Add(' "table"."timestep_id"="timestep"."id" and ');
+     SQL.Add(' "timestep"."name"='+QuotedStr(rgTimestep.Items.Strings[rgTimestep.ItemIndex]));
+     SQL.Add(' order by "source"."name" ');
+    Open;
+  end;
 
- cgTimestep.Items.clear;
- while not frmdm.q1.EOF do begin
-   cgTimestep.Items.Add(frmdm.q1.Fields[0].AsString);
-  frmdm.q1.Next;
- end;
- cgTimestep.Columns:=frmdm.q1.RecordCount;
- frmdm.q1.Close;
-
-
- for k:=1 to MM.Items.Count-2 do MM.Items[k].Enabled:=true;
- Application.ProcessMessages;
+  cgSource.Items.clear;
+  while not frmdm.q1.EOF do begin
+    cgSource.Items.Add(frmdm.q1.Fields[0].AsString);
+   frmdm.q1.Next;
+  end;
+  frmdm.q1.Close;
 end;
 
 
@@ -543,7 +607,7 @@ procedure Tfrmmain.btnSelectClick(Sender: TObject);
 Var
 Lat1, Lat2, Lon1, Lon2:real;
 k:integer;
-tbl_str, timestep_str, timestep_name:string;
+tbl_str, timestep_str, src_str, timestep_name:string;
 begin
 Lat1:=strtofloat(edit1.Text);
 Lat2:=strtofloat(edit2.Text);
@@ -560,9 +624,12 @@ for k:=0 to chlParameters.Items.Count-1 do begin
    with frmdm.q1 do begin
     Close;
      SQL.Clear;
-     SQL.Add('select "table"."id" from "table", "parameter" ');
-     SQL.Add('where "table"."parameter_id"="parameter"."id" and ');
-     SQL.Add('"parameter"."name"='+QuotedStr(chlParameters.Items.Strings[k]));
+     SQL.Add('select "table"."id" from "table", "parameter", "timestep" ');
+     SQL.Add('where');
+     SQL.Add('"table"."parameter_id"="parameter"."id" and ');
+     SQL.Add('"table"."timestep_id"="timestep"."id" and ');
+     SQL.Add('"parameter"."name"='+QuotedStr(chlParameters.Items.Strings[k])+' and ');
+     SQL.Add('"timestep"."name"='+QuotedStr(rgTimestep.Items.Strings[rgTimestep.ItemIndex]));
     Open;
    end;
    while not frmdm.q1.EOF do begin
@@ -583,20 +650,37 @@ for k:=0 to chlParameters.Items.Count-1 do begin
 end;
 //showmessage(tbl_str);
 
-timestep_name:='';
-for k:=0 to cgTimestep.Items.Count-1 do
+{timestep_name:='';
+for k:=0 to rgTimestep.Items.Count-1 do
   if cgTimestep.Checked[k]=true then
     timestep_name:=timestep_name+QuotedStr(cgTimestep.Items.Strings[k])+',';
 
 timestep_name:=copy(timestep_name, 1, length(timestep_name)-1);
 
-if trim(timestep_name)<>'' then
+if trim(timestep_name)<>'' then }
 timestep_str:=' and ("station"."id" in ( '+
      'select "station_id" from "station_info" where "table_id" in ('+
      'select "table"."id" from "table", "timestep" '+
      'where "table"."timestep_id"="timestep"."id" and '+
-     '"timestep"."name" in('+timestep_name+'))))' else timestep_str:='';
-//showmessage(timestep_str);
+     '"timestep"."name"='+QuotedStr(rgTimestep.Items.Strings[rgTimestep.ItemIndex])+')))';
+     //'"timestep"."name" in('+timestep_name+'))))' else timestep_str:='';
+//showmessage(timestep_str);  }
+
+
+src_str:='';
+for k:=0 to cgSource.Items.Count-1 do
+  if cgSource.Checked[k]=true then
+    src_str:=src_str+QuotedStr(cgSource.Items.Strings[k])+',';
+
+src_str:=copy(src_str, 1, length(src_str)-1);
+
+if trim(src_str)<>'' then
+src_str:=' and ("station"."id" in ( '+
+     'select "station_id" from "station_info" where "table_id" in ('+
+     'select "table"."id" from "table", "source" '+
+     'where "table"."source_id"="source"."id" and '+
+     '"source"."name" in('+src_str+'))))' else src_str:='';
+//showmessage(timestep_str);  }
 
 try
   with frmdm.CDS do begin
@@ -621,9 +705,9 @@ try
     if cbCountry.Text<>'' then SQL.Add(' and "country"."name"='+QuotedStr(cbCountry.Text));
     if cbStation.Text<>'' then SQL.Add(' and "station"."name"='+QuotedStr(cbStation.Text));
 
-    // pearmeters
-    SQL.Add(tbl_str);
     SQL.Add(timestep_str);
+    SQL.Add(tbl_str);
+    SQL.Add(src_str);
 
       SQL.Add(' order by "station"."wmocode" ');
       if chkShowSQL.Checked=true then showmessage(SQL.Text);
@@ -912,6 +996,18 @@ begin
  CDSInfoNavigation;
 end;
 
+
+procedure Tfrmmain.btnWindChartRoseClick(Sender: TObject);
+begin
+  frmwindchart := Tfrmwindchart.Create(Self);
+ try
+  if not frmwindchart.ShowModal = mrOk then exit;
+ finally
+   frmwindchart.Free;
+   frmwindchart := nil;
+ end;
+end;
+
 procedure Tfrmmain.amapExecute(Sender: TObject);
 begin
  if frmmap_open=true then frmmap.SetFocus else
@@ -1128,15 +1224,49 @@ begin
 end;
 
 
-procedure Tfrmmain.iLoadGHCN_v4Click(Sender: TObject);
+
+procedure Tfrmmain.btnLoadAARIClick(Sender: TObject);
 begin
- frmload_ghcnv4 := Tfrmload_ghcnv4.Create(Self);
- try
-  if not frmload_ghcnv4.ShowModal = mrOk then exit;
- finally
-   frmload_ghcnv4.Free;
-   frmload_ghcnv4 := nil;
- end
+  frmLoadAARI := TfrmLoadAARI.Create(Self);
+try
+ if not frmLoadAARI.ShowModal = mrOk then exit;
+finally
+  frmLoadAARI.Free;
+  frmLoadAARI := nil;
+end
+end;
+
+procedure Tfrmmain.btnload_amcaClick(Sender: TObject);
+begin
+frmload_amca := Tfrmload_amca.Create(Self);
+try
+ if not frmload_amca.ShowModal = mrOk then exit;
+finally
+  frmload_amca.Free;
+  frmload_amca := nil;
+end
+end;
+
+procedure Tfrmmain.btnload_unaamiClick(Sender: TObject);
+begin
+ frmload_unaami := Tfrmload_unaami.Create(Self);
+try
+ if not frmload_unaami.ShowModal = mrOk then exit;
+finally
+  frmload_unaami.Free;
+  frmload_unaami := nil;
+end
+end;
+
+procedure Tfrmmain.MenuItem8Click(Sender: TObject);
+begin
+frmload_russian_arctic := Tfrmload_russian_arctic.Create(Self);
+try
+ if not frmload_russian_arctic.ShowModal = mrOk then exit;
+finally
+  frmload_russian_arctic.Free;
+  frmload_russian_arctic := nil;
+end
 end;
 
 procedure Tfrmmain.iLoadGHCNDClick(Sender: TObject);
@@ -1147,6 +1277,17 @@ try
 finally
   frmloadghcnd.Free;
   frmloadghcnd := nil;
+end
+end;
+
+procedure Tfrmmain.btnLoad_ECADClick(Sender: TObject);
+begin
+frmload_ecad := Tfrmload_ecad.Create(Self);
+try
+ if not frmload_ecad.ShowModal = mrOk then exit;
+finally
+  frmload_ecad.Free;
+  frmload_ecad := nil;
 end
 end;
 
@@ -1163,6 +1304,7 @@ frmload_ghcn_v2 := Tfrmload_ghcn_v2.Create(Self);
 end;
 
 
+
 procedure Tfrmmain.iLoadGHCNv3Click(Sender: TObject);
 begin
   frmload_ghcn_v3 := Tfrmload_ghcn_v3.Create(Self);
@@ -1172,6 +1314,40 @@ begin
      frmload_ghcn_v3.Free;
      frmload_ghcn_v3 := nil;
    end;
+end;
+
+
+procedure Tfrmmain.iLoadGHCN_v4_t2mClick(Sender: TObject);
+begin
+frmload_ghcnv4 := Tfrmload_ghcnv4.Create(Self);
+ try
+  if not frmload_ghcnv4.ShowModal = mrOk then exit;
+ finally
+   frmload_ghcnv4.Free;
+   frmload_ghcnv4 := nil;
+ end
+end;
+
+procedure Tfrmmain.iLoadGHCN_v4_prcpClick(Sender: TObject);
+begin
+frmload_ghcn_v4_prcp := Tfrmload_ghcn_v4_prcp.Create(Self);
+ try
+  if not frmload_ghcn_v4_prcp.ShowModal = mrOk then exit;
+ finally
+   frmload_ghcn_v4_prcp.Free;
+   frmload_ghcn_v4_prcp := nil;
+ end
+end;
+
+procedure Tfrmmain.btnload_isdClick(Sender: TObject);
+begin
+ frmload_isd := Tfrmload_isd.Create(Self);
+ try
+  if not frmload_isd.ShowModal = mrOk then exit;
+ finally
+   frmload_isd.Free;
+   frmload_isd := nil;
+ end
 end;
 
 
@@ -1197,6 +1373,17 @@ frmsourcesmerge := Tfrmsourcesmerge.Create(Self);
  end;
 end;
 
+procedure Tfrmmain.MenuItem6Click(Sender: TObject);
+begin
+  frmcompare_parameters := Tfrmcompare_parameters.Create(Self);
+ try
+  if not frmcompare_parameters.ShowModal = mrOk then exit;
+ finally
+   frmcompare_parameters.Free;
+   frmcompare_parameters := nil;
+ end;
+end;
+
 procedure Tfrmmain.PageControl1Change(Sender: TObject);
 begin
   if PageControl1.PageIndex=1 then Toolbar1.Visible:=true else Toolbar1.Visible:=false;
@@ -1204,8 +1391,19 @@ end;
 
 procedure Tfrmmain.PM1Popup(Sender: TObject);
 begin
-  if frmdm.CDS2.FieldByName('timestep').AsString='Month' then
-    btnmonthlymatrix.Visible:=true else btnmonthlymatrix.Visible:=false;
+  if frmdm.CDS2.FieldByName('timestep').AsString='Month' then begin
+    btnmonthlymatrix.Enabled:=true;
+   // btnCompareSources.Enabled:=true;
+  end else begin
+    btnmonthlymatrix.Enabled:=false;
+  //  btnCompareSources.Enabled:=false;
+  end;
+
+  if copy(frmdm.CDS2.FieldByName('par').AsString, 1, 10)='Wind speed' then begin
+    btnWindChartRose.Enabled:=true;
+  end else begin
+    btnWindChartRose.Enabled:=false;
+  end;
 end;
 
 
@@ -1240,7 +1438,7 @@ frmqc := Tfrmqc.Create(Self);
 end;
 
 
-procedure Tfrmmain.iCompareSourcesClick(Sender: TObject);
+procedure Tfrmmain.btnCompareSourcesClick(Sender: TObject);
 begin
 frmcomparesources := Tfrmcomparesources.Create(Self);
  try
@@ -1254,8 +1452,15 @@ end;
 
 procedure Tfrmmain.iUpdateStationInfoClick(Sender: TObject);
 begin
-  if update_station_info.UpdateStation_Info then showmessage(SDone) else showmessage(SError);
+  frmupdate_station_info := Tfrmupdate_station_info.Create(Self);
+   try
+    if not frmupdate_station_info.ShowModal = mrOk then exit;
+   finally
+     frmupdate_station_info.Free;
+     frmupdate_station_info := nil;
+   end;
 end;
+
 
 procedure Tfrmmain.DBGrid1PrepareCanvas(sender: TObject; DataCol: Integer;
   Column: TColumn; AState: TGridDrawState);

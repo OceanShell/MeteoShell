@@ -1,8 +1,7 @@
 {"version":1,"strings":[
 {"hash":211369971,"name":"tfrmtimeseries.caption","sourcebytes":[84,105,109,101,115,101,114,105,101,115],"value":"Timeseries"},
-{"hash":108725763,"name":"tfrmtimeseries.rgclipping.caption","sourcebytes":[79,112,116,105,111,110,115],"value":"Options"},
 {"hash":208055409,"name":"tfrmtimeseries.btngettimeseries.caption","sourcebytes":[71,101,116,32,100,97,116,97],"value":"Get data"},
-{"hash":40405939,"name":"tfrmtimeseries.chkhideoutliers.caption","sourcebytes":[72,105,100,101,32,111,117,116,108,105,101,114,115],"value":"Hide outliers"},
+{"hash":90467235,"name":"tfrmtimeseries.chkshowoutliers.caption","sourcebytes":[83,104,111,119,32,111,117,116,108,105,101,114,115],"value":"Show outliers"},
 {"hash":160242343,"name":"tfrmtimeseries.groupbox1.caption","sourcebytes":[68,97,116,101,32,99,108,105,112,112,105,110,103],"value":"Date clipping"},
 {"hash":342540,"name":"tfrmtimeseries.dtp_min.textfornulldate","sourcebytes":[78,85,76,76],"value":"NULL"},
 {"hash":342540,"name":"tfrmtimeseries.dtp_max.textfornulldate","sourcebytes":[78,85,76,76],"value":"NULL"}

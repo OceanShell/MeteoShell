@@ -47,7 +47,7 @@ uses dm;
 
 procedure Tfrmload_ghcn_v2.btnGHCN_v3_DataClick(Sender: TObject);
 Var
- fname, st, tbl, numsrc:string;
+ fname, st, tbl, numsrc, numsrc_old:string;
  k, ff, absnum, yy, mn:integer;
  temp, val0:real;
  DateCurr:TDateTime;
@@ -58,12 +58,14 @@ begin
   AssignFile(datf, fname);
   reset(datf);
 
+  numsrc_old:='';
  repeat
   readln(datf, st);
 
    numsrc:=trim(Copy(st, 1, 11));
 
-   absnum:=-9;
+   if numsrc<>numsrc_old then begin
+     absnum:=-9;
      with frmdm.q1 do begin
       Close;
        SQL.Clear;
@@ -75,8 +77,20 @@ begin
       Close;
      end;
 
-   if (absnum<>-9) then begin
+     if (absnum<>-9) then begin
+     with frmdm.q1 do begin
+      Close;
+       SQL.Clear;
+       SQL.Add(' select "station_id" from "p_precipitation_ghcn_v2"');
+       SQL.Add(' where "station_id"='+inttostr(absnum));
+      Open;
+       towrite:=frmdm.q1.IsEmpty;
+      Close;
+     end;
+     end else towrite:=false;
+   end;
 
+   if towrite=true then begin
    yy:=StrToInt(copy(st,13,4));
 
    k:=17;
@@ -90,13 +104,12 @@ begin
         Close;
          SQL.Clear;
          SQL.Add(' insert into "p_precipitation_ghcn_v2"');
-         SQL.Add(' ("station_id", "date", "value", "pqf1", "pqf2") ');
+         SQL.Add(' ("station_id", "date", "value", "pqf2") ');
          SQL.Add(' values ');
-         SQL.Add(' (:absnum, :date_, :value_, :pqf1, :pqf2)');
+         SQL.Add(' (:absnum, :date_, :value_, :pqf2)');
          ParamByName('absnum').AsInteger:=absnum;
          ParamByName('date_').AsDate:=DateCurr;
          ParamByName('value_').AsFloat:=temp;
-         ParamByName('pqf1').AsInteger:=0;
          ParamByName('pqf2').AsInteger:=0;
         ExecSQL;
        Close;
@@ -109,9 +122,11 @@ begin
 
      k:=k+5;
     end;//12 months
-     frmdm.TR.CommitRetaining;
-   end;
 
+     frmdm.TR.CommitRetaining;
+   end; // is empty
+
+  numsrc_old:=numsrc;
  until eof(datf);
  closefile(datf);
 end;
@@ -164,6 +179,7 @@ procedure Tfrmload_ghcn_v2.Button1Click(Sender: TObject);
     end;
 
     end;
+
 
   until eof(datf);
   frmdm.TR.Commit;

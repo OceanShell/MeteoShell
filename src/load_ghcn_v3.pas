@@ -125,11 +125,12 @@ end;
 
 procedure Tfrmload_ghcn_v3.btnGHCN_v3_DataClick(Sender: TObject);
 Var
- fname, st, tbl, numsrc:string;
+ fname, st, tbl, numsrc, numsrc_old:string;
  k, ff, absnum, yy, mn, flag:integer;
  temp, val0:real;
  DateCurr:TDateTime;
  qcf1, qcf2, qcf3: string;
+ towrite:boolean;
 begin
 for ff:=0 to ListBox1.Count-1 do begin
   fname:=ListBox1.Items.Strings[ff];
@@ -137,9 +138,9 @@ for ff:=0 to ListBox1.Count-1 do begin
 //  caption:=fname;
  // Application.ProcessMessages;
 
- if (copy (fname, 7, 4)='tmin') and (copy (fname, 28, 3)='qcu') then tbl:='p_tmin_qcu_ghcn_v330';
- if (copy (fname, 7, 4)='tmax') and (copy (fname, 28, 3)='qcu') then tbl:='p_tmax_qcu_ghcn_v330';
- if (copy (fname, 7, 4)='tavg') and (copy (fname, 28, 3)='qcu') then tbl:='p_tavg_qcu_ghcn_v330';
+ if (copy (fname, 7, 4)='tmin') and (copy (fname, 28, 3)='qcu') then tbl:='p_surface_air_tempmin_ghcn_v3';
+ if (copy (fname, 7, 4)='tmax') and (copy (fname, 28, 3)='qcu') then tbl:='p_surface_air_tempmax_ghcn_v3';
+ if (copy (fname, 7, 4)='tavg') and (copy (fname, 28, 3)='qcu') then tbl:='p_surface_air_temp_ghcn_v3';
 
   AssignFile(datf, ghcn_path+fname);
   reset(datf);
@@ -151,6 +152,7 @@ for ff:=0 to ListBox1.Count-1 do begin
 
    numsrc:=trim(Copy(st,1,11));
 
+   if numsrc<>numsrc_old then begin
    with frmdm.q1 do begin
     Close;
      SQL.Clear;
@@ -162,9 +164,20 @@ for ff:=0 to ListBox1.Count-1 do begin
     Close;
    end;
 
-  // showmessage(numsrc
+   if (absnum<>-9) then begin
+    with frmdm.q1 do begin
+     Close;
+      SQL.Clear;
+      SQL.Add(' select "station_id" from "'+tbl+'"');
+      SQL.Add(' where "station_id"='+inttostr(absnum));
+     Open;
+      towrite:=frmdm.q1.IsEmpty;
+     Close;
+    end;
+    end else towrite:=false;
+  end;
 
-   if absnum<>-9 then begin
+  if towrite=true then begin
    yy:=StrToInt(copy(st,12,4));
 
    k:=20;
@@ -205,9 +218,11 @@ for ff:=0 to ListBox1.Count-1 do begin
     end;
      k:=k+8;
    end;
-   end; // station is in the DB
+     frmdm.TR.CommitRetaining;
+   end; //is empty
 
-  frmdm.TR.CommitRetaining;
+
+  numsrc_old:=numsrc;
  until eof(datf);
  closefile(datf);
 end;

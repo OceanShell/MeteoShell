@@ -1,0 +1,29 @@
+object frmload_isd: Tfrmload_isd
+  Left = 581
+  Height = 360
+  Top = 302
+  Width = 480
+  Caption = 'Load ISD'
+  ClientHeight = 360
+  ClientWidth = 480
+  DesignTimePPI = 144
+  LCLVersion = '2.0.6.0'
+  object Button1: TButton
+    Left = 16
+    Height = 38
+    Top = 16
+    Width = 113
+    Caption = 'Download'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object btnData: TButton
+    Left = 16
+    Height = 38
+    Top = 64
+    Width = 113
+    Caption = 'Data'
+    OnClick = btnDataClick
+    TabOrder = 1
+  end
+end

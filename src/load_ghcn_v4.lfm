@@ -117,11 +117,12 @@ object frmload_ghcnv4: Tfrmload_ghcnv4
       ClientHeight = 432
       ClientWidth = 932
       object Button1: TButton
-        Left = 16
+        Left = 272
         Height = 38
-        Top = 16
-        Width = 224
-        Caption = 'Missing codes by WMO'
+        Top = 376
+        Width = 248
+        Caption = 'Missing codes by WMO (DONT!!!)'
+        Enabled = False
         OnClick = Button1Click
         TabOrder = 0
       end
@@ -163,96 +164,40 @@ object frmload_ghcnv4: Tfrmload_ghcnv4
         TabOrder = 4
       end
       object Button4: TButton
-        Left = 16
+        Left = 15
         Height = 38
-        Top = 176
+        Top = 8
         Width = 225
         Caption = 'station_ghcn_v4'
         OnClick = Button4Click
         TabOrder = 5
       end
-      object Button5: TButton
+      object Button7: TButton
         Left = 15
         Height = 38
-        Top = 216
-        Width = 225
-        Caption = 'station_ghcn_v4_prcp'
-        OnClick = Button5Click
-        TabOrder = 6
-      end
-      object Button6: TButton
-        Left = 16
-        Height = 38
-        Top = 256
-        Width = 224
-        Caption = 'ghcn_id_by_wmo'
-        DoubleBuffered = False
-        OnClick = Button6Click
-        ParentDoubleBuffered = False
-        TabOrder = 7
-      end
-      object Button7: TButton
-        Left = 272
-        Height = 38
-        Top = 16
-        Width = 248
+        Top = 377
+        Width = 226
         Caption = 'New stations>30, wmo'
         OnClick = Button7Click
-        TabOrder = 8
-      end
-      object Button8: TButton
-        Left = 272
-        Height = 38
-        Top = 56
-        Width = 248
-        Caption = 'Precipitation (beta)'
-        OnClick = Button8Click
-        TabOrder = 9
-      end
-      object Button9: TButton
-        Left = 272
-        Height = 38
-        Top = 96
-        Width = 249
-        Caption = 'Update countries'
-        OnClick = Button9Click
-        TabOrder = 10
-      end
-      object Button10: TButton
-        Left = 272
-        Height = 38
-        Top = 136
-        Width = 248
-        Caption = 'v4_prcp-> v4'
-        OnClick = Button10Click
-        TabOrder = 11
+        TabOrder = 6
       end
       object Button11: TButton
         Left = 272
         Height = 38
-        Top = 176
+        Top = 16
         Width = 248
         Caption = 'first letters<>'
         OnClick = Button11Click
-        TabOrder = 12
+        TabOrder = 7
       end
       object Button12: TButton
         Left = 272
         Height = 38
-        Top = 216
+        Top = 56
         Width = 248
         Caption = 'v4-> v4__prcp'
         OnClick = Button12Click
-        TabOrder = 13
-      end
-      object Button13: TButton
-        Left = 272
-        Height = 38
-        Top = 256
-        Width = 248
-        Caption = 'Missing codes by name prcp'
-        OnClick = Button13Click
-        TabOrder = 14
+        TabOrder = 8
       end
       object Button14: TButton
         Left = 16
@@ -261,7 +206,7 @@ object frmload_ghcnv4: Tfrmload_ghcnv4
         Width = 224
         Caption = 'Elevation'
         OnClick = Button14Click
-        TabOrder = 15
+        TabOrder = 9
       end
       object Button15: TButton
         Left = 16
@@ -270,7 +215,7 @@ object frmload_ghcnv4: Tfrmload_ghcnv4
         Width = 224
         Caption = 'Update QCF v4'
         OnClick = Button15Click
-        TabOrder = 16
+        TabOrder = 10
       end
       object Button16: TButton
         Left = 272
@@ -278,8 +223,7 @@ object frmload_ghcnv4: Tfrmload_ghcnv4
         Top = 296
         Width = 248
         Caption = 'Update QCF v4 prcp'
-        OnClick = Button16Click
-        TabOrder = 17
+        TabOrder = 11
       end
     end
   end

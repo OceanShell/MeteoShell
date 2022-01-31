@@ -1,40 +1,45 @@
 object frmsourcesmerge: Tfrmsourcesmerge
-  Left = 696
-  Height = 315
-  Top = 240
-  Width = 570
+  Left = 840
+  Height = 500
+  Top = 129
+  Width = 300
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsSingle
   Caption = 'Merge sources'
-  ClientHeight = 315
-  ClientWidth = 570
+  ClientHeight = 500
+  ClientWidth = 300
+  Constraints.MaxWidth = 300
+  Constraints.MinHeight = 500
+  Constraints.MinWidth = 300
   DesignTimePPI = 144
   OnShow = FormShow
   Position = poOwnerFormCenter
   LCLVersion = '2.0.6.0'
   object btnMerge: TButton
-    Left = 168
+    Left = 24
     Height = 38
-    Top = 256
+    Top = 442
     Width = 246
+    Anchors = [akLeft, akBottom]
     Caption = 'Merge'
     OnClick = btnMergeClick
     TabOrder = 0
   end
   object GroupBox1: TGroupBox
-    Left = 296
-    Height = 222
-    Top = 16
+    Left = 24
+    Height = 183
+    Top = 240
     Width = 246
+    Anchors = [akTop, akLeft, akBottom]
     Caption = 'Sources (drag to reorder)'
-    ClientHeight = 192
+    ClientHeight = 153
     ClientWidth = 242
     TabOrder = 1
     object lbSource: TListBox
       Left = 16
-      Height = 152
+      Height = 118
       Top = 16
       Width = 200
+      Anchors = [akTop, akLeft, akBottom]
       DragMode = dmAutomatic
       ItemHeight = 0
       OnDragDrop = lbSourceDragDrop
@@ -70,7 +75,7 @@ object frmsourcesmerge: Tfrmsourcesmerge
   object rgTimestep: TRadioGroup
     Left = 24
     Height = 102
-    Top = 136
+    Top = 128
     Width = 246
     AutoFill = True
     Caption = 'Time step'

@@ -18,7 +18,6 @@ type
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
-    chkWrite: TCheckBox;
     chkShowLog: TCheckBox;
     GroupBox1: TGroupBox;
     Label3: TLabel;
@@ -140,11 +139,23 @@ begin
    (* Station found *)
    if id>0 then begin
 
+    with frmdm.q1 do begin
+    Close;
+     SQL.Clear;
+     SQL.Add(' select "id" from "station" where ');
+     SQL.Add(' "ds570_id"=:ds570_id ');
+     ParamByName('ds570_id').AsInteger:=ds570_id;
+    Open;
+     if frmdm.q1.IsEmpty=false then
+       id:=frmdm.q1.Fields[0].AsInteger else id:=-9;
+    Close;
+   end;
+
      for k:=1 to 5 do begin
        case k of
          1: begin par:=slp;  tbl_name:='p_sea_level_pressure_ds570'  end;
          2: begin par:=stnp; tbl_name:='p_station_level_pressure_ds570' end;
-         3: begin par:=t;    tbl_name:='p_surface_air_temperature_ds570' end;
+         3: begin par:=t;    tbl_name:='p_surface_air_temp_ds570' end;
          4: begin par:=prec; tbl_name:='p_precipitation_ds570' end;
          5: begin par:=sun;  tbl_name:='p_sunshine_ds570' end;
        end;
@@ -170,13 +181,13 @@ begin
               Close;
                SQL.Clear;
                SQL.Add(' insert into "'+tbl_name+'" ');
-               SQL.Add(' ("station_id", "date", "value", "pqf1", "pqf2") ');
+               SQL.Add(' ("station_id", "date", "value", "pqf2") ');
                SQL.Add(' values ');
-               SQL.Add(' (:absnum, :date_, :value_, :pqf1, :pqf2)');
+               SQL.Add(' (:absnum, :date_, :value_, :pqf2)');
                ParamByName('absnum').Value:=id;
                ParamByName('date_').AsDate:=DateCurr;
                ParamByName('value_').Value:=par;
-               ParamByName('pqf1').Value:=0;
+              // ParamByName('pqf1').Value:=0;
                ParamByName('pqf2').Value:=0;
               ExecSQL;
             end;
@@ -193,7 +204,7 @@ begin
               Close;
                 SQL.Clear;
                 SQL.Add(' update "'+tbl_name+'" ');
-                SQL.Add(' set "value"=:value_, "pqf1"=0, "pqf2"=0 ');
+                SQL.Add(' set "value"=:value_, "pqf2"=0 ');
                 SQL.Add(' where "station_id"=:absnum and "date"=:date_ ');
                 ParamByName('absnum').Value:=ID;
                 ParamByName('date_').AsDate:=DateCurr;
@@ -232,7 +243,10 @@ begin
 
    if MessageDlg('Upload successfully completed. Please, update metadata'+#13+
                  '(Menu->Services->DB Administration->Update STATION_INFO)',
-                  mtConfirmation, [mbOk], 0)=mrOk then exit;
+                  mtConfirmation, [mbOk], 0)=mrOk then begin
+     ProgressTaskbar(0, 0);
+     exit;
+   end;
 end;
 
 
@@ -307,7 +321,6 @@ begin
 
         mlog.lines.add(inttostr(old_id)+'   '+stname_old+'   '+datetostr(date_min)+'   '+datetostr(date_max));
 
-        if chkWrite.Checked=true then begin
          frmdm.q2.Close;
          frmdm.q2.SQL.Text:='Select max("id") from "station"';
          frmdm.q2.Open;
@@ -333,7 +346,6 @@ begin
       end;
       frmdm.TR.CommitRetaining;
         end;
-        end; //writing;
 
 
       end;

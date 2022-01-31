@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":185751725,"name":"tfrmload_unaami.caption","sourcebytes":[76,111,97,100,85,110,97,97,109,105,83,65,84,53,57,32,91,104,116,116,112,58,47,47,119,119,119,46,117,110,97,97,109,105,46,110,111,97,97,46,103,111,118,47,97,110,97,108,121,115,101,115,47,115,97,116,47,93],"value":"LoadUnaamiSAT59 [http://www.unaami.noaa.gov/analyses/sat/]"},
+{"hash":164345425,"name":"tfrmload_unaami.button1.caption","sourcebytes":[66,117,116,116,111,110,49],"value":"Button1"}
+]}

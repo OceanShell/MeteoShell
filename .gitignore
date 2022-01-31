@@ -25,6 +25,7 @@ backup/
 src/backup/
 src/lib/
 src/src_FB_PG/
+src/delphi/
 
 # Application bundle for Mac OS
 *.app/

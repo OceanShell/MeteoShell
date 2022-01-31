@@ -5,48 +5,126 @@ unit update_station_info;
 interface
 
 uses
-  Classes, SysUtils, DateUtils, Math, dm, procedures, Dialogs;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
+  DateUtils, Math;
 
-function UpdateStation_Info:boolean;
+type
 
+  { Tfrmupdate_station_info }
+
+  Tfrmupdate_station_info = class(TForm)
+    btnUpdate: TButton;
+    cgSource: TCheckGroup;
+    lbAll: TLabel;
+
+    procedure btnUpdateClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure lbAllClick(Sender: TObject);
+
+  private
+
+  public
+
+  end;
+
+var
+  frmupdate_station_info: Tfrmupdate_station_info;
 
 implementation
 
+{$R *.lfm}
 
-function UpdateStation_Info:boolean;
+uses main, dm, procedures;
+
+{ Tfrmupdate_station_info }
+
+
+procedure Tfrmupdate_station_info.FormShow(Sender: TObject);
+begin
+  with frmdm.q1 do begin
+     Close;
+      SQL.Clear;
+      SQL.Add(' select distinct("source"."name") ');
+      SQL.Add(' from "source", "table", "timestep" ');
+      SQL.Add(' where ');
+      SQL.Add(' "table"."source_id"="source"."id" and ');
+      SQL.Add(' "table"."timestep_id"="timestep"."id" ');
+      SQL.Add(' order by "source"."name" ');
+     Open;
+   end;
+
+   cgSource.Items.clear;
+   while not frmdm.q1.EOF do begin
+     cgSource.Items.Add(frmdm.q1.Fields[0].AsString);
+    frmdm.q1.Next;
+   end;
+   frmdm.q1.Close;
+end;
+
+procedure Tfrmupdate_station_info.lbAllClick(Sender: TObject);
 var
-station_id, table_id, rcnt, tot_cnt, timestep:integer;
+  fl:boolean;
+  k: integer;
+begin
+  fl:=cgSource.Checked[0];
+  for k:=0 to cgSource.Items.Count-1 do
+    cgSource.Checked[k]:= not fl;
+end;
+
+procedure Tfrmupdate_station_info.btnUpdateClick(Sender: TObject);
+var
+station_id, table_id, rcnt, tot_cnt, timestep, src_id,k:integer;
 vmin, vmax, RowComp:real;
 dmin, dmax:TDateTime;
 yy_min, mn_min, dd_min, yy_max, mn_max, dd_max:word;
 
-tbl_name: string;
+tbl_name, src_str, tbl_str: string;
 cnt_stn, cnt_tot: integer;
-
 begin
+  btnUpdate.Enabled:=false;
 
-(* Cleaning up station_info *)
+  src_str:='';
+  for k:=0 to cgSource.Items.Count-1 do
+    if cgSource.Checked[k] = true then
+      src_str:=src_str+','+QuotedStr(cgSource.Items.Strings[k]);
+  src_str:=copy(src_str, 2, length(src_str));
+ // showmessage(src_str);
+
+
   with frmdm.q1 do begin
    Close;
     SQL.Clear;
-    SQL.Add(' delete from "station_info"');
-   ExecSQL;
+    SQL.Add(' select "table"."id" from "table", "source" ');
+    SQL.Add(' where ');
+    SQL.Add(' "table"."source_id"="source"."id" and ');
+    SQL.Add(' "source"."name" in ('+src_str+') ');
+   Open;
   end;
- frmdm.TR.Commit;
+
+  tbl_str:='';
+  while not frmdm.q1.EOF do begin
+    tbl_str:=tbl_str+','+Inttostr(frmdm.q1.Fields[0].Value);
+    frmdm.q1.Next;
+  end;
+  tbl_str:=copy(tbl_str, 2, length(tbl_str));
+ // showmessage(tbl_str);
 
   with frmdm.q1 do begin
    Close;
     SQL.Clear;
-    SQL.Add(' update "station" set "empty"=false ');
+    SQL.Add(' delete from "station_info" ');
+    SQL.Add(' where "table_id" in ('+tbl_str+')');
    ExecSQL;
   end;
-  frmdm.TR.Commit;
+  frmdm.TR.CommitRetaining;
+
 
   with frmdm.q2 do begin
     Close;
      SQL.Clear;
      SQL.Add(' select "id", "name", "timestep_id" ');
-     SQL.Add(' from "table"');
+     SQL.Add(' from "table" ');
+     SQL.Add(' where "id" in ('+tbl_str+') ');
      SQL.Add(' order by "id" ');
     Open;
   end;
@@ -66,8 +144,6 @@ begin
   while not frmdm.q1.eof do begin
     inc(cnt_stn);
     station_id:=frmdm.q1.FieldByName('id').AsInteger;
-
-  //  showmessage('station: '+inttostr(station_id));
 
     frmdm.q2.First;
     while not frmdm.q2.eof do begin
@@ -102,10 +178,13 @@ begin
       1: tot_cnt:=YearsBetween(dmin, dmax);
       2: tot_cnt:=MonthsBetween(dmin, dmax);
       3: tot_cnt:=DaysBetween(dmin, dmax);
+     // 4: tot_cnt:=trunc(HoursBetween(dmin, dmax)/3);
     end;
 
     if tot_cnt=0 then tot_cnt:=1;
     if tot_cnt>1 then RowComp:=100*(rcnt/(tot_cnt+2)) else RowComp:=100;
+
+    if tot_cnt=4 then RowComp:=-1;
 
 
     if (rcnt>0) {and (MonthTotal>0)} then begin
@@ -159,9 +238,12 @@ begin
   end;
 
   frmdm.TR.Commit;
-  ProgressTaskbar(0, 0);
+  if MessageDlg('Station_info has been successfully updated', mtInformation,
+    [mbOk], 0)=mrOk then begin
+      ProgressTaskbar(0, 0);
+      Close;
+  end;
 end;
-
 
 end.
 

@@ -7,7 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main, icons, dm, load_aari, load_ghcnd, timeseries, datetimectrls;
+  Forms, main, icons, dm, load_ghcnd, timeseries, datetimectrls,
+  update_station_info, load_ghcnv4_prcp, load_ecad, Load_isd, windchartrose;
 
 {$R *.res}
 

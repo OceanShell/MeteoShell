@@ -1,11 +1,11 @@
 object frmmain: Tfrmmain
-  Left = 369
+  Left = 356
   Height = 750
-  Top = 111
+  Top = 211
   Width = 1200
   Caption = 'MeteoShell'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 720
+  ClientWidth = 1200
   Constraints.MaxWidth = 1200
   Constraints.MinHeight = 750
   Constraints.MinWidth = 1200
@@ -229,9 +229,9 @@ object frmmain: Tfrmmain
         end
       end
       object btnSelect: TButton
-        Left = 1020
+        Left = 1024
         Height = 38
-        Top = 48
+        Top = 24
         Width = 142
         Caption = 'Select'
         OnClick = btnSelectClick
@@ -240,9 +240,9 @@ object frmmain: Tfrmmain
       end
       object chlParameters: TCheckGroup
         Left = 516
-        Height = 324
-        Top = 12
-        Width = 490
+        Height = 348
+        Top = 112
+        Width = 492
         AutoFill = True
         Caption = 'Parameters'
         ChildSizing.LeftRightSpacing = 6
@@ -251,18 +251,20 @@ object frmmain: Tfrmmain
         ChildSizing.EnlargeVertical = crsHomogenousChildResize
         ChildSizing.ShrinkHorizontal = crsScaleChilds
         ChildSizing.ShrinkVertical = crsScaleChilds
-        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.Layout = cclTopToBottomThenLeftToRight
         ChildSizing.ControlsPerLine = 1
+        ColumnLayout = clVerticalThenHorizontal
+        Columns = 2
         ParentFont = False
         TabOrder = 3
       end
       object GroupBox2: TGroupBox
         Left = 516
-        Height = 102
-        Top = 354
+        Height = 86
+        Top = 472
         Width = 492
         Caption = 'Timeseries length'
-        ClientHeight = 72
+        ClientHeight = 56
         ClientWidth = 488
         ParentFont = False
         TabOrder = 4
@@ -302,7 +304,7 @@ object frmmain: Tfrmmain
       object chkShowSQL: TCheckBox
         Left = 1024
         Height = 29
-        Top = 96
+        Top = 73
         Width = 111
         Caption = 'Show SQL'
         TabOrder = 5
@@ -355,13 +357,30 @@ object frmmain: Tfrmmain
           OnClick = lbResetIDClick
         end
       end
-      object cgTimeStep: TCheckGroup
+      object rgTimestep: TRadioGroup
         Left = 516
-        Height = 86
-        Top = 472
-        Width = 492
+        Height = 90
+        Top = 12
+        Width = 494
         AutoFill = True
         Caption = 'Time step'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        OnClick = rgTimestepClick
+        TabOrder = 7
+      end
+      object cgSource: TCheckGroup
+        Left = 1024
+        Height = 348
+        Top = 112
+        Width = 142
+        AutoFill = True
+        Caption = 'Source'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
         ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
@@ -370,7 +389,7 @@ object frmmain: Tfrmmain
         ChildSizing.ShrinkVertical = crsScaleChilds
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 1
-        TabOrder = 7
+        TabOrder = 8
       end
     end
     object tbData: TTabSheet
@@ -811,7 +830,30 @@ object frmmain: Tfrmmain
       end
       object iLoadGHCN_v4: TMenuItem
         Caption = 'GHCN_M v4'
-        OnClick = iLoadGHCN_v4Click
+        object iLoadGHCN_v4_t2m: TMenuItem
+          Caption = 'Air temperature'
+          OnClick = iLoadGHCN_v4_t2mClick
+        end
+        object iLoadGHCN_v4_prcp: TMenuItem
+          Caption = 'Precipitation'
+          OnClick = iLoadGHCN_v4_prcpClick
+        end
+      end
+      object btnLoadAARI: TMenuItem
+        Caption = 'AARI'
+        OnClick = btnLoadAARIClick
+      end
+      object btnload_amca: TMenuItem
+        Caption = 'AMCA'
+        OnClick = btnload_amcaClick
+      end
+      object MenuItem8: TMenuItem
+        Caption = 'Russian Arctic (atlas)'
+        OnClick = MenuItem8Click
+      end
+      object btnload_unaami: TMenuItem
+        Caption = 'UNAAMI'
+        OnClick = btnload_unaamiClick
       end
       object N5: TMenuItem
         Caption = '-'
@@ -819,6 +861,17 @@ object frmmain: Tfrmmain
       object iLoadGHCND: TMenuItem
         Caption = 'GHCN-D'
         OnClick = iLoadGHCNDClick
+      end
+      object btnLoad_ECAD: TMenuItem
+        Caption = 'ECAD'
+        OnClick = btnLoad_ECADClick
+      end
+      object MenuItem9: TMenuItem
+        Caption = '-'
+      end
+      object btnload_isd: TMenuItem
+        Caption = 'Integrated Surface Database (ISD)'
+        OnClick = btnload_isdClick
       end
     end
     object MenuItem3: TMenuItem
@@ -890,22 +943,26 @@ object frmmain: Tfrmmain
       OnClick = btnmonthlymatrixClick
     end
     object iShowTimeseries: TMenuItem
-      Caption = 'Show timeseries'
+      Caption = 'Timeseries (slow)'
       OnClick = iShowTimeseriesClick
+    end
+    object btnWindChartRose: TMenuItem
+      Caption = 'Wind Chart and Rose'
+      OnClick = btnWindChartRoseClick
     end
     object N3: TMenuItem
       Caption = '-'
     end
     object MenuItem6: TMenuItem
       Caption = 'Compare Parameters'
-      Enabled = False
+      OnClick = MenuItem6Click
     end
     object N1: TMenuItem
       Caption = '-'
     end
-    object iCompareSources: TMenuItem
+    object btnCompareSources: TMenuItem
       Caption = 'Compare Sources'
-      OnClick = iCompareSourcesClick
+      OnClick = btnCompareSourcesClick
     end
   end
   object DS2: TDataSource
@@ -950,5 +1007,9 @@ object frmmain: Tfrmmain
       ImageIndex = 466
       OnClick = btnInfoClick
     end
+  end
+  object ODD: TSelectDirectoryDialog
+    left = 832
+    top = 12
   end
 end

@@ -1,0 +1,5 @@
+{"version":1,"strings":[
+{"hash":91638596,"name":"tfrmload_isd.caption","sourcebytes":[76,111,97,100,32,73,83,68],"value":"Load ISD"},
+{"hash":115683780,"name":"tfrmload_isd.button1.caption","sourcebytes":[68,111,119,110,108,111,97,100],"value":"Download"},
+{"hash":305313,"name":"tfrmload_isd.btndata.caption","sourcebytes":[68,97,116,97],"value":"Data"}
+]}

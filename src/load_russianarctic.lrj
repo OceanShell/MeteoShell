@@ -1,0 +1,8 @@
+{"version":1,"strings":[
+{"hash":69887773,"name":"tfrmload_russian_arctic.caption","sourcebytes":[76,111,97,100,82,117,115,115,105,97,110,65,114,99,116,105,99,32,91,82,117,115,115,105,97,110,32,115,116,97,116,105,111,110,115,32,102,114,111,109,32,49,57,54,49,45,50,48,48,48,32,32,104,116,116,112,58,47,47,110,115,105,100,99,46,111,114,103,47,100,97,116,97,47,103,48,50,49,52,49,46,104,116,109,108,93],"value":"LoadRussianArctic [Russian stations from 1961-2000  http://nsidc.org/data/g02141.html]"},
+{"hash":84106868,"name":"tfrmload_russian_arctic.label2.caption","sourcebytes":[70,105,108,101,115,32,102,111,114,32,100,111,119,110,108,111,97,100],"value":"Files for download"},
+{"hash":117318995,"name":"tfrmload_russian_arctic.groupbox2.caption","sourcebytes":[76,111,97,100,32,80,97,114,97,109,101,116,101,114,32,116,97,98,108,101,115],"value":"Load Parameter tables"},
+{"hash":113808031,"name":"tfrmload_russian_arctic.btnsourcepar.caption","sourcebytes":[83,111,117,114,99,101,32,63],"value":"Source ?"},
+{"hash":56071890,"name":"tfrmload_russian_arctic.btnloadpar.caption","sourcebytes":[76,111,97,100,80,97,114],"value":"LoadPar"},
+{"hash":164345425,"name":"tfrmload_russian_arctic.button1.caption","sourcebytes":[66,117,116,116,111,110,49],"value":"Button1"}
+]}

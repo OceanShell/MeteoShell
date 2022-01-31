@@ -1,10 +1,10 @@
 object frmmetadata_sources: Tfrmmetadata_sources
-  Left = 688
-  Height = 829
-  Top = 135
+  Left = 800
+  Height = 969
+  Top = 3
   Width = 902
   Caption = 'Metadata from original sources'
-  ClientHeight = 829
+  ClientHeight = 969
   ClientWidth = 902
   DesignTimePPI = 144
   OnClose = FormClose
@@ -12,17 +12,17 @@ object frmmetadata_sources: Tfrmmetadata_sources
   LCLVersion = '2.0.6.0'
   object GroupBox1: TGroupBox
     Left = 24
-    Height = 272
-    Top = 13
+    Height = 160
+    Top = 792
     Width = 856
-    Anchors = [akLeft, akRight]
+    Anchors = [akLeft, akRight, akBottom]
     Caption = 'ds570'
-    ClientHeight = 242
+    ClientHeight = 130
     ClientWidth = 852
     TabOrder = 0
     object DBGrid_ds570: TDBGrid
       Left = 16
-      Height = 218
+      Height = 106
       Top = 8
       Width = 816
       AlternateColor = 13627366
@@ -41,9 +41,9 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox2: TGroupBox
     Left = 24
     Height = 121
-    Top = 296
+    Top = 144
     Width = 856
-    Anchors = [akLeft, akRight]
+    Anchors = [akTop, akLeft, akRight]
     Caption = 'ghcn_v2'
     ClientHeight = 91
     ClientWidth = 852
@@ -69,9 +69,9 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox3: TGroupBox
     Left = 24
     Height = 120
-    Top = 432
+    Top = 272
     Width = 856
-    Anchors = [akLeft, akRight]
+    Anchors = [akTop, akLeft, akRight]
     Caption = 'ghcn_v3'
     ClientHeight = 90
     ClientWidth = 852
@@ -97,9 +97,9 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox4: TGroupBox
     Left = 24
     Height = 120
-    Top = 560
+    Top = 400
     Width = 856
-    Anchors = [akLeft, akRight]
+    Anchors = [akTop, akLeft, akRight]
     Caption = 'ghcn_v4'
     ClientHeight = 90
     ClientWidth = 852
@@ -125,9 +125,9 @@ object frmmetadata_sources: Tfrmmetadata_sources
   object GroupBox5: TGroupBox
     Left = 24
     Height = 120
-    Top = 688
+    Top = 528
     Width = 856
-    Anchors = [akLeft, akRight]
+    Anchors = [akTop, akLeft, akRight]
     Caption = 'ghcn_v4_prcp'
     ClientHeight = 90
     ClientWidth = 852
@@ -150,64 +150,144 @@ object frmmetadata_sources: Tfrmmetadata_sources
       TabOrder = 0
     end
   end
+  object GroupBox6: TGroupBox
+    Left = 24
+    Height = 121
+    Top = 16
+    Width = 856
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ghcnd'
+    ClientHeight = 91
+    ClientWidth = 852
+    TabOrder = 5
+    object DBGrid_ghcnd: TDBGrid
+      Left = 16
+      Height = 67
+      Top = 8
+      Width = 816
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcnd
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox7: TGroupBox
+    Left = 24
+    Height = 120
+    Top = 664
+    Width = 856
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ecad'
+    ClientHeight = 90
+    ClientWidth = 852
+    TabOrder = 6
+    object DBGrid_ecad: TDBGrid
+      Left = 16
+      Height = 66
+      Top = 8
+      Width = 816
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ecad
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
   object DS_ds570: TDataSource
     DataSet = q_ds570
-    left = 240
-    top = 120
+    left = 312
+    top = 856
   end
   object q_ds570: TSQLQuery
     FieldDefs = <>
     Database = frmdm.FBDB
     Params = <>
-    left = 120
-    top = 120
+    left = 160
+    top = 848
   end
   object q_ghcn_v2: TSQLQuery
     FieldDefs = <>
     Database = frmdm.FBDB
     Params = <>
-    left = 120
-    top = 368
+    left = 160
+    top = 192
   end
   object DS_ghcn_v2: TDataSource
     DataSet = q_ghcn_v2
-    left = 240
-    top = 368
+    left = 312
+    top = 192
   end
   object q_ghcn_v3: TSQLQuery
     FieldDefs = <>
     Database = frmdm.FBDB
     Params = <>
-    left = 120
-    top = 488
+    left = 160
+    top = 320
   end
   object q_ghcn_v4: TSQLQuery
     FieldDefs = <>
     Database = frmdm.FBDB
     Params = <>
-    left = 120
-    top = 616
+    left = 160
+    top = 448
   end
   object DS_ghcn_v3: TDataSource
     DataSet = q_ghcn_v3
-    left = 240
-    top = 488
+    left = 312
+    top = 320
   end
   object DS_ghcn_v4: TDataSource
     DataSet = q_ghcn_v4
-    left = 240
-    top = 616
+    left = 312
+    top = 448
   end
   object q_ghcn_v4_prcp: TSQLQuery
     FieldDefs = <>
     Database = frmdm.FBDB
     Params = <>
-    left = 120
-    top = 728
+    left = 160
+    top = 576
   end
   object DS_ghcn_v4_prcp: TDataSource
     DataSet = q_ghcn_v4_prcp
-    left = 240
-    top = 728
+    left = 312
+    top = 576
+  end
+  object q_ghcnd: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    left = 160
+    top = 64
+  end
+  object DS_ghcnd: TDataSource
+    DataSet = q_ghcnd
+    left = 312
+    top = 64
+  end
+  object q_ecad: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    left = 160
+    top = 712
+  end
+  object DS_ecad: TDataSource
+    DataSet = q_ecad
+    left = 312
+    top = 712
   end
 end

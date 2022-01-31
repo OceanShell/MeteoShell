@@ -107,7 +107,7 @@ procedure Tfrmcomparesources.ChangeID;
 Var
   id, k, mn, mn_between: integer;
   SColor:TColor;
-  sName, txt, par, tbl:string;
+  sName, txt, par, tbl, step:string;
   dat1, dat0:TDateTime;
   val1: Variant;
 begin
@@ -118,14 +118,16 @@ begin
 
  par:=frmdm.CDS2.FieldByName('par').Value;
  id:=frmdm.CDS.FieldByName('id').Value;
+ step:=frmdm.CDS2.FieldByName('timestep').Value;
 
 
   CDSCompare:=TBufDataSet.Create(self);
   CDSCompare.FieldDefs.Add('date', ftdate, 0, false);
   frmdm.CDS2.First;
    while not frmdm.CDS2.Eof do begin
-     if par=frmdm.CDS2.FieldByName('par').Value then begin
-       sName:=frmdm.CDS2.FieldByName('src').Value;
+     if (par=frmdm.CDS2.FieldByName('par').Value) and
+        (step=frmdm.CDS2.FieldByName('timestep').Value) then begin
+           sName:=frmdm.CDS2.FieldByName('src').Value;
          CDSCompare.FieldDefs.Add(sName, ftfloat, 0, false);
      end;
      frmdm.CDS2.Next;
@@ -144,7 +146,9 @@ begin
   k:=-1;
   frmdm.CDS2.First;
   while not frmdm.CDS2.Eof do begin
-   if par=frmdm.CDS2.FieldByName('par').Value then begin
+   if (par=frmdm.CDS2.FieldByName('par').Value) and
+      (step=frmdm.CDS2.FieldByName('timestep').Value) then begin
+
    sName:=frmdm.CDS2.FieldByName('src').Value;
 
    with frmdm.q2 do begin

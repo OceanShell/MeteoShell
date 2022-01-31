@@ -1,4 +1,4 @@
-unit metadata_sources;
+unit info;
 
 {$mode objfpc}{$H+}
 
@@ -17,22 +17,30 @@ type
     DBGrid_ghcn_v3: TDBGrid;
     DBGrid_ghcn_v4: TDBGrid;
     DBGrid_ghcn_v4_prcp: TDBGrid;
+    DBGrid_ecad: TDBGrid;
+    DBGrid_ghcnd: TDBGrid;
     DS_ds570: TDataSource;
     DBGrid_ds570: TDBGrid;
+    DS_ecad: TDataSource;
     DS_ghcn_v2: TDataSource;
     DS_ghcn_v3: TDataSource;
     DS_ghcn_v4: TDataSource;
     DS_ghcn_v4_prcp: TDataSource;
+    DS_ghcnd: TDataSource;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
     GroupBox5: TGroupBox;
+    GroupBox6: TGroupBox;
+    GroupBox7: TGroupBox;
     q_ds570: TSQLQuery;
+    q_ecad: TSQLQuery;
     q_ghcn_v2: TSQLQuery;
     q_ghcn_v3: TSQLQuery;
     q_ghcn_v4: TSQLQuery;
     q_ghcn_v4_prcp: TSQLQuery;
+    q_ghcnd: TSQLQuery;
 
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -64,6 +72,15 @@ var
   id: integer;
 begin
   ID:=frmdm.CDS.FieldByName('id').AsInteger;
+
+  with q_ghcnd do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' select * from "station_ghcnd" ');
+    SQL.Add(' where "id" in (select "ghcnd_id" from "station" ');
+    SQL.Add(' where "id"='+inttostr(id)+')');
+   Open;
+  end;
 
   with q_ds570 do begin
    Close;
@@ -110,6 +127,14 @@ begin
    Open;
   end;
 
+  with q_ecad do begin
+   Close;
+    SQL.Clear;
+    SQL.Add(' select * from "station_ecad" ');
+    SQL.Add(' where "name" in (select "ecad_name" from "station" ');
+    SQL.Add(' where "id"='+inttostr(id)+')');
+   Open;
+  end;
 end;
 
 

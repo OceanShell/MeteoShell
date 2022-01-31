@@ -1,0 +1,14 @@
+{"version":1,"strings":[
+{"hash":72546478,"name":"tfrmload_ghcn_v4_prcp.caption","sourcebytes":[76,111,97,100,32,71,72,67,78,32,118,52,32,112,114,101,99,105,112,105,116,97,116,105,111,110],"value":"Load GHCN v4 precipitation"},
+{"hash":305313,"name":"tfrmload_ghcn_v4_prcp.tabsheet1.caption","sourcebytes":[68,97,116,97],"value":"Data"},
+{"hash":96905381,"name":"tfrmload_ghcn_v4_prcp.btnload.caption","sourcebytes":[85,112,100,97,116,101],"value":"Update"},
+{"hash":120930644,"name":"tfrmload_ghcn_v4_prcp.chkshowlog.caption","sourcebytes":[83,104,111,119,32,111,117,116,112,117,116],"value":"Show output"},
+{"hash":212315537,"name":"tfrmload_ghcn_v4_prcp.tabsheet2.caption","sourcebytes":[77,101,116,97,100,97,116,97],"value":"Metadata"},
+{"hash":114547040,"name":"tfrmload_ghcn_v4_prcp.button5.caption","sourcebytes":[115,116,97,116,105,111,110,95,103,104,99,110,95,118,52,95,112,114,99,112],"value":"station_ghcn_v4_prcp"},
+{"hash":83443459,"name":"tfrmload_ghcn_v4_prcp.button9.caption","sourcebytes":[85,112,100,97,116,101,32,99,111,117,110,116,114,105,101,115],"value":"Update countries"},
+{"hash":231432212,"name":"tfrmload_ghcn_v4_prcp.button10.caption","sourcebytes":[118,52,95,112,114,99,112,45,62,32,118,52],"value":"v4_prcp-> v4"},
+{"hash":61055648,"name":"tfrmload_ghcn_v4_prcp.button13.caption","sourcebytes":[77,105,115,115,105,110,103,32,99,111,100,101,115,32,98,121,32,110,97,109,101,32,112,114,99,112],"value":"Missing codes by name prcp"},
+{"hash":50149043,"name":"tfrmload_ghcn_v4_prcp.btnduplicates.caption","sourcebytes":[68,117,112,108,105,99,97,116,101,115],"value":"Duplicates"},
+{"hash":110826335,"name":"tfrmload_ghcn_v4_prcp.button1.caption","sourcebytes":[105,100,32,98,121,32,119,109,111],"value":"id by wmo"},
+{"hash":80313935,"name":"tfrmload_ghcn_v4_prcp.button2.caption","sourcebytes":[110,101,119,32,119,109,111],"value":"new wmo"}
+]}
