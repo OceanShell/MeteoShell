@@ -19,16 +19,17 @@ type
     Button10: TButton;
     Button13: TButton;
     Button2: TButton;
+    btnNewLongTimeseries: TButton;
     Button5: TButton;
     Button9: TButton;
     chkShowLog: TCheckBox;
-    mInserted: TMemo;
     mLog: TMemo;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     procedure btnDuplicatesClick(Sender: TObject);
     procedure btnLoadClick(Sender: TObject);
+    procedure btnNewLongTimeseriesClick(Sender: TObject);
     procedure Button10Click(Sender: TObject);
     procedure Button13Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -137,7 +138,7 @@ begin
         ExecSQL;
       end;
       if chkShowLog.Checked then
-       minserted.lines.add(inttostr(id)+'   '+
+       mLog.lines.add(inttostr(id)+'   '+
                        datetostr(dat1)+'   '+
                        floattostr(val1));
      end;
@@ -153,6 +154,58 @@ begin
   end;
 
   ProgressTaskbar(0, 0);
+end;
+
+procedure Tfrmload_ghcn_v4_prcp.btnNewLongTimeseriesClick(Sender: TObject);
+var
+   k, md, wmo_id,cnt, old_id, wmo:integer;
+   StLat, StLon, Elev, StLat_old, StLon_old, Elev_old: real;
+   buf_str, ds570, FileForRead, ds_id :string;
+   absnum, absnum1:integer;
+   st,stName, stname_old, date1, date2:string;
+   isempty:boolean;
+   stdate1, stdate2, date_min, date_max:TDateTime;
+   yy0, mn0, dd0, yy1, mn1, dd1, yy3, mn3, dd3: word;
+begin
+
+  with frmdm.q1 do begin
+    Close;
+     SQL.Clear;
+     SQL.Add('select "id", "year_beg", "year_end", "wmo" ');
+     SQL.Add('from "station_ghcn_v4_prcp" where "wmo"<>99999');
+    Open;
+  end;
+
+  while not frmdm.q1.EOF do begin
+    ds_id:=frmdm.q1.Fields[0].AsString;
+    yy0:=frmdm.q1.Fields[1].AsInteger;
+    yy1:=frmdm.q1.Fields[2].AsInteger;
+    wmo:=frmdm.q1.Fields[3].AsInteger;
+
+    decodedate(now, yy3, mn3, dd3);
+
+    if (yy1-yy0>=30) and (yy3-yy1<=5) then begin
+
+      with frmdm.q2 do begin
+        Close;
+         SQL.Clear;
+         SQL.Add('select "wmocode" from "station" where ');
+         SQL.Add('"wmocode"=:wmo and "ghcn_v4_prcp_id"=:ds_id');
+         SQL.Add('order by "wmocode"');
+         Parambyname('wmo').AsInteger:=wmo;
+         Parambyname('ds_id').AsString:=ds_id;
+        Open;
+      end;
+
+      if frmdm.q2.IsEmpty then begin
+       // showmessage(ds_id+'   '+inttostr(yy0)+'   '+inttostr(yy1));
+        mLog.Lines.Add(inttostr(wmo)+'   '+ds_id+'   '+inttostr(yy0)+'   '+inttostr(yy1));
+      end;
+
+    end;
+    frmdm.q1.Next;
+  end;
+  frmdm.q1.Close;
 end;
 
 
@@ -447,7 +500,7 @@ Var
    datf:text;
 begin
  frmmain.OD.InitialDir:=GlobalPath+'data\';
- frmmain.OD.Filter:='*.txt|*.txt';
+ frmmain.OD.Filter:='ghcn-m_v4_prcp_inventory.txt|ghcn-m_v4_prcp_inventory.txt';
 
  if frmmain.OD.Execute then fname:=frmmain.OD.FileName else exit;
 

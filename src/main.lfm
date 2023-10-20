@@ -1,26 +1,24 @@
 object frmmain: Tfrmmain
   Left = 356
-  Height = 750
+  Height = 500
   Top = 211
-  Width = 1200
+  Width = 800
   Caption = 'MeteoShell'
-  ClientHeight = 720
-  ClientWidth = 1200
-  Constraints.MaxWidth = 1200
-  Constraints.MinHeight = 750
-  Constraints.MinWidth = 1200
-  DesignTimePPI = 144
+  ClientHeight = 480
+  ClientWidth = 800
+  Constraints.MinHeight = 500
+  Constraints.MinWidth = 800
   Menu = MM
   OnClose = FormClose
   OnResize = FormResize
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.2.6.0'
   object PageControl1: TPageControl
     Left = 0
-    Height = 616
-    Top = 74
-    Width = 1200
+    Height = 412
+    Top = 48
+    Width = 800
     ActivePage = tbSelection
     Align = alClient
     Enabled = False
@@ -30,109 +28,109 @@ object frmmain: Tfrmmain
     OnChange = PageControl1Change
     object tbSelection: TTabSheet
       Caption = 'Options'
-      ClientHeight = 578
-      ClientWidth = 1192
+      ClientHeight = 384
+      ClientWidth = 792
       ParentFont = False
       object GroupBox3: TGroupBox
-        Left = 12
-        Height = 228
-        Top = 12
-        Width = 478
+        Left = 8
+        Height = 152
+        Top = 8
+        Width = 319
         Caption = 'Region'
-        ClientHeight = 198
-        ClientWidth = 474
+        ClientHeight = 132
+        ClientWidth = 315
         ParentFont = False
         TabOrder = 0
         object lblonmax: TLabel
-          Left = 348
-          Height = 20
-          Top = 60
-          Width = 60
+          Left = 232
+          Height = 13
+          Top = 40
+          Width = 41
           Caption = 'Lon Max'
           Font.Color = clWindowText
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           ParentColor = False
           ParentFont = False
         end
         object lblatmin: TLabel
-          Left = 200
-          Height = 20
-          Top = 120
-          Width = 52
+          Left = 133
+          Height = 13
+          Top = 80
+          Width = 35
           Caption = 'Lat Min'
           Font.Color = clWindowText
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           ParentColor = False
           ParentFont = False
         end
         object lblonmin: TLabel
-          Left = 48
-          Height = 20
-          Top = 60
-          Width = 56
+          Left = 32
+          Height = 13
+          Top = 40
+          Width = 38
           Caption = 'Lon Min'
           Font.Color = clWindowText
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           ParentColor = False
           ParentFont = False
         end
         object lblatmax: TLabel
-          Left = 200
-          Height = 20
+          Left = 133
+          Height = 13
           Top = 0
-          Width = 56
+          Width = 38
           Caption = 'Lat Max'
           Font.Color = clWindowText
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           ParentColor = False
           ParentFont = False
         end
         object Edit1: TEdit
-          Left = 184
-          Height = 33
-          Top = 144
-          Width = 98
+          Left = 123
+          Height = 23
+          Top = 96
+          Width = 65
           ParentFont = False
           TabOrder = 0
         end
         object Edit4: TEdit
-          Left = 336
-          Height = 33
-          Top = 84
-          Width = 98
+          Left = 224
+          Height = 23
+          Top = 56
+          Width = 65
           ParentFont = False
           TabOrder = 3
         end
         object Edit3: TEdit
-          Left = 36
-          Height = 33
-          Top = 84
-          Width = 98
+          Left = 24
+          Height = 23
+          Top = 56
+          Width = 65
           ParentFont = False
           TabOrder = 2
         end
         object Edit2: TEdit
-          Left = 184
-          Height = 33
-          Top = 24
-          Width = 98
+          Left = 123
+          Height = 23
+          Top = 16
+          Width = 65
           ParentFont = False
           TabOrder = 1
         end
         object lbCoordReset: TLabel
           Cursor = crHandPoint
-          Left = 408
-          Height = 20
-          Top = 168
-          Width = 43
+          Left = 272
+          Height = 14
+          Top = 112
+          Width = 28
           Caption = 'Reset'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clBlue
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -143,82 +141,82 @@ object frmmain: Tfrmmain
         end
       end
       object GroupBox1: TGroupBox
-        Left = 12
-        Height = 204
-        Top = 252
-        Width = 478
+        Left = 8
+        Height = 136
+        Top = 168
+        Width = 319
         Caption = 'Metadata'
-        ClientHeight = 174
-        ClientWidth = 474
+        ClientHeight = 116
+        ClientWidth = 315
         ParentFont = False
         TabOrder = 1
         object Label2: TLabel
-          Left = 15
-          Height = 25
-          Top = 120
-          Width = 63
+          Left = 10
+          Height = 15
+          Top = 80
+          Width = 41
           Caption = 'WMO #'
           ParentColor = False
           ParentFont = False
         end
         object Label4: TLabel
-          Left = 15
-          Height = 25
-          Top = 24
-          Width = 63
+          Left = 10
+          Height = 15
+          Top = 16
+          Width = 43
           Caption = 'Country'
           ParentColor = False
           ParentFont = False
         end
         object Label5: TLabel
-          Left = 15
-          Height = 25
-          Top = 72
-          Width = 55
+          Left = 10
+          Height = 15
+          Top = 48
+          Width = 37
           Caption = 'Station'
           ParentColor = False
           ParentFont = False
         end
         object cbWMO: TComboBox
-          Left = 102
-          Height = 33
-          Top = 108
-          Width = 202
-          ItemHeight = 25
+          Left = 68
+          Height = 23
+          Top = 72
+          Width = 135
+          ItemHeight = 15
           OnDropDown = cbWMODropDown
           ParentFont = False
           TabOrder = 0
         end
         object cbCountry: TComboBox
-          Left = 102
-          Height = 33
-          Top = 12
-          Width = 348
-          ItemHeight = 25
+          Left = 68
+          Height = 23
+          Top = 8
+          Width = 232
+          ItemHeight = 15
           OnDropDown = cbCountryDropDown
           ParentFont = False
           TabOrder = 1
         end
         object cbStation: TComboBox
-          Left = 102
-          Height = 33
-          Top = 60
-          Width = 348
-          ItemHeight = 25
+          Left = 68
+          Height = 23
+          Top = 40
+          Width = 232
+          ItemHeight = 15
           OnDropDown = cbStationDropDown
           ParentFont = False
           TabOrder = 2
         end
         object lbResetMD: TLabel
           Cursor = crHandPoint
-          Left = 407
-          Height = 20
-          Top = 121
-          Width = 43
+          Left = 271
+          Height = 14
+          Top = 81
+          Width = 28
           Caption = 'Reset'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clBlue
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -229,20 +227,20 @@ object frmmain: Tfrmmain
         end
       end
       object btnSelect: TButton
-        Left = 1024
-        Height = 38
-        Top = 24
-        Width = 142
+        Left = 683
+        Height = 25
+        Top = 16
+        Width = 95
         Caption = 'Select'
         OnClick = btnSelectClick
         ParentFont = False
         TabOrder = 2
       end
       object chlParameters: TCheckGroup
-        Left = 516
-        Height = 348
-        Top = 112
-        Width = 492
+        Left = 344
+        Height = 232
+        Top = 75
+        Width = 328
         AutoFill = True
         Caption = 'Parameters'
         ChildSizing.LeftRightSpacing = 6
@@ -259,20 +257,20 @@ object frmmain: Tfrmmain
         TabOrder = 3
       end
       object GroupBox2: TGroupBox
-        Left = 516
-        Height = 86
-        Top = 472
-        Width = 492
+        Left = 344
+        Height = 57
+        Top = 315
+        Width = 328
         Caption = 'Timeseries length'
-        ClientHeight = 56
-        ClientWidth = 488
+        ClientHeight = 37
+        ClientWidth = 324
         ParentFont = False
         TabOrder = 4
         object seYY1: TSpinEdit
-          Left = 216
-          Height = 33
-          Top = 9
-          Width = 102
+          Left = 144
+          Height = 23
+          Top = 6
+          Width = 68
           MaxValue = 2200
           MinValue = 1800
           ParentFont = False
@@ -280,10 +278,10 @@ object frmmain: Tfrmmain
           Value = 1800
         end
         object seYY2: TSpinEdit
-          Left = 360
-          Height = 33
-          Top = 9
-          Width = 108
+          Left = 240
+          Height = 23
+          Top = 6
+          Width = 72
           MaxValue = 2200
           MinValue = 1800
           ParentFont = False
@@ -291,10 +289,10 @@ object frmmain: Tfrmmain
           Value = 2021
         end
         object chkStActive: TCheckBox
-          Left = 12
-          Height = 29
-          Top = 15
-          Width = 166
+          Left = 8
+          Height = 19
+          Top = 10
+          Width = 110
           Caption = 'Stations between'
           OnChange = chkStActiveChange
           ParentFont = False
@@ -302,37 +300,37 @@ object frmmain: Tfrmmain
         end
       end
       object chkShowSQL: TCheckBox
-        Left = 1024
-        Height = 29
-        Top = 73
-        Width = 111
+        Left = 683
+        Height = 19
+        Top = 49
+        Width = 73
         Caption = 'Show SQL'
         TabOrder = 5
       end
       object GroupBox4: TGroupBox
-        Left = 12
-        Height = 86
-        Top = 472
-        Width = 478
+        Left = 8
+        Height = 57
+        Top = 315
+        Width = 319
         Caption = 'ID range'
-        ClientHeight = 56
-        ClientWidth = 474
+        ClientHeight = 37
+        ClientWidth = 315
         TabOrder = 6
         object seIDMin: TSpinEdit
-          Left = 36
-          Height = 33
-          Top = 8
-          Width = 138
+          Left = 24
+          Height = 23
+          Top = 5
+          Width = 92
           MaxValue = 999999
           MinValue = 1
           TabOrder = 0
           Value = 1
         end
         object seIDMax: TSpinEdit
-          Left = 232
-          Height = 33
-          Top = 8
-          Width = 138
+          Left = 155
+          Height = 23
+          Top = 5
+          Width = 92
           MaxValue = 999999
           MinValue = 1
           TabOrder = 1
@@ -340,14 +338,14 @@ object frmmain: Tfrmmain
         end
         object lbResetID: TLabel
           Cursor = crHandPoint
-          Left = 407
-          Height = 20
-          Top = 21
-          Width = 43
+          Left = 271
+          Height = 14
+          Top = 14
+          Width = 28
           Caption = 'Reset'
           Font.CharSet = RUSSIAN_CHARSET
           Font.Color = clBlue
-          Font.Height = -17
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
@@ -358,10 +356,10 @@ object frmmain: Tfrmmain
         end
       end
       object rgTimestep: TRadioGroup
-        Left = 516
-        Height = 90
-        Top = 12
-        Width = 494
+        Left = 344
+        Height = 60
+        Top = 8
+        Width = 329
         AutoFill = True
         Caption = 'Time step'
         ChildSizing.LeftRightSpacing = 6
@@ -375,10 +373,10 @@ object frmmain: Tfrmmain
         TabOrder = 7
       end
       object cgSource: TCheckGroup
-        Left = 1024
-        Height = 348
-        Top = 112
-        Width = 142
+        Left = 683
+        Height = 232
+        Top = 75
+        Width = 95
         AutoFill = True
         Caption = 'Source'
         ChildSizing.LeftRightSpacing = 6
@@ -394,74 +392,74 @@ object frmmain: Tfrmmain
     end
     object tbData: TTabSheet
       Caption = 'Data'
-      ClientHeight = 578
-      ClientWidth = 1192
+      ClientHeight = 384
+      ClientWidth = 792
       ParentFont = False
       TabVisible = False
       object Splitter1: TSplitter
         Cursor = crVSplit
         Left = 0
-        Height = 8
-        Top = 329
-        Width = 1192
+        Height = 5
+        Top = 219
+        Width = 792
         Align = alTop
         ResizeAnchor = akTop
       end
       object DBGrid1: TDBGrid
         Left = 0
-        Height = 296
-        Top = 33
-        Width = 1192
+        Height = 197
+        Top = 22
+        Width = 792
         Align = alTop
         AlternateColor = 13627366
         Color = 13631478
         Columns = <        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             ReadOnly = True
             Title.Caption = 'id'
             FieldName = 'id'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'wmo'
             FieldName = 'wmocode'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'name'
             FieldName = 'name'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'latitude'
-            Width = 90
+            Width = 60
             FieldName = 'latitude'
             DisplayFormat = '0.00000'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'longitude'
-            Width = 98
+            Width = 65
             FieldName = 'longitude'
             DisplayFormat = '0.00000'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'elevation'
-            Width = 90
+            Width = 60
             FieldName = 'elevation'
           end        
           item
             ButtonStyle = cbsPickList
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'stcountry'
             FieldName = 'countryname'
           end>
@@ -480,71 +478,71 @@ object frmmain: Tfrmmain
       end
       object DBGrid2: TDBGrid
         Left = 0
-        Height = 241
-        Top = 337
-        Width = 1192
+        Height = 160
+        Top = 224
+        Width = 792
         Align = alClient
         AlternateColor = 13627366
         Color = 13631478
         Columns = <        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Parameter'
-            Width = 420
+            Width = 280
             FieldName = 'par'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Source'
             FieldName = 'src'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Time step'
-            Width = 96
+            Width = 64
             FieldName = 'timestep'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Date min'
-            Width = 96
+            Width = 64
             FieldName = 'date_min'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Date max'
-            Width = 105
+            Width = 70
             FieldName = 'date_max'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Value min'
             FieldName = 'val_min'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Value max'
             FieldName = 'val_max'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = 'Count'
-            Width = 75
+            Width = 50
             FieldName = 'cnt'
           end        
           item
-            MinSize = 15
-            MaxSize = 300
+            MinSize = 10
+            MaxSize = 200
             Title.Caption = '%'
-            Width = 75
+            Width = 50
             FieldName = 'perc'
           end>
         DataSource = DS2
@@ -562,9 +560,9 @@ object frmmain: Tfrmmain
       end
       object ToolBar1: TToolBar
         Left = 0
-        Height = 33
+        Height = 22
         Top = 0
-        Width = 1192
+        Width = 792
         AutoSize = True
         Caption = 'ToolBar1'
         EdgeBorders = []
@@ -583,7 +581,7 @@ object frmmain: Tfrmmain
           ShowCaption = False
         end
         object btndelete: TToolButton
-          Left = 36
+          Left = 24
           Top = 0
           Caption = 'btndelete'
           ImageIndex = 334
@@ -591,14 +589,14 @@ object frmmain: Tfrmmain
           ShowCaption = False
         end
         object ToolButton4: TToolButton
-          Left = 71
-          Height = 5
+          Left = 47
+          Height = 22
           Top = 0
           Caption = 'ToolButton4'
           Style = tbsDivider
         end
         object btncommit: TToolButton
-          Left = 76
+          Left = 50
           Top = 0
           Caption = 'Save'
           ImageIndex = 940
@@ -609,18 +607,18 @@ object frmmain: Tfrmmain
   end
   object Panel1: TPanel
     Left = 0
-    Height = 74
+    Height = 48
     Top = 0
-    Width = 1200
+    Width = 800
     Align = alTop
     AutoSize = True
-    ClientHeight = 74
-    ClientWidth = 1200
+    ClientHeight = 48
+    ClientWidth = 800
     ParentFont = False
     TabOrder = 1
     object BitBtn1: TBitBtn
       Left = 1
-      Height = 72
+      Height = 46
       Top = 1
       Width = 46
       Align = alLeft
@@ -667,86 +665,86 @@ object frmmain: Tfrmmain
     end
     object Panel2: TPanel
       Left = 47
-      Height = 72
+      Height = 46
       Top = 1
-      Width = 1152
+      Width = 752
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 72
-      ClientWidth = 1152
+      ClientHeight = 46
+      ClientWidth = 752
       ParentFont = False
       TabOrder = 1
       object StatusBar2: TStatusBar
         Left = 0
-        Height = 36
-        Top = 36
-        Width = 1152
+        Height = 23
+        Top = 23
+        Width = 752
         Align = alTop
         Panels = <        
           item
             Text = '[Selection]'
-            Width = 115
+            Width = 77
           end        
           item
             Alignment = taRightJustify
-            Width = 150
+            Width = 100
           end        
           item
             Alignment = taRightJustify
-            Width = 150
+            Width = 100
           end        
           item
             Alignment = taRightJustify
-            Width = 180
+            Width = 120
           end        
           item
             Alignment = taRightJustify
-            Width = 180
+            Width = 120
           end        
           item
             Alignment = taRightJustify
-            Width = 180
+            Width = 120
           end        
           item
-            Width = 75
+            Width = 50
           end>
         ParentFont = False
         SimplePanel = False
       end
       object StatusBar1: TStatusBar
         Left = 0
-        Height = 36
+        Height = 23
         Top = 0
-        Width = 1152
+        Width = 752
         Align = alTop
         Panels = <        
           item
             Text = '[Database]'
-            Width = 115
+            Width = 77
           end        
           item
             Alignment = taRightJustify
-            Width = 150
+            Width = 100
           end        
           item
             Alignment = taRightJustify
-            Width = 150
+            Width = 100
           end        
           item
             Alignment = taRightJustify
-            Width = 180
+            Width = 120
           end        
           item
             Alignment = taRightJustify
-            Width = 180
+            Width = 120
           end        
           item
             Alignment = taRightJustify
-            Width = 180
+            Width = 120
           end        
           item
-            Width = 75
+            Width = 50
           end>
         ParentFont = False
         SimplePanel = False
@@ -754,16 +752,16 @@ object frmmain: Tfrmmain
     end
   end
   object tbFastAccess: TToolBar
-    Left = 450
-    Height = 33
-    Top = 105
-    Width = 36
+    Left = 300
+    Height = 22
+    Top = 70
+    Width = 24
     Align = alNone
     AutoSize = True
     Caption = 'tbFastAccess'
     EdgeBorders = []
     Font.Color = clWindowText
-    Font.Height = -17
+    Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Images = frmicons.IL1
     ParentFont = False
@@ -778,26 +776,26 @@ object frmmain: Tfrmmain
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Height = 30
-    Top = 690
-    Width = 1200
+    Height = 20
+    Top = 460
+    Width = 800
     Align = alBottom
     ParentFont = False
     TabOrder = 3
   end
   object ListBox1: TListBox
-    Left = 848
-    Height = 72
+    Left = 565
+    Height = 48
     Top = 0
-    Width = 216
+    Width = 144
     ItemHeight = 0
     TabOrder = 4
     Visible = False
   end
   object MM: TMainMenu
     Images = frmicons.IL1
-    left = 468
-    top = 12
+    Left = 312
+    Top = 8
     object iFile: TMenuItem
       Caption = 'File'
       object iSettings: TMenuItem
@@ -929,14 +927,14 @@ object frmmain: Tfrmmain
     end
   end
   object OD: TOpenDialog
-    left = 528
-    top = 12
+    Left = 352
+    Top = 8
   end
   object PM1: TPopupMenu
     Images = frmicons.IL1
     OnPopup = PM1Popup
-    left = 648
-    top = 12
+    Left = 432
+    Top = 8
     object btnmonthlymatrix: TMenuItem
       Caption = 'Monthly Matrix'
       ImageIndex = 857
@@ -967,18 +965,18 @@ object frmmain: Tfrmmain
   end
   object DS2: TDataSource
     DataSet = frmdm.CDS2
-    left = 24
-    top = 456
+    Left = 16
+    Top = 304
   end
   object SD: TSaveDialog
     Options = [ofOverwritePrompt, ofEnableSizing, ofViewDetail]
-    left = 588
-    top = 12
+    Left = 392
+    Top = 8
   end
   object AL: TActionList
     Images = frmicons.IL1
-    left = 768
-    top = 12
+    Left = 512
+    Top = 8
     object amap: TAction
       Caption = 'amap'
       Enabled = False
@@ -988,13 +986,13 @@ object frmmain: Tfrmmain
   end
   object DS1: TDataSource
     DataSet = frmdm.CDS
-    left = 24
-    top = 144
+    Left = 16
+    Top = 96
   end
   object PM2: TPopupMenu
     Images = frmicons.IL1
-    left = 704
-    top = 12
+    Left = 469
+    Top = 8
     object MenuItem7: TMenuItem
       Caption = 'Show selected station on map'
       ImageIndex = 984
@@ -1009,7 +1007,7 @@ object frmmain: Tfrmmain
     end
   end
   object ODD: TSelectDirectoryDialog
-    left = 832
-    top = 12
+    Left = 555
+    Top = 8
   end
 end

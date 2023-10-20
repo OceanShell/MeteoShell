@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, fphttpclient,
-  DateUtils;
+  DateUtils, Opensslsockets;
 
 type
 
@@ -15,6 +15,7 @@ type
   Tfrmload_isd = class(TForm)
     Button1: TButton;
     btnData: TButton;
+    Memo1: TMemo;
     procedure btnDataClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
@@ -51,7 +52,7 @@ try
     AllowRedirect := true;
   end;
 
-   fpath:='x:\Data_Oceanography\_Meteo\ISD\data\';
+   fpath:='x:\Data_Meteorology\ISD\data\';
    url0:='https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/';
 
  //  ccode:='168,';
@@ -61,14 +62,13 @@ try
      SQL.Clear;
      SQL.Add(' select "wmocode" from "station" where ');
      SQL.Add(' "wmocode" is not null ');
-    // SQL.Add(' and "country_id"= '+ccode);
-     SQL.Add(' and "latitude">=60 and "latitude"<70 ');
+     SQL.Add(' and "latitude">=60 ');
      SQL.Add(' order by "wmocode" ');
     Open;
    end;
 
    row_cnt:=0;
-   for yy:=1931 to 2021 do begin
+   for yy:=1901 to 1931 do begin    // there's no data before 1931
      inc(row_cnt);
     caption:=inttostr(yy);
 
@@ -91,12 +91,14 @@ try
 
     Response := TFileStream.Create(fout+fname, fmCreate);
 
-       try
+      try
          Client.Get(url, Response);
        except on E:Exception do
 
        end;
     Response.Free;
+
+  //  exit;
 
     AssignFile(dat, fout+fname); reset(dat);
     readln(dat, st);
@@ -109,7 +111,7 @@ try
    end;
 
 
-      ProgressTaskbar(row_cnt, (2021-1931));
+      ProgressTaskbar(row_cnt, (2023-1931));
       application.ProcessMessages;
      // frmdm.TR.CommitRetaining;
    end; //years

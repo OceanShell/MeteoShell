@@ -1214,12 +1214,12 @@ end;
 
 procedure Tfrmmain.ds5701Click(Sender: TObject);
 begin
-  frmload_ds570 := Tfrmload_ds570.Create(Self);
+  frmload_ds570_upd := Tfrmload_ds570_upd.Create(Self);
    try
-    if not frmload_ds570.ShowModal = mrOk then exit;
+    if not frmload_ds570_upd.ShowModal = mrOk then exit;
    finally
-     frmload_ds570.Free;
-     frmload_ds570 := nil;
+     frmload_ds570_upd.Free;
+     frmload_ds570_upd := nil;
    end;
 end;
 

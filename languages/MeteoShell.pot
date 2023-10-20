@@ -35,6 +35,16 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+#: main.sdatemax
+msgctxt "main.sdatemax"
+msgid "Date max"
+msgstr ""
+
+#: main.sdatemin
+msgctxt "main.sdatemin"
+msgid "Date min"
+msgstr ""
+
 #: main.sdec
 msgid "DEC"
 msgstr ""
@@ -44,6 +54,7 @@ msgid "Done!"
 msgstr ""
 
 #: main.selevation
+msgctxt "main.selevation"
 msgid "Elevation"
 msgstr ""
 
@@ -108,16 +119,6 @@ msgctxt "main.smonth"
 msgid "Month"
 msgstr ""
 
-#: main.smonthmax
-msgctxt "main.smonthmax"
-msgid "Month max"
-msgstr ""
-
-#: main.smonthmin
-msgctxt "main.smonthmin"
-msgid "Month min"
-msgstr ""
-
 #: main.snocdo
 msgid "CDO is not found"
 msgstr ""
@@ -169,6 +170,11 @@ msgstr ""
 msgid "Stations"
 msgstr ""
 
+#: main.stimestep
+msgctxt "main.stimestep"
+msgid "Time step"
+msgstr ""
+
 #: main.svalue
 msgid "Value"
 msgstr ""
@@ -192,16 +198,6 @@ msgctxt "main.syear"
 msgid "Year"
 msgstr ""
 
-#: main.syearmax
-msgctxt "main.syearmax"
-msgid "Year max"
-msgstr ""
-
-#: main.syearmin
-msgctxt "main.syearmin"
-msgid "Year min"
-msgstr ""
-
 #: map_wkt.rsmultipolygon
 msgid "MULTIPOLYGON"
 msgstr ""
@@ -223,66 +219,201 @@ msgctxt "tfrmcomparesources.caption"
 msgid "Compare Sources"
 msgstr ""
 
-#: tfrmload_ds570.btnloaddata.caption
-msgctxt "tfrmload_ds570.btnloaddata.caption"
-msgid "Update"
+#: tfrmcomparesources.chkshowoutliers.caption
+msgctxt "tfrmcomparesources.chkshowoutliers.caption"
+msgid "Show outliers"
 msgstr ""
 
-#: tfrmload_ds570.button1.caption
-msgid "New long series (very careful!!!!)"
+#: tfrmcompare_parameters.btncompare.caption
+msgid "Compare"
 msgstr ""
 
-#: tfrmload_ds570.button2.caption
-msgid "station_ds570"
+#: tfrmcompare_parameters.caption
+msgid "Compare parameters"
 msgstr ""
 
-#: tfrmload_ds570.caption
-msgid "Load ds570"
+#: tfrmcompare_parameters.groupbox1.caption
+msgid "Parameter 1"
 msgstr ""
 
-#: tfrmload_ds570.chkshowlog.caption
-msgctxt "tfrmload_ds570.chkshowlog.caption"
-msgid "Show output"
+#: tfrmcompare_parameters.groupbox2.caption
+msgid "Parameter 2"
 msgstr ""
 
-#: tfrmload_ds570.chkwrite.caption
-msgid "Write"
+#: tfrmcompare_parameters.label1.caption
+msgctxt "tfrmcompare_parameters.label1.caption"
+msgid "St. ID"
 msgstr ""
 
-#: tfrmload_ds570.groupbox1.caption
-msgid "Start with the raw"
+#: tfrmcompare_parameters.label2.caption
+msgid "Step"
 msgstr ""
 
-#: tfrmload_ds570.label3.caption
-msgid "ONLY incremental updates should be used (compare_ds570.py)"
+#: tfrmcompare_parameters.label3.caption
+msgctxt "tfrmcompare_parameters.label3.caption"
+msgid "Name"
 msgstr ""
 
-#: tfrmload_ds570.label4.caption
-msgctxt "tfrmload_ds570.label4.caption"
-msgid "Inserted"
+#: tfrmcompare_parameters.label4.caption
+msgctxt "tfrmcompare_parameters.label4.caption"
+msgid "St. ID"
 msgstr ""
 
-#: tfrmload_ds570.label5.caption
-msgctxt "tfrmload_ds570.label5.caption"
-msgid "Updated"
+#: tfrmcompare_parameters.label6.caption
+msgctxt "tfrmcompare_parameters.label6.caption"
+msgid "Name"
 msgstr ""
 
-#: tfrmload_ds570.label6.caption
-msgctxt "tfrmload_ds570.label6.caption"
-msgid "Error"
+#: tfrmloadaari.button1.caption
+msgctxt "tfrmloadaari.button1.caption"
+msgid "Button1"
 msgstr ""
 
-#: tfrmload_ds570.tabsheet1.caption
-msgctxt "tfrmload_ds570.tabsheet1.caption"
+#: tfrmloadaari.caption
+msgid "Load AARI"
+msgstr ""
+
+#: tfrmloadghcnd.button1.caption
+msgctxt "tfrmloadghcnd.button1.caption"
+msgid "Button1"
+msgstr ""
+
+#: tfrmloadghcnd.button2.caption
+msgid "Stations ghcnd"
+msgstr ""
+
+#: tfrmloadghcnd.button3.caption
+msgctxt "tfrmloadghcnd.button3.caption"
+msgid "id by wmo"
+msgstr ""
+
+#: tfrmloadghcnd.button4.caption
+msgctxt "tfrmloadghcnd.button4.caption"
+msgid "new wmo"
+msgstr ""
+
+#: tfrmloadghcnd.button5.caption
+msgid "duplicates"
+msgstr ""
+
+#: tfrmloadghcnd.button6.caption
+msgid "update countries"
+msgstr ""
+
+#: tfrmloadghcnd.button7.caption
+msgid "v4 -> d"
+msgstr ""
+
+#: tfrmloadghcnd.caption
+msgid "Load GHCN-D"
+msgstr ""
+
+#: tfrmloadghcnd.tabsheet1.caption
+msgctxt "tfrmloadghcnd.tabsheet1.caption"
 msgid "Data"
 msgstr ""
 
-#: tfrmload_ds570.tabsheet2.caption
-msgctxt "tfrmload_ds570.tabsheet2.caption"
+#: tfrmloadghcnd.tabsheet2.caption
+msgctxt "tfrmloadghcnd.tabsheet2.caption"
+msgid "Metadata"
+msgstr ""
+
+#: tfrmload_amca.button1.caption
+msgctxt "tfrmload_amca.button1.caption"
+msgid "Button1"
+msgstr ""
+
+#: tfrmload_amca.caption
+msgid "LoadAMCA [Arctic Meteorology and Climate Atlas]"
+msgstr ""
+
+#: tfrmload_ds570_upd.btnduplicates.caption
+msgctxt "tfrmload_ds570_upd.btnduplicates.caption"
+msgid "Duplicates"
+msgstr ""
+
+#: tfrmload_ds570_upd.btnloaddata.caption
+msgctxt "tfrmload_ds570_upd.btnloaddata.caption"
+msgid "Update"
+msgstr ""
+
+#: tfrmload_ds570_upd.btnupdatestationds570.caption
+msgctxt "tfrmload_ds570_upd.btnupdatestationds570.caption"
+msgid "station_ds570"
+msgstr ""
+
+#: tfrmload_ds570_upd.button1.caption
+msgctxt "tfrmload_ds570_upd.button1.caption"
+msgid "New long series (very careful!!!!)"
+msgstr ""
+
+#: tfrmload_ds570_upd.button3.caption
+msgctxt "tfrmload_ds570_upd.button3.caption"
+msgid "Find ds570 id"
+msgstr ""
+
+#: tfrmload_ds570_upd.caption
+msgctxt "tfrmload_ds570_upd.caption"
+msgid "Load ds570"
+msgstr ""
+
+#: tfrmload_ds570_upd.chkshowlog.caption
+msgctxt "tfrmload_ds570_upd.chkshowlog.caption"
+msgid "Show Log in memo"
+msgstr ""
+
+#: tfrmload_ds570_upd.chkwrite.caption
+msgctxt "tfrmload_ds570_upd.chkwrite.caption"
+msgid "Write into DB"
+msgstr ""
+
+#: tfrmload_ds570_upd.chkwritelog.caption
+msgid "Write Log"
+msgstr ""
+
+#: tfrmload_ds570_upd.tabsheet1.caption
+msgctxt "tfrmload_ds570_upd.tabsheet1.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ds570_upd.tabsheet2.caption
+msgctxt "tfrmload_ds570_upd.tabsheet2.caption"
+msgid "Metadata"
+msgstr ""
+
+#: tfrmload_ecad.btnmetadata1.caption
+msgid "find wmo by location"
+msgstr ""
+
+#: tfrmload_ecad.button1.caption
+msgctxt "tfrmload_ecad.button1.caption"
+msgid "Duplicates"
+msgstr ""
+
+#: tfrmload_ecad.button2.caption
+msgid "station_ecad"
+msgstr ""
+
+#: tfrmload_ecad.button3.caption
+msgid "Button3"
+msgstr ""
+
+#: tfrmload_ecad.caption
+msgid "Load ECAD"
+msgstr ""
+
+#: tfrmload_ecad.tabsheet1.caption
+msgctxt "tfrmload_ecad.tabsheet1.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ecad.tabsheet2.caption
+msgctxt "tfrmload_ecad.tabsheet2.caption"
 msgid "Metadata"
 msgstr ""
 
 #: tfrmload_ghcnv4.btnduplicates.caption
+msgctxt "tfrmload_ghcnv4.btnduplicates.caption"
 msgid "Duplicates"
 msgstr ""
 
@@ -292,7 +423,28 @@ msgid "Update"
 msgstr ""
 
 #: tfrmload_ghcnv4.button1.caption
-msgid "Missing codes by WMO"
+msgid "Missing codes by WMO (DONT!!!)"
+msgstr ""
+
+#: tfrmload_ghcnv4.button11.caption
+msgid "first letters<>"
+msgstr ""
+
+#: tfrmload_ghcnv4.button12.caption
+msgid "v4-> v4__prcp"
+msgstr ""
+
+#: tfrmload_ghcnv4.button14.caption
+msgctxt "tfrmload_ghcnv4.button14.caption"
+msgid "Elevation"
+msgstr ""
+
+#: tfrmload_ghcnv4.button15.caption
+msgid "Update QCF v4"
+msgstr ""
+
+#: tfrmload_ghcnv4.button16.caption
+msgid "Update QCF v4 prcp"
 msgstr ""
 
 #: tfrmload_ghcnv4.button2.caption
@@ -305,6 +457,10 @@ msgstr ""
 
 #: tfrmload_ghcnv4.button4.caption
 msgid "station_ghcn_v4"
+msgstr ""
+
+#: tfrmload_ghcnv4.button7.caption
+msgid "New stations>30, wmo"
 msgstr ""
 
 #: tfrmload_ghcnv4.caption
@@ -400,6 +556,100 @@ msgctxt "tfrmload_ghcn_v3.chkoutput.caption"
 msgid "Show output"
 msgstr ""
 
+#: tfrmload_ghcn_v4_prcp.btnduplicates.caption
+msgctxt "tfrmload_ghcn_v4_prcp.btnduplicates.caption"
+msgid "Duplicates"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.btnload.caption
+msgctxt "tfrmload_ghcn_v4_prcp.btnload.caption"
+msgid "Update"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.btnnewlongtimeseries.caption
+msgid "New >30 years"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.button1.caption
+msgctxt "tfrmload_ghcn_v4_prcp.button1.caption"
+msgid "id by wmo"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.button10.caption
+msgid "v4_prcp-> v4"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.button13.caption
+msgid "Missing codes by name prcp"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.button2.caption
+msgctxt "tfrmload_ghcn_v4_prcp.button2.caption"
+msgid "new wmo"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.button5.caption
+msgid "station_ghcn_v4_prcp"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.button9.caption
+msgid "Update countries"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.caption
+msgid "Load GHCN v4 precipitation"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.chkshowlog.caption
+msgctxt "tfrmload_ghcn_v4_prcp.chkshowlog.caption"
+msgid "Show output"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.tabsheet1.caption
+msgctxt "tfrmload_ghcn_v4_prcp.tabsheet1.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ghcn_v4_prcp.tabsheet2.caption
+msgctxt "tfrmload_ghcn_v4_prcp.tabsheet2.caption"
+msgid "Metadata"
+msgstr ""
+
+#: tfrmload_isd.btndata.caption
+msgctxt "tfrmload_isd.btndata.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_isd.button1.caption
+msgid "Download"
+msgstr ""
+
+#: tfrmload_isd.caption
+msgid "Load ISD"
+msgstr ""
+
+#: tfrmload_russian_arctic.button1.caption
+msgid "Open data"
+msgstr ""
+
+#: tfrmload_russian_arctic.button2.caption
+msgctxt "tfrmload_russian_arctic.button2.caption"
+msgid "Start"
+msgstr ""
+
+#: tfrmload_russian_arctic.caption
+msgid "LoadRussianArctic [Russian stations from 1961-2000  http://nsidc.org/data/g02141.html]"
+msgstr ""
+
+#: tfrmload_unaami.button1.caption
+msgctxt "tfrmload_unaami.button1.caption"
+msgid "Button1"
+msgstr ""
+
+#: tfrmload_unaami.caption
+msgid "LoadUnaamiSAT59 [http://www.unaami.noaa.gov/analyses/sat/]"
+msgstr ""
+
 #: tfrmmain.amap.caption
 msgid "amap"
 msgstr ""
@@ -414,6 +664,11 @@ msgctxt "tfrmmain.btncommit.caption"
 msgid "Save"
 msgstr ""
 
+#: tfrmmain.btncomparesources.caption
+msgctxt "tfrmmain.btncomparesources.caption"
+msgid "Compare Sources"
+msgstr ""
+
 #: tfrmmain.btndelete.caption
 msgctxt "tfrmmain.btndelete.caption"
 msgid "btndelete"
@@ -423,16 +678,46 @@ msgstr ""
 msgid "Show detailed metadata"
 msgstr ""
 
+#: tfrmmain.btnloadaari.caption
+msgid "AARI"
+msgstr ""
+
+#: tfrmmain.btnload_amca.caption
+msgid "AMCA"
+msgstr ""
+
+#: tfrmmain.btnload_ecad.caption
+msgid "ECAD"
+msgstr ""
+
+#: tfrmmain.btnload_isd.caption
+msgid "Integrated Surface Database (ISD)"
+msgstr ""
+
+#: tfrmmain.btnload_unaami.caption
+msgid "UNAAMI"
+msgstr ""
+
+#: tfrmmain.btnmonthlymatrix.caption
+msgid "Monthly Matrix"
+msgstr ""
+
 #: tfrmmain.btnselect.caption
 msgid "Select"
 msgstr ""
 
-#: tfrmmain.btnviewdata.caption
-msgid "Show / Plot Data"
+#: tfrmmain.btnwindchartrose.caption
+msgctxt "tfrmmain.btnwindchartrose.caption"
+msgid "Wind Chart and Rose"
 msgstr ""
 
 #: tfrmmain.caption
 msgid "MeteoShell"
+msgstr ""
+
+#: tfrmmain.cgsource.caption
+msgctxt "tfrmmain.cgsource.caption"
+msgid "Source"
 msgstr ""
 
 #: tfrmmain.chkshowsql.caption
@@ -487,40 +772,36 @@ msgstr ""
 
 #: tfrmmain.dbgrid2.columns[2].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[2].title.caption"
-msgid "Year min"
+msgid "Time step"
 msgstr ""
 
 #: tfrmmain.dbgrid2.columns[3].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[3].title.caption"
-msgid "Month min"
+msgid "Date min"
 msgstr ""
 
 #: tfrmmain.dbgrid2.columns[4].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[4].title.caption"
-msgid "Year max"
+msgid "Date max"
 msgstr ""
 
 #: tfrmmain.dbgrid2.columns[5].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[5].title.caption"
-msgid "Month max"
+msgid "Value min"
 msgstr ""
 
 #: tfrmmain.dbgrid2.columns[6].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[6].title.caption"
-msgid "Value min"
+msgid "Value max"
 msgstr ""
 
 #: tfrmmain.dbgrid2.columns[7].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[7].title.caption"
-msgid "Value max"
+msgid "Count"
 msgstr ""
 
 #: tfrmmain.dbgrid2.columns[8].title.caption
 msgctxt "tfrmmain.dbgrid2.columns[8].title.caption"
-msgid "Count"
-msgstr ""
-
-#: tfrmmain.dbgrid2.columns[9].title.caption
 msgid "%"
 msgstr ""
 
@@ -546,13 +827,12 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-#: tfrmmain.iabout.caption
-msgid "About"
+#: tfrmmain.groupbox4.caption
+msgid "ID range"
 msgstr ""
 
-#: tfrmmain.icomparesources.caption
-msgctxt "tfrmmain.icomparesources.caption"
-msgid "Compare Sources"
+#: tfrmmain.iabout.caption
+msgid "About"
 msgstr ""
 
 #: tfrmmain.idatabasetables.caption
@@ -576,21 +856,37 @@ msgstr ""
 msgid "Load"
 msgstr ""
 
+#: tfrmmain.iloadghcnd.caption
+msgid "GHCN-D"
+msgstr ""
+
 #: tfrmmain.iloadghcnv2.caption
-msgid "ghcn v2 (obsolete)"
+msgid "GHCN-M v2 (obsolete)"
 msgstr ""
 
 #: tfrmmain.iloadghcnv3.caption
-msgid "ghcn v3 (obsolete)"
+msgid "GHCN-M v3 (obsolete)"
 msgstr ""
 
 #: tfrmmain.iloadghcn_v4.caption
-msgid "ghcn v4"
+msgid "GHCN_M v4"
+msgstr ""
+
+#: tfrmmain.iloadghcn_v4_prcp.caption
+msgid "Precipitation"
+msgstr ""
+
+#: tfrmmain.iloadghcn_v4_t2m.caption
+msgid "Air temperature"
 msgstr ""
 
 #: tfrmmain.imap.caption
 msgctxt "tfrmmain.imap.caption"
 msgid "Map"
+msgstr ""
+
+#: tfrmmain.iqcprocedures.caption
+msgid "QC procedures"
 msgstr ""
 
 #: tfrmmain.isettings.caption
@@ -601,6 +897,10 @@ msgstr ""
 #: tfrmmain.isettings.hint
 msgctxt "tfrmmain.isettings.hint"
 msgid "Settings"
+msgstr ""
+
+#: tfrmmain.ishowtimeseries.caption
+msgid "Timeseries (slow)"
 msgstr ""
 
 #: tfrmmain.itools.caption
@@ -646,21 +946,48 @@ msgstr ""
 msgid "Lon Min"
 msgstr ""
 
+#: tfrmmain.lbresetid.caption
+msgctxt "tfrmmain.lbresetid.caption"
+msgid "Reset"
+msgstr ""
+
 #: tfrmmain.lbresetmd.caption
 msgctxt "tfrmmain.lbresetmd.caption"
 msgid "Reset"
+msgstr ""
+
+#: tfrmmain.menuitem2.caption
+msgctxt "tfrmmain.menuitem2.caption"
+msgid "Merge sources"
+msgstr ""
+
+#: tfrmmain.menuitem3.caption
+msgid "QC"
 msgstr ""
 
 #: tfrmmain.menuitem4.caption
 msgid "Services"
 msgstr ""
 
+#: tfrmmain.menuitem6.caption
+msgid "Compare Parameters"
+msgstr ""
+
 #: tfrmmain.menuitem7.caption
 msgid "Show selected station on map"
 msgstr ""
 
+#: tfrmmain.menuitem8.caption
+msgid "Russian Arctic (atlas)"
+msgstr ""
+
 #: tfrmmain.regionalaveraging1.caption
 msgid "Regional Averaging"
+msgstr ""
+
+#: tfrmmain.rgtimestep.caption
+msgctxt "tfrmmain.rgtimestep.caption"
+msgid "Time step"
 msgstr ""
 
 #: tfrmmain.statusbar1.panels[0].text
@@ -844,6 +1171,277 @@ msgstr ""
 msgid "ghcn_v4"
 msgstr ""
 
+#: tfrmmetadata_sources.groupbox5.caption
+msgid "ghcn_v4_prcp"
+msgstr ""
+
+#: tfrmmetadata_sources.groupbox6.caption
+msgid "ghcnd"
+msgstr ""
+
+#: tfrmmetadata_sources.groupbox7.caption
+msgid "ecad"
+msgstr ""
+
+#: tfrmmonthlymatrix.btnplot.caption
+msgctxt "tfrmmonthlymatrix.btnplot.caption"
+msgid "Averaging"
+msgstr ""
+
+#: tfrmmonthlymatrix.btnplotallmonth.caption
+msgctxt "tfrmmonthlymatrix.btnplotallmonth.caption"
+msgid "Plot All Columns"
+msgstr ""
+
+#: tfrmmonthlymatrix.btnplotcolumn.caption
+msgctxt "tfrmmonthlymatrix.btnplotcolumn.caption"
+msgid "Plot Selected Column"
+msgstr ""
+
+#: tfrmmonthlymatrix.btnsave.caption
+msgid "Export data"
+msgstr ""
+
+#: tfrmmonthlymatrix.btnsave.hint
+msgctxt "tfrmmonthlymatrix.btnsave.hint"
+msgid "Export timeseries as..."
+msgstr ""
+
+#: tfrmmonthlymatrix.caption
+msgctxt "tfrmmonthlymatrix.caption"
+msgid "View data"
+msgstr ""
+
+#: tfrmmonthlymatrix.chkshowoutliers.caption
+msgctxt "tfrmmonthlymatrix.chkshowoutliers.caption"
+msgid "Show outliers"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[0].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[0].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[10].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[10].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[11].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[11].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[12].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[12].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[13].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[13].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[1].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[1].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[2].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[2].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[3].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[3].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[4].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[4].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[5].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[5].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[6].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[6].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[7].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[7].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[8].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[8].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid1.columns[9].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid1.columns[9].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[0].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[0].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[10].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[10].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[11].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[11].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[12].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[12].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[13].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[13].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[1].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[1].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[2].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[2].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[3].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[3].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[4].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[4].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[5].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[5].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[6].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[6].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[7].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[7].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[8].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[8].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.dbgrid2.columns[9].title.caption
+msgctxt "tfrmmonthlymatrix.dbgrid2.columns[9].title.caption"
+msgid "Title"
+msgstr ""
+
+#: tfrmmonthlymatrix.groupbox3.caption
+msgid "Clip chart"
+msgstr ""
+
+#: tfrmmonthlymatrix.menuitem2.caption
+msgctxt "tfrmmonthlymatrix.menuitem2.caption"
+msgid "Plot Annual Circle"
+msgstr ""
+
+#: tfrmmonthlymatrix.panel2.caption
+msgid "Panel2"
+msgstr ""
+
+#: tfrmmonthlymatrix.rgplottype.caption
+msgid "Plot type"
+msgstr ""
+
+#: tfrmmonthlymatrix.tabanomalies.caption
+msgctxt "tfrmmonthlymatrix.tabanomalies.caption"
+msgid "Anomalies"
+msgstr ""
+
+#: tfrmmonthlymatrix.tabvalues.caption
+msgctxt "tfrmmonthlymatrix.tabvalues.caption"
+msgid "Values"
+msgstr ""
+
+#: tfrmmonthlymatrix.toolbar1.caption
+msgctxt "tfrmmonthlymatrix.toolbar1.caption"
+msgid "ToolBar1"
+msgstr ""
+
+#: tfrmplottimeseriesold.btnplot.caption
+msgctxt "tfrmplottimeseriesold.btnplot.caption"
+msgid "Plot"
+msgstr ""
+
+#: tfrmplottimeseriesold.caption
+msgctxt "tfrmplottimeseriesold.caption"
+msgid "Timeseries"
+msgstr ""
+
+#: tfrmplottimeseriesold.rgplottype.caption
+msgctxt "tfrmplottimeseriesold.rgplottype.caption"
+msgid "Type of plot"
+msgstr ""
+
+#: tfrmqc.btnstart.caption
+msgctxt "tfrmqc.btnstart.caption"
+msgid "Start"
+msgstr ""
+
+#: tfrmqc.caption
+msgid "Quality control"
+msgstr ""
+
+#: tfrmqc.chkdropqcflag.caption
+msgid "Set flag=0 before QC"
+msgstr ""
+
+#: tfrmqc.chkeverytable.caption
+msgid "Every table"
+msgstr ""
+
+#: tfrmqc.chkwrite.caption
+msgctxt "tfrmqc.chkwrite.caption"
+msgid "Write into DB"
+msgstr ""
+
+#: tfrmqc.groupbox1.caption
+msgid "Table"
+msgstr ""
+
+#: tfrmqc.groupbox2.caption
+msgid "Algorithm"
+msgstr ""
+
+#: tfrmqc.lbcurrenttbl.caption
+msgid "lbCurrentTbl"
+msgstr ""
+
+#: tfrmqc.rbsigma.caption
+msgid "Outliers beyond sigma="
+msgstr ""
+
 #: tfrmsettings.btncancel.caption
 msgid "Cancel"
 msgstr ""
@@ -946,6 +1544,29 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
+#: tfrmsourcesmerge.btnmerge.caption
+msgid "Merge"
+msgstr ""
+
+#: tfrmsourcesmerge.caption
+msgctxt "tfrmsourcesmerge.caption"
+msgid "Merge sources"
+msgstr ""
+
+#: tfrmsourcesmerge.groupbox1.caption
+msgid "Sources (drag to reorder)"
+msgstr ""
+
+#: tfrmsourcesmerge.rgparameter.caption
+msgctxt "tfrmsourcesmerge.rgparameter.caption"
+msgid "Parameter"
+msgstr ""
+
+#: tfrmsourcesmerge.rgtimestep.caption
+msgctxt "tfrmsourcesmerge.rgtimestep.caption"
+msgid "Time step"
+msgstr ""
+
 #: tfrmspatialaveraging.btncalculate.caption
 msgid "Calculate"
 msgstr ""
@@ -1045,9 +1666,8 @@ msgctxt "tfrmtablemanagement.toolbutton4.caption"
 msgid "ToolButton4"
 msgstr ""
 
-#: tfrmtimeseries.btnplot.caption
-msgctxt "tfrmtimeseries.btnplot.caption"
-msgid "Plot"
+#: tfrmtimeseries.btngettimeseries.caption
+msgid "Get data"
 msgstr ""
 
 #: tfrmtimeseries.caption
@@ -1055,192 +1675,64 @@ msgctxt "tfrmtimeseries.caption"
 msgid "Timeseries"
 msgstr ""
 
-#: tfrmtimeseries.rgplottype.caption
-msgid "Type of plot"
+#: tfrmtimeseries.chkshowoutliers.caption
+msgctxt "tfrmtimeseries.chkshowoutliers.caption"
+msgid "Show outliers"
 msgstr ""
 
-#: tfrmviewdata.btnplot.caption
-msgid "Averaging"
+#: tfrmtimeseries.dtp_max.textfornulldate
+msgctxt "tfrmtimeseries.dtp_max.textfornulldate"
+msgid "NULL"
 msgstr ""
 
-#: tfrmviewdata.btnplotallmonth.caption
-msgid "Plot All Columns"
+#: tfrmtimeseries.dtp_min.textfornulldate
+msgctxt "tfrmtimeseries.dtp_min.textfornulldate"
+msgid "NULL"
 msgstr ""
 
-#: tfrmviewdata.btnplotcolumn.caption
-msgid "Plot Selected Column"
+#: tfrmtimeseries.groupbox1.caption
+msgid "Date clipping"
 msgstr ""
 
-#: tfrmviewdata.btnsave.caption
-msgid "Save as..."
+#: tfrmupdate_station_info.btnupdate.caption
+msgctxt "tfrmupdate_station_info.btnupdate.caption"
+msgid "Update"
 msgstr ""
 
-#: tfrmviewdata.btnsave.hint
-msgid "Export timeseries as..."
+#: tfrmupdate_station_info.caption
+msgid "Update Station_info"
 msgstr ""
 
-#: tfrmviewdata.btnsettings.caption
-msgid "Grapher Settings"
+#: tfrmupdate_station_info.cgsource.caption
+msgctxt "tfrmupdate_station_info.cgsource.caption"
+msgid "Source"
 msgstr ""
 
-#: tfrmviewdata.caption
-msgid "View data"
+#: tfrmupdate_station_info.lball.caption
+msgid "All"
 msgstr ""
 
-#: tfrmviewdata.dbgrid1.columns[0].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[0].title.caption"
-msgid "Title"
+#: tfrmwindchart.btnopenfolder.hint
+msgctxt "tfrmwindchart.btnopenfolder.hint"
+msgid "Open data folder"
 msgstr ""
 
-#: tfrmviewdata.dbgrid1.columns[10].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[10].title.caption"
-msgid "Title"
+#: tfrmwindchart.btnopenscript.hint
+msgctxt "tfrmwindchart.btnopenscript.hint"
+msgid "Open data folder"
 msgstr ""
 
-#: tfrmviewdata.dbgrid1.columns[11].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[11].title.caption"
-msgid "Title"
+#: tfrmwindchart.btnplot.caption
+msgctxt "tfrmwindchart.btnplot.caption"
+msgid "Plot"
 msgstr ""
 
-#: tfrmviewdata.dbgrid1.columns[12].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[12].title.caption"
-msgid "Title"
+#: tfrmwindchart.caption
+msgctxt "tfrmwindchart.caption"
+msgid "Wind Chart and Rose"
 msgstr ""
 
-#: tfrmviewdata.dbgrid1.columns[13].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[13].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[1].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[1].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[2].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[2].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[3].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[3].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[4].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[4].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[5].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[5].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[6].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[6].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[7].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[7].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[8].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[8].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid1.columns[9].title.caption
-msgctxt "tfrmviewdata.dbgrid1.columns[9].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[0].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[0].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[10].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[10].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[11].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[11].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[12].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[12].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[13].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[13].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[1].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[1].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[2].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[2].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[3].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[3].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[4].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[4].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[5].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[5].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[6].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[6].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[7].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[7].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[8].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[8].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.dbgrid2.columns[9].title.caption
-msgctxt "tfrmviewdata.dbgrid2.columns[9].title.caption"
-msgid "Title"
-msgstr ""
-
-#: tfrmviewdata.menuitem2.caption
-msgid "Plot Annual Circle"
-msgstr ""
-
-#: tfrmviewdata.tabanomalies.caption
-msgid "Anomalies"
-msgstr ""
-
-#: tfrmviewdata.tabvalues.caption
-msgid "Values"
-msgstr ""
-
-#: tfrmviewdata.toolbar1.caption
-msgctxt "tfrmviewdata.toolbar1.caption"
-msgid "ToolBar1"
+#: tfrmwindchart.rgchart.caption
+msgid "Diagram Type"
 msgstr ""
 

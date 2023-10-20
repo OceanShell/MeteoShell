@@ -349,64 +349,63 @@ msgctxt "tfrmload_amca.caption"
 msgid "LoadAMCA [Arctic Meteorology and Climate Atlas]"
 msgstr ""
 
-#: tfrmload_ds570.btnloaddata.caption
-msgctxt "tfrmload_ds570.btnloaddata.caption"
+#: tfrmload_ds570_upd.btnduplicates.caption
+msgctxt "tfrmload_ds570_upd.btnduplicates.caption"
+msgid "Duplicates"
+msgstr ""
+
+#: tfrmload_ds570_upd.btnloaddata.caption
+#, fuzzy
+msgctxt "tfrmload_ds570_upd.btnloaddata.caption"
 msgid "Update"
 msgstr "Обновить"
 
-#: tfrmload_ds570.button1.caption
-msgid "New long series (very careful!!!!)"
-msgstr ""
-
-#: tfrmload_ds570.button2.caption
+#: tfrmload_ds570_upd.btnupdatestationds570.caption
+msgctxt "tfrmload_ds570_upd.btnupdatestationds570.caption"
 msgid "station_ds570"
 msgstr ""
 
-#: tfrmload_ds570.button3.caption
+#: tfrmload_ds570_upd.button1.caption
+msgctxt "tfrmload_ds570_upd.button1.caption"
+msgid "New long series (very careful!!!!)"
+msgstr ""
+
+#: tfrmload_ds570_upd.button3.caption
+msgctxt "tfrmload_ds570_upd.button3.caption"
 msgid "Find ds570 id"
 msgstr ""
 
-#: tfrmload_ds570.caption
+#: tfrmload_ds570_upd.caption
+#, fuzzy
+msgctxt "tfrmload_ds570_upd.caption"
 msgid "Load ds570"
 msgstr "Загрузка ds570"
 
-#: tfrmload_ds570.chkshowlog.caption
-msgctxt "tfrmload_ds570.chkshowlog.caption"
-msgid "Show output"
+#: tfrmload_ds570_upd.chkshowlog.caption
+#, fuzzy
+#| msgid "Show output"
+msgctxt "tfrmload_ds570_upd.chkshowlog.caption"
+msgid "Show Log in memo"
 msgstr "Показать лог"
 
-#: tfrmload_ds570.groupbox1.caption
-msgid "Start with the raw"
+#: tfrmload_ds570_upd.chkwrite.caption
+msgctxt "tfrmload_ds570_upd.chkwrite.caption"
+msgid "Write into DB"
 msgstr ""
 
-#: tfrmload_ds570.label3.caption
-msgid "ONLY incremental updates should be used (compare_ds570.py)"
-msgstr "ТОЛЬКО разностные обновления (compare_ds570.py)"
+#: tfrmload_ds570_upd.chkwritelog.caption
+msgid "Write Log"
+msgstr ""
 
-#: tfrmload_ds570.label4.caption
-msgctxt "tfrmload_ds570.label4.caption"
-msgid "Inserted"
-msgstr "Добавлены"
-
-#: tfrmload_ds570.label5.caption
-msgctxt "tfrmload_ds570.label5.caption"
-msgid "Updated"
-msgstr "Обновлены"
-
-#: tfrmload_ds570.label6.caption
-msgctxt "tfrmload_ds570.label6.caption"
-msgid "Error"
-msgstr "Ошибка"
-
-#: tfrmload_ds570.tabsheet1.caption
+#: tfrmload_ds570_upd.tabsheet1.caption
 #, fuzzy
-msgctxt "tfrmload_ds570.tabsheet1.caption"
+msgctxt "tfrmload_ds570_upd.tabsheet1.caption"
 msgid "Data"
 msgstr "Данные"
 
-#: tfrmload_ds570.tabsheet2.caption
+#: tfrmload_ds570_upd.tabsheet2.caption
 #, fuzzy
-msgctxt "tfrmload_ds570.tabsheet2.caption"
+msgctxt "tfrmload_ds570_upd.tabsheet2.caption"
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -609,6 +608,10 @@ msgstr ""
 msgctxt "tfrmload_ghcn_v4_prcp.btnload.caption"
 msgid "Update"
 msgstr "Обновить"
+
+#: tfrmload_ghcn_v4_prcp.btnnewlongtimeseries.caption
+msgid "New >30 years"
+msgstr ""
 
 #: tfrmload_ghcn_v4_prcp.button1.caption
 msgctxt "tfrmload_ghcn_v4_prcp.button1.caption"
@@ -1496,6 +1499,7 @@ msgid "Every table"
 msgstr ""
 
 #: tfrmqc.chkwrite.caption
+msgctxt "tfrmqc.chkwrite.caption"
 msgid "Write into DB"
 msgstr ""
 

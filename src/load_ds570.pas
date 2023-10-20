@@ -6,47 +6,45 @@ interface
 
 uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms, LCLTranslator,
-  Dialogs, StdCtrls, ExtCtrls, Buttons, Spin, ComCtrls, BufDataset, DateUtils,
-  DB;
+  Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, BufDataset, DateUtils,
+  DB, Math;
 
 type
+  { Tfrmload_ds570_upd }
 
-  { Tfrmload_ds570 }
-
-  Tfrmload_ds570 = class(TForm)
+  Tfrmload_ds570_upd = class(TForm)
     btnLoadData: TButton;
     Button1: TButton;
-    Button2: TButton;
+    btnUpdateStationDS570: TButton;
     Button3: TButton;
+    btnDuplicates: TButton;
+    chkWriteLog: TCheckBox;
     chkShowLog: TCheckBox;
-    GroupBox1: TGroupBox;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
+    chkWrite: TCheckBox;
     mLog: TMemo;
-    mError: TMemo;
-    mInserted: TMemo;
-    mUpdated: TMemo;
     PageControl1: TPageControl;
-    Panel1: TPanel;
-    seSkip: TSpinEdit;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
 
+    procedure btnDuplicatesClick(Sender: TObject);
     procedure btnLoadDataClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure btnUpdateStationDS570Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
 
   private
     { Private declarations }
+    procedure getvalues(st1:string; Var ds570_f: integer; Var DateCurr:TDateTime;
+        Var slp, stnp, t, prec, sun:real);
   public
     { Public declarations }
   end;
 
+const
+  max_arr_length = 5000000;
+
 var
-  frmload_ds570: Tfrmload_ds570;
+  frmload_ds570_upd: Tfrmload_ds570_upd;
   fi_dat:text;
   old_id:string;
 
@@ -56,190 +54,323 @@ uses main, dm, procedures;
 
 {$R *.lfm}
 
-
-procedure Tfrmload_ds570.btnLoadDataClick(Sender: TObject);
-var
-ds570_id, id, yy, mn, k, md, old_id, tbl_ind, cnt, row_cnt: integer;
-slp, stnp, t, prec, sun,par:real;
-FileForRead, st0, st1, date1, buf_str, tbl_name:string;
-DateCurr: TDate;
-DBVal:Variant;
+procedure Tfrmload_ds570_upd.getvalues(st1:string; Var ds570_f: integer;
+    Var DateCurr:TDateTime; Var slp, stnp, t, prec, sun:real);
+Var
+  k, md: integer;
+  buf_str, date1: string;
+  yy, mn: word;
 begin
+k:=0; slp:=-9999; stnp:=-9999; t:=-9999; prec:=-9999; sun:=-9999;
+     for md:=1 to 7 do begin
+      buf_str:='';
+      repeat
+       inc(k);
+       if (st1[k]<>',') and (k<=length(st1)) then buf_str:=buf_str+st1[k];
+      until (st1[k]=',') or (k=length(st1));
+       if md=1 then ds570_f:=StrToInt(trim(buf_str));
+       if md=2 then begin
+           date1 :=trim(buf_str);
+           yy:=StrToInt(copy(date1, 1, 4));
+           mn:=StrToInt(copy(date1, 6, 2));
+           DateCurr:=EncodeDate(yy, mn, trunc(DaysInAMonth(yy, mn)/2));
+         //  mLog.Lines.Add(inttostr(ds570_id)+'   '+datetostr(DateCurr));
+       end;
+       if md=3 then if TryStrToFloat(trim(buf_str), slp)  then slp   :=StrToFloat(trim(buf_str)) else slp  :=-9999;
+       if md=4 then if TryStrToFloat(trim(buf_str), stnp) then stnp  :=StrToFloat(trim(buf_str)) else stnp :=-9999;
+       if md=5 then if TryStrToFloat(trim(buf_str), t)    then t     :=StrToFloat(trim(buf_str)) else t    :=-9999;
+       if md=6 then if TryStrToFloat(trim(buf_str), prec) then prec  :=StrToFloat(trim(buf_str)) else prec :=-9999;
+       if md=7 then if trim(buf_str)<>''                  then sun   :=StrToFloat(trim(buf_str)) else sun  :=-9999;
+     end;
+end;
+
+
+
+procedure Tfrmload_ds570_upd.btnLoadDataClick(Sender: TObject);
+type
+   DataSample=record
+     id:integer;
+     dcur:TDateTime;
+     slp:real;
+     stnp:real;
+     t:real;
+     prec:real;
+     sun:real;
+end;
+var
+DS: array of DataSample;
+DS_cnt, DS_cnt_max, DB_cnt, upd_cnt, DB_ID, pp:integer;
+ds570_id, ID: array of integer;
+
+ds570_f, yy, mn, k, md, old_id, tbl_ind, stn_cnt, row_cnt: integer;
+slp, stnp, t, prec, sun, par, val_f:real;
+val_db:Variant;
+FileForRead, st0, st1, date1, buf_str, tbl_name:string;
+DateCurr, old_date: TDate;
+DBVal:Variant;
+dat, dat_i, dat_u, dat_d:text;
+
+begin
+
   frmmain.OD.InitialDir:=GlobalPath+'data\';
   frmmain.OD.Filter:='*.csv|*.csv';
 
   if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
 
-  AssignFile(fi_dat,FileForRead); reset(fi_dat);
-  cnt:=0;
-  repeat
-   readln(fi_dat);
-    inc(cnt);
-  until eof(fi_dat);
-  CloseFile(fi_dat);
+  with frmdm.q1 do begin
+    Close;
+     SQL.Clear;
+     SQL.Add(' select "id", "ds570_id" from "station" where ');
+     SQL.Add(' "ds570_id" is not null ');
+     SQL.Add(' order by "ds570_id" ');
+    Open;
+    Last;
+    First;
+  end;
 
- // showmessage(inttostr(cnt));
+  SetLength(id, frmdm.q1.RecordCount);
+  SetLength(ds570_id, frmdm.q1.RecordCount);
 
-  btnLoadData.Enabled:=false;
-  //btnLoadMetadata.Enabled:=false;
-  Application.ProcessMessages;
+  DB_cnt:=-1;
+  while not frmdm.q1.EOF do begin
+   inc(DB_cnt);
+    id[DB_cnt] := frmdm.q1.FieldByName('id').AsInteger;
+    ds570_id[DB_cnt] := frmdm.q1.FieldByName('ds570_id').AsInteger;
+   frmdm.q1.Next;
+  end;
 
-  AssignFile(fi_dat,FileForRead); reset(fi_dat);
+   AssignFile(dat_i, GlobalUnloadPath+'ds570_ins.txt'); rewrite(dat_i);
+   AssignFile(dat_u, GlobalUnloadPath+'ds570_upd.txt'); rewrite(dat_u);
+   AssignFile(dat_d, GlobalUnloadPath+'ds570_del.txt'); rewrite(dat_d);
 
-  //skipping the first rows, if needed
-  k:=0;
-  if seSkip.Value>0 then
-    for k:=1 to seSkip.Value-1 do
-     readln(fi_dat, st1);
-
-  row_cnt:=k;
-  repeat
+   AssignFile(fi_dat,FileForRead); reset(fi_dat);
    readln(fi_dat, st1);
-   inc(row_cnt);
+   stn_cnt:=0;
+   upd_cnt:=0;
+   row_cnt:=0;
+   DS_cnt:=-1;
+   DS_cnt_max:=0;
 
- //  if copy(st1, 1, 2)<>'48' then continue;
-  if copy(st1, 1, 1)='S' then continue;
-
-   k:=0; slp:=-9999; stnp:=-9999; t:=-9999; prec:=-9999; sun:=-9999;
-   for md:=1 to 7 do begin
-    buf_str:='';
+   SetLength(DS, 0);
+   SetLength(DS, max_arr_length);
     repeat
-     inc(k);
-     if (st1[k]<>',') and (k<=length(st1)) then buf_str:=buf_str+st1[k];
-    until (st1[k]=',') or (k=length(st1));
-     if md=1 then ds570_id:=StrToInt(trim(buf_str));
-     if md=2 then begin
-         date1 :=trim(buf_str);
-         yy:=StrToInt(copy(date1, 1, 4));
-         mn:=StrToInt(copy(date1, 6, 2));
-         DateCurr:=EncodeDate(yy, mn, trunc(DaysInAMonth(yy, mn)/2));
-       //  mLog.Lines.Add(inttostr(ds570_id)+'   '+datetostr(DateCurr));
-     end;
-     if md=3 then if TryStrToFloat(trim(buf_str), slp)  then slp   :=StrToFloat(trim(buf_str)) else slp  :=-9999;
-     if md=4 then if TryStrToFloat(trim(buf_str), stnp) then stnp  :=StrToFloat(trim(buf_str)) else stnp :=-9999;
-     if md=5 then if TryStrToFloat(trim(buf_str), t)    then t     :=StrToFloat(trim(buf_str)) else t    :=-9999;
-     if md=6 then if TryStrToFloat(trim(buf_str), prec) then prec  :=StrToFloat(trim(buf_str)) else prec :=-9999;
-     if md=7 then if trim(buf_str)<>''                  then sun   :=StrToFloat(trim(buf_str)) else sun  :=-9999;
-   end;
+     inc(row_cnt);
+      readln(fi_dat, st1);
+      getvalues(st1, ds570_f, DateCurr, slp, stnp, t, prec, sun);
 
+      if row_cnt=1 then begin
+        old_id:=ds570_f;
+        old_date:=DateCurr;
+      end;
 
-   with frmdm.q1 do begin
-    Close;
-     SQL.Clear;
-     SQL.Add(' select "id" from "station" where ');
-     SQL.Add(' "ds570_id"=:ds570_id ');
-     ParamByName('ds570_id').AsInteger:=ds570_id;
-    Open;
-     if frmdm.q1.IsEmpty=false then
-       id:=frmdm.q1.Fields[0].AsInteger else id:=-9;
-    Close;
-   end;
+      if (old_id=ds570_f) and (DateCurr>old_date) then begin
+        inc(DS_cnt);
+         DS[DS_cnt].id:=old_id;
+         DS[DS_cnt].dcur:=DateCurr;
+         DS[DS_cnt].slp :=slp;
+         DS[DS_cnt].stnp:=stnp;
+         DS[DS_cnt].t:=t;
+         DS[DS_cnt].prec:=prec;
+         DS[DS_cnt].sun:=sun;
+        old_date:=datecurr;
+      end;
 
+      if (old_id<>ds570_f) then begin
+        inc(stn_cnt);
 
-   (* Station found *)
-   if id>0 then begin
-
-    with frmdm.q1 do begin
-    Close;
-     SQL.Clear;
-     SQL.Add(' select "id" from "station" where ');
-     SQL.Add(' "ds570_id"=:ds570_id ');
-     ParamByName('ds570_id').AsInteger:=ds570_id;
-    Open;
-     if frmdm.q1.IsEmpty=false then
-       id:=frmdm.q1.Fields[0].AsInteger else id:=-9;
-    Close;
-   end;
-
-     for k:=1 to 5 do begin
-       case k of
-         1: begin par:=slp;  tbl_name:='p_sea_level_pressure_ds570'  end;
-         2: begin par:=stnp; tbl_name:='p_station_level_pressure_ds570' end;
-         3: begin par:=t;    tbl_name:='p_surface_air_temp_ds570' end;
-         4: begin par:=prec; tbl_name:='p_precipitation_ds570' end;
-         5: begin par:=sun;  tbl_name:='p_sunshine_ds570' end;
-       end;
-
-       if par<>-9999 then begin
-        with frmdm.q1 do begin
-         Close;
-          SQL.Clear;
-          SQL.Add(' select "value" from "'+tbl_name+'" ');
-          SQL.Add(' where "station_id"=:absnum and "date"=:date_');
-          ParamByName('absnum').Value:=id;
-          ParamByName('date_').AsDate:=DateCurr;
-         Open;
-          DbVal:=frmdm.q1.Fields[0].Value;
-         Close;
+        //looking for DB ID
+        for k:=0 to DB_cnt do begin
+         DB_ID:=-9;
+         if DS[0].id=ds570_id[k] then begin
+           DB_ID:=ID[k];
+           break;
+         end;
         end;
 
+        if DB_ID<>-9 then begin
 
-       try
-         // inserting a new value
-         if VarIsNull(DBVal)=true then begin
-             with frmdm.q2 do begin
-              Close;
-               SQL.Clear;
-               SQL.Add(' insert into "'+tbl_name+'" ');
-               SQL.Add(' ("station_id", "date", "value", "pqf2") ');
-               SQL.Add(' values ');
-               SQL.Add(' (:absnum, :date_, :value_, :pqf2)');
-               ParamByName('absnum').Value:=id;
-               ParamByName('date_').AsDate:=DateCurr;
-               ParamByName('value_').Value:=par;
-              // ParamByName('pqf1').Value:=0;
-               ParamByName('pqf2').Value:=0;
-              ExecSQL;
+          for pp:=1 to 5 do begin
+           case pp of
+             1: tbl_name:='p_sea_level_pressure_ds570';
+             2: tbl_name:='p_station_level_pressure_ds570';
+             3: tbl_name:='p_surface_air_temp_ds570';
+             4: tbl_name:='p_precipitation_ds570';
+             5: tbl_name:='p_sunshine_ds570';
+           end;
+
+          with frmdm.q1 do begin
+            Close;
+             SQL.Clear;
+             SQL.Add(' select "date" as date1, "value" as val1 ');
+             SQL.Add(' from "'+tbl_name+'" ');
+             SQL.Add(' where "station_id"=:absnum order by "date"');
+             ParambyName('absnum').Value:=DB_ID;
+            Open;
+            Last;
+            First;
+          end;
+
+          for k:=0 to DS_cnt-1 do begin
+
+            case pp of
+             1: val_f:=DS[k].slp;
+             2: val_f:=DS[k].stnp;
+             3: val_f:=DS[k].t;
+             4: val_f:=DS[k].prec;
+             5: val_f:=DS[k].sun;
             end;
-            if chkShowLog.Checked then
-             mInserted.lines.add(inttostr(ds570_id)+'   '+
-                             datetostr(DateCurr)+'   '+
-                             floattostr(par));
-       end;
 
-       // updating existing
-       if VarIsNull(DBVal)=false then begin
-         if DBVal<>Par then begin
-            with frmdm.q2 do begin
+          val_db:= frmdm.q1.Lookup('date1', DS[k].dcur, 'val1');
+
+          //Inserted
+           if varisnull(val_db) and (val_f<>-9999) then begin
+             if chkWriteLog.Checked then
+              writeln(dat_i, inttostr(DS[k].id), #9,
+                             datetostr(DS[k].dcur)+#9,
+                             floattostr(val_f), #9,
+                             tbl_name);
+              flush(dat_i);
+
+              if chkShowLog.Checked then
+                mLog.Lines.Add(
+                             inttostr(DS[k].id)+'   '+
+                             datetostr(DS[k].dcur)+'   '+
+                             floattostr(val_f)+'   '+
+                             tbl_name);
+              if chkWrite.Checked then
+                try
+                 with frmdm.q2 do begin
+                   Close;
+                    SQL.Clear;
+                    SQL.Add(' insert into "'+tbl_name+'" ');
+                    SQL.Add(' ("station_id", "date", "value", "pqf2") ');
+                    SQL.Add(' values ');
+                    SQL.Add(' (:absnum, :date_, :value_, :pqf2)');
+                    ParamByName('absnum').Value:=DB_ID;
+                    ParamByName('date_').AsDate:=DS[k].dcur;
+                    ParamByName('value_').Value:=val_f;
+                    ParamByName('pqf2').Value:=0;
+                   ExecSQL;
+                 end;
+                frmdm.TR.CommitRetaining;
+                except
+                  on e: Exception do begin
+                     frmdm.TR.RollbackRetaining;
+                     if MessageDlg(e.message, mtError, [mbOk], 0)=mrOk then close;
+                  end;
+                end;
+           end;
+
+           // Updated
+          if not varisnull(val_db) and (val_f<>-9999) and (val_db<>val_f) then begin
+           if chkWriteLog.Checked then
+            writeln(dat_u, inttostr(DS[k].id), #9,
+                           datetostr(DS[k].dcur), #9,
+                           floattostr(val_f), #9,
+                           floattostr(val_db), #9,
+                           tbl_name);
+            flush(dat_u);
+
+            if chkShowLog.Checked then
+               mLog.Lines.Add(
+                          inttostr(DS[k].id)+'   '+
+                          datetostr(DS[k].dcur)+'  '+
+                          floattostr(val_f)+'   '+
+                          floattostr(val_db)+'   '+
+                          tbl_name);
+
+            if chkWrite.Checked then
+            try
+              with frmdm.q2 do begin
               Close;
                 SQL.Clear;
                 SQL.Add(' update "'+tbl_name+'" ');
                 SQL.Add(' set "value"=:value_, "pqf2"=0 ');
                 SQL.Add(' where "station_id"=:absnum and "date"=:date_ ');
-                ParamByName('absnum').Value:=ID;
-                ParamByName('date_').AsDate:=DateCurr;
-                ParamByName('value_').Value:=par;
+                ParamByName('absnum').Value:=DB_ID;
+                ParamByName('date_').AsDate:=DS[k].dcur;
+                ParamByName('value_').Value:=val_f;
               ExecSQL;
             end;
+            frmdm.TR.CommitRetaining;
+            except
+             on e: Exception do begin
+              frmdm.TR.RollbackRetaining;
+              if MessageDlg(e.message, mtError, [mbOk], 0)=mrOk then close;
+             end;
+            end;
+          end;
+
+          //Deleted
+          if not varisnull(val_db) and (val_f=-9999) then begin
+           if chkWriteLog.Checked then
+            writeln(dat_d, inttostr(DS[k].id), #9,
+                           datetostr(DS[k].dcur), #9,
+                           floattostr(val_db), #9,
+                           tbl_name);
+            flush(dat_d);
+
             if chkShowLog.Checked then
-             mUpdated.lines.add(inttostr(ds570_id)+'   '+
-                             datetostr(DateCurr)+'   '+
-                             floattostr(par));
-         end;
+               mLog.Lines.Add(
+                          inttostr(DS[k].id)+'   '+
+                          datetostr(DS[k].dcur)+'  '+
+                          floattostr(val_db)+'   '+
+                          tbl_name);
+
+            if chkWrite.Checked then
+            try
+             with frmdm.q2 do begin
+              Close;
+                SQL.Clear;
+                SQL.Add(' delete from "'+tbl_name+'" ');
+                SQL.Add(' where "station_id"=:absnum and "date"=:date_ ');
+                ParamByName('absnum').Value:=DB_ID;
+                ParamByName('date_').AsDate:=DS[k].dcur;
+              ExecSQL;
+            end;
+              frmdm.TR.CommitRetaining;
+                except
+                  on e: Exception do begin
+                     frmdm.TR.RollbackRetaining;
+                     if MessageDlg(e.message, mtError, [mbOk], 0)=mrOk then close;
+                  end;
+                end;
+          end;
+
+        end;
         end;
 
-       frmdm.TR.CommitRetaining;
-     except
-       frmdm.TR.RollbackRetaining;
-         mError.lines.add(inttostr(ds570_id)+'   '+
-                          datetostr(DateCurr)+'   '+
-                          floattostr(par));
-     end;
-     end; //par<>-9999
-    end; //k=1:5
-   end; //id>0;
+        end; //tables of parameters
 
-   Caption:=inttostr(row_cnt);
+        DS_cnt_max:=Max(DS_cnt, DS_cnt_max);
+        Caption:=inttostr(DS_cnt_max)+'   '+inttostr(row_cnt);
+        Application.ProcessMessages;
 
-   ProgressTaskbar(row_cnt, cnt);
-   Application.ProcessMessages;
+        SetLength(DS, 0);
+        SetLength(DS, max_arr_length);
 
-   until eof(fi_dat);
-   CloseFile(fi_dat);
-   frmdm.TR.Commit;
+        old_id:=ds570_f;
 
-   btnLoadData.Enabled:=true;
-  // btnLoadMetadata.Enabled:=true;
+        DS_cnt:=0;
+        DS[DS_cnt].id:=old_id;
+        DS[DS_cnt].dcur:=old_date;
+        DS[DS_cnt].slp :=slp;
+        DS[DS_cnt].stnp:=stnp;
+        DS[DS_cnt].t:=t;
+        DS[DS_cnt].prec:=prec;
+        DS[DS_cnt].sun:=sun;
+      end;
+
+    until eof(fi_dat) ;
+    Closefile(fi_dat);
+    Closefile(dat_i);
+    Closefile(dat_u);
+    Closefile(dat_d);
+
+    showmessage('here');
+    frmdm.TR.Commit;
+    SetLength(DS, 0);
+
 
    if MessageDlg('Upload successfully completed. Please, update metadata'+#13+
                  '(Menu->Services->DB Administration->Update STATION_INFO)',
@@ -251,123 +382,54 @@ end;
 
 
 (* ONLY WMO STATIONS WITH TIMESERIES LONGER THAN 30 YEARS *)
-procedure Tfrmload_ds570.Button1Click(Sender: TObject);
+procedure Tfrmload_ds570_upd.Button1Click(Sender: TObject);
 var
-   k, md, wmo_id,cnt, old_id:integer;
-   StLat, StLon, Elev, StLat_old, StLon_old, Elev_old: real;
-   buf_str, ID, ds570, FileForRead :string;
-   absnum, absnum1:integer;
-   st,stName, stname_old, date1, date2:string;
-   isempty:boolean;
-   stdate1, stdate2, date_min, date_max:TDateTime;
+   ds_id:integer;
+   date_min, date_max:TDateTime;
+   yy0, mn0, dd0, yy1, mn1, dd1, yy3, mn3, dd3: word;
 begin
-  mLog.clear;
-  frmmain.OD.InitialDir:=GlobalPath+'data\';
-  frmmain.OD.Filter:='ds570.0_stnlibrary.csv|ds570.0_stnlibrary.csv';
 
-  if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
+  with frmdm.q1 do begin
+    Close;
+     SQL.Clear;
+     SQL.Add('select distinct("id"), min("start_date"), max("end_date") ');
+     SQL.Add('from "station_ds570" group by "id"');
+    Open;
+  end;
 
-  AssignFile(fi_dat,FileForRead); reset(fi_dat);
-  readln(fi_dat, st);
-  cnt:=0;
-  repeat
-   readln(fi_dat, st);
-    k:=0;
-    for md:=1 to 7 do begin
-     buf_str:='';
-     repeat
-      inc(k);
-      if st[k]<>',' then buf_str:=buf_str+st[k];
-     until (st[k]=',') or (k=length(st));
-      if md=1 then ID    :=trim(buf_str);
-      if md=2 then stname:=trim(buf_str);
-      if md=3 then stLat :=StrToFloat(trim(buf_str));
-      if md=4 then StLon :=StrToFloat(trim(buf_str));
-      if md=5 then Elev  :=StrToFloat(trim(buf_str));
-      if md=6 then date1 :=trim(buf_str);
-      if md=7 then date2 :=trim(buf_str);
-    end;
+  while not frmdm.q1.EOF do begin
+    ds_id:=frmdm.q1.Fields[0].AsInteger;
+    date_min:=frmdm.q1.Fields[1].AsDateTime;
+    date_max:=frmdm.q1.Fields[2].AsDateTime;
 
-    if copy(ID, 6, 1)='0' then WMO_id:=StrToInt(copy(ID, 1, 5)) else WMO_id:=-9;
+    decodedate(date_min, yy0, mn0, dd0);
+    decodedate(date_max, yy1, mn1, dd1);
+    decodedate(now, yy3, mn3, dd3);
 
-    stdate1:=encodedate(strtoint(copy(date1,1,4)), strtoint(copy(date1, 6, 2)), 1);
-    stdate2:=encodedate(strtoint(copy(date2,1,4)), strtoint(copy(date2, 6, 2)), 1);
-
-    if cnt=0 then begin
-      old_id:=WMO_id;
-      date_min:=stdate1;
-      date_max:=stdate2;
-      stname_old:=stname;
-      StLat_old:=StLat;
-      StLon_old:=StLon;
-      Elev_old:=Elev;
-    end;
-
-    if WMO_ID=old_id then begin
-      if stdate1<date_min then date_min:=stdate1;
-      if stdate2>date_max then date_max:=stdate2;
-    end;
-
-    if (WMO_ID<>old_id) or (eof(fi_dat)) then begin
-      if (old_id<>-9) and (trim(stname_old)<>'') and
-         (yearsbetween(date_max, date_min)>=20) and  //more than 30 years
-         (yearsbetween(now, date_max)<=10) then begin  //active less than 10 years ago
-
-        frmdm.q1.Close;
-        frmdm.q1.SQL.Text:='Select "id" from "station" where "ds570_id"='+inttostr(old_ID)+'0';
-      //  showmessage(frmdm.q1.SQL.Text);
-        frmdm.q1.Open;
-        if frmdm.q1.IsEmpty=true then begin
-
-        mlog.lines.add(inttostr(old_id)+'   '+stname_old+'   '+datetostr(date_min)+'   '+datetostr(date_max));
-
-         frmdm.q2.Close;
-         frmdm.q2.SQL.Text:='Select max("id") from "station"';
-         frmdm.q2.Open;
-          absnum:=frmdm.q2.Fields[0].AsInteger+1;
-         frmdm.q2.Close;
-
+    if (yy1-yy0>=30) and (yy3-yy1<=5) then begin
       with frmdm.q2 do begin
         Close;
          SQL.Clear;
-         SQL.Add(' insert into "station"  ');
-         SQL.Add(' ("id", "wmocode", "latitude", "longitude", "elevation", "name", "country_id", "ds570_id") ');
-         SQL.Add(' values ');
-         SQL.Add(' (:absnum, :WMONum, :StLat, :StLon, :Elevation, :StName, :country_id, :DS570_ID)');
-         ParamByName('absnum').AsInteger:=absnum;
-         ParamByName('WMONum').AsInteger:=old_ID;
-         ParamByName('StLat').AsFloat:=StLat_old;
-         ParamByName('StLon').AsFloat:=StLon_old;
-         ParamByName('Elevation').AsFloat:=Elev_old;
-         ParamByName('StName').AsString:=stName_old;
-         ParamByName('country_id').AsInteger:=0;
-         ParamByName('DS570_ID').AsInteger:=strtoint(inttostr(old_ID)+'0');
-        ExecSQL;
+         SQL.Add('select "id" from "station" where ');
+         SQL.Add('"ds570_id"=:ds_id');
+         Parambyname('ds_id').AsInteger:=ds_id;
+        Open;
       end;
-      frmdm.TR.CommitRetaining;
-        end;
 
-
+      if frmdm.q2.IsEmpty then begin
+        mLog.Lines.Add(inttostr(ds_id)+'   '+inttostr(yy0)+'   '+inttostr(yy1));
       end;
-      old_id:=WMO_id;
-      stname_old:=stname;
-      date_min:=stdate1;
-      date_max:=stdate2;
-      StLat_old:=StLat;
-      StLon_old:=StLon;
-      Elev_old:=Elev;
+
     end;
-
-    inc(cnt);
-  until eof(fi_dat);
-  CloseFile(fi_dat);
-  frmdm.TR.Commit;
+    frmdm.q1.Next;
+  end;
+  frmdm.q1.Close;
   showmessage('done');
 end;
 
 
 
-procedure Tfrmload_ds570.Button2Click(Sender: TObject);
+procedure Tfrmload_ds570_upd.btnUpdateStationDS570Click(Sender: TObject);
 var
    k, md, wmo_id, cnt:integer;
    StLat, StLon, Elev: real;
@@ -441,7 +503,7 @@ begin
   showmessage('done');
 end;
 
-procedure Tfrmload_ds570.Button3Click(Sender: TObject);
+procedure Tfrmload_ds570_upd.Button3Click(Sender: TObject);
 var
    k, md, wmo_id, cnt, ds570_wmo:integer;
    StLat, StLon, Elev: real;
@@ -508,6 +570,66 @@ begin
   frmdm.TR.Commit;
   showmessage('done');
 end;
+
+
+procedure Tfrmload_ds570_upd.btnDuplicatesClick(Sender: TObject);
+type
+   DataSample=record
+     id:integer;
+     dcur:TDateTime;
+    // st1:string;
+end;
+var
+DS: array of DataSample;
+fi_dat:text;
+Fileforread: string;
+st1: string;
+ds_cnt, cnt_dup, k, c: integer;
+ds570_f: integer;
+DateCurr:TDateTime;
+slp, stnp, t, prec, sun: real;
+begin
+  frmmain.OD.InitialDir:=GlobalPath+'data\';
+  frmmain.OD.Filter:='*.csv|*.csv';
+
+   if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
+
+
+    AssignFile(fi_dat,FileForRead); reset(fi_dat);
+    readln(fi_dat, st1);
+
+    DS_cnt:=-1;
+
+    SetLength(DS, max_arr_length);
+     repeat
+       readln(fi_dat, st1);
+       getvalues(st1, ds570_f, DateCurr, slp, stnp, t, prec, sun);
+
+         inc(DS_cnt);
+         DS[DS_cnt].id:=ds570_f;
+         DS[DS_cnt].dcur:=DateCurr;
+        // DS[DS_cnt].st1:=St1;
+     until eof(fi_dat);
+     CloseFile(fi_dat);
+
+
+     for k:=0 to DS_cnt do begin
+     // st1:=DS[k].st1;
+      ds570_f:=DS[k].id;
+      DateCurr:=DS[k].dcur;
+
+      cnt_dup:=0;
+      for c:=k+1 to k+500 do
+         if (DS[c].id=ds570_f) and (DS[c].dcur=DateCurr) then begin
+           //  mLog.Lines.Add(st1);
+             mLog.Lines.Add(inttostr(DS[c].id)+' '+datetostr(DS[c].dcur));
+         end;
+
+     end;
+
+
+end;
+
 
 
 end.

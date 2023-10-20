@@ -342,18 +342,22 @@ msgid "Update"
 msgstr ""
 
 #: tfrmload_ds570.button1.caption
+msgctxt "tfrmload_ds570.button1.caption"
 msgid "New long series (very careful!!!!)"
 msgstr ""
 
 #: tfrmload_ds570.button2.caption
+msgctxt "tfrmload_ds570.button2.caption"
 msgid "station_ds570"
 msgstr ""
 
 #: tfrmload_ds570.button3.caption
+msgctxt "tfrmload_ds570.button3.caption"
 msgid "Find ds570 id"
 msgstr ""
 
 #: tfrmload_ds570.caption
+msgctxt "tfrmload_ds570.caption"
 msgid "Load ds570"
 msgstr ""
 
@@ -363,6 +367,7 @@ msgid "Show output"
 msgstr ""
 
 #: tfrmload_ds570.groupbox1.caption
+msgctxt "tfrmload_ds570.groupbox1.caption"
 msgid "Start with the raw"
 msgstr ""
 
@@ -392,6 +397,70 @@ msgstr ""
 
 #: tfrmload_ds570.tabsheet2.caption
 msgctxt "tfrmload_ds570.tabsheet2.caption"
+msgid "Metadata"
+msgstr ""
+
+#: tfrmload_ds570_upd.btnduplicates.caption
+msgctxt "tfrmload_ds570_upd.btnduplicates.caption"
+msgid "Duplicates"
+msgstr ""
+
+#: tfrmload_ds570_upd.btnloaddata.caption
+msgctxt "tfrmload_ds570_upd.btnloaddata.caption"
+msgid "Update"
+msgstr ""
+
+#: tfrmload_ds570_upd.button1.caption
+msgctxt "tfrmload_ds570_upd.button1.caption"
+msgid "New long series (very careful!!!!)"
+msgstr ""
+
+#: tfrmload_ds570_upd.button2.caption
+msgctxt "tfrmload_ds570_upd.button2.caption"
+msgid "station_ds570"
+msgstr ""
+
+#: tfrmload_ds570_upd.button3.caption
+msgctxt "tfrmload_ds570_upd.button3.caption"
+msgid "Find ds570 id"
+msgstr ""
+
+#: tfrmload_ds570_upd.caption
+msgctxt "tfrmload_ds570_upd.caption"
+msgid "Load ds570"
+msgstr ""
+
+#: tfrmload_ds570_upd.chkshowlog.caption
+msgctxt "tfrmload_ds570_upd.chkshowlog.caption"
+msgid "Show output"
+msgstr ""
+
+#: tfrmload_ds570_upd.chkwrite.caption
+msgctxt "tfrmload_ds570_upd.chkwrite.caption"
+msgid "Write into DB"
+msgstr ""
+
+#: tfrmload_ds570_upd.label4.caption
+msgctxt "tfrmload_ds570_upd.label4.caption"
+msgid "Inserted"
+msgstr ""
+
+#: tfrmload_ds570_upd.label5.caption
+msgctxt "tfrmload_ds570_upd.label5.caption"
+msgid "Updated"
+msgstr ""
+
+#: tfrmload_ds570_upd.label6.caption
+msgid "Deleted"
+msgstr ""
+
+#: tfrmload_ds570_upd.tabsheet1.caption
+msgctxt "tfrmload_ds570_upd.tabsheet1.caption"
+msgid "Data"
+msgstr ""
+
+#: tfrmload_ds570_upd.tabsheet2.caption
+msgctxt "tfrmload_ds570_upd.tabsheet2.caption"
 msgid "Metadata"
 msgstr ""
 
@@ -1443,6 +1512,7 @@ msgid "Every table"
 msgstr ""
 
 #: tfrmqc.chkwrite.caption
+msgctxt "tfrmqc.chkwrite.caption"
 msgid "Write into DB"
 msgstr ""
 
