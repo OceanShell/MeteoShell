@@ -18,6 +18,9 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
+      <Resources Count="1">
+        <Resource_0 FileName="00000.csv" Type="RCDATA" ResourceName="00000"/>
+      </Resources>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
