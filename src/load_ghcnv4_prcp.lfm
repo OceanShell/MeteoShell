@@ -6,35 +6,35 @@ object frmload_ghcn_v4_prcp: Tfrmload_ghcn_v4_prcp
   Caption = 'Load GHCN v4 precipitation'
   ClientHeight = 350
   ClientWidth = 629
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.8.0.0'
   object PageControl1: TPageControl
     Left = 0
-    Height = 112
+    Height = 350
     Top = 0
-    Width = 629
+    Width = 192
     ActivePage = TabSheet2
-    Align = alTop
+    Align = alLeft
     TabIndex = 1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Data'
-      ClientHeight = 84
-      ClientWidth = 621
+      ClientHeight = 322
+      ClientWidth = 184
       object btnLoad: TButton
         Left = 16
         Height = 25
         Top = 10
-        Width = 101
+        Width = 144
         Caption = 'Update'
-        OnClick = btnLoadClick
         ParentFont = False
         TabOrder = 0
+        OnClick = btnLoadClick
       end
       object chkShowLog: TCheckBox
         Left = 16
         Height = 19
         Top = 40
-        Width = 88
+        Width = 86
         Caption = 'Show output'
         Checked = True
         ParentFont = False
@@ -44,87 +44,109 @@ object frmload_ghcn_v4_prcp: Tfrmload_ghcn_v4_prcp
     end
     object TabSheet2: TTabSheet
       Caption = 'Metadata'
-      ClientHeight = 84
-      ClientWidth = 621
+      ClientHeight = 322
+      ClientWidth = 184
       object Button5: TButton
         Left = 10
         Height = 25
         Top = 11
         Width = 134
         Caption = 'station_ghcn_v4_prcp'
-        OnClick = Button5Click
         TabOrder = 0
+        OnClick = Button5Click
       end
       object Button9: TButton
-        Left = 152
+        Left = 8
         Height = 25
-        Top = 11
+        Top = 288
         Width = 112
         Caption = 'Update countries'
-        OnClick = Button9Click
+        Enabled = False
         TabOrder = 1
+        OnClick = Button9Click
       end
       object Button10: TButton
-        Left = 272
+        Left = 8
         Height = 25
-        Top = 11
+        Top = 264
         Width = 88
         Caption = 'v4_prcp-> v4'
-        OnClick = Button10Click
+        Enabled = False
         TabOrder = 2
+        OnClick = Button10Click
       end
       object Button13: TButton
-        Left = 168
+        Left = 8
         Height = 25
-        Top = 48
+        Top = 240
         Width = 165
         Caption = 'Missing codes by name prcp'
-        OnClick = Button13Click
+        Enabled = False
         TabOrder = 3
+        OnClick = Button13Click
       end
       object btnDuplicates: TButton
-        Left = 368
+        Left = 10
         Height = 25
-        Top = 11
+        Top = 152
         Width = 72
         Caption = 'Duplicates'
-        OnClick = btnDuplicatesClick
         TabOrder = 4
+        OnClick = btnDuplicatesClick
       end
       object Button1: TButton
+        Left = 80
+        Height = 25
+        Top = 128
+        Width = 72
+        Caption = 'id by wmo'
+        TabOrder = 5
+        OnClick = Button1Click
+      end
+      object Button2: TButton
+        Left = 10
+        Height = 25
+        Top = 128
+        Width = 64
+        Caption = 'new wmo'
+        TabOrder = 6
+        OnClick = Button2Click
+      end
+      object btnNewLongTimeseries: TButton
         Left = 10
         Height = 25
         Top = 48
-        Width = 72
-        Caption = 'id by wmo'
-        OnClick = Button1Click
-        TabOrder = 5
-      end
-      object Button2: TButton
-        Left = 96
-        Height = 25
-        Top = 48
-        Width = 64
-        Caption = 'new wmo'
-        OnClick = Button2Click
-        TabOrder = 6
-      end
-      object btnNewLongTimeseries: TButton
-        Left = 448
-        Height = 25
-        Top = 11
-        Width = 99
+        Width = 134
         Caption = 'New >30 years'
-        OnClick = btnNewLongTimeseriesClick
         TabOrder = 7
+        OnClick = btnNewLongTimeseriesClick
+      end
+      object Button3: TButton
+        Left = 8
+        Height = 25
+        Top = 216
+        Width = 144
+        Caption = 'v4_prcp<>v4'
+        Enabled = False
+        TabOrder = 8
+        OnClick = Button3Click
+      end
+      object Button4: TButton
+        Left = 10
+        Height = 25
+        Top = 176
+        Width = 144
+        Caption = 'Delete removed series'
+        TabOrder = 9
+        OnClick = Button4Click
       end
     end
   end
   object mLog: TMemo
-    Left = 0
-    Height = 238
-    Top = 112
-    Width = 629
+    Left = 192
+    Height = 350
+    Top = 0
+    Width = 437
     Align = alClient
     Anchors = [akTop, akLeft, akBottom]
     ParentFont = False

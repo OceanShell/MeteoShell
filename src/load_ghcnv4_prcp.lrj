@@ -11,5 +11,7 @@
 {"hash":50149043,"name":"tfrmload_ghcn_v4_prcp.btnduplicates.caption","sourcebytes":[68,117,112,108,105,99,97,116,101,115],"value":"Duplicates"},
 {"hash":110826335,"name":"tfrmload_ghcn_v4_prcp.button1.caption","sourcebytes":[105,100,32,98,121,32,119,109,111],"value":"id by wmo"},
 {"hash":80313935,"name":"tfrmload_ghcn_v4_prcp.button2.caption","sourcebytes":[110,101,119,32,119,109,111],"value":"new wmo"},
-{"hash":112654755,"name":"tfrmload_ghcn_v4_prcp.btnnewlongtimeseries.caption","sourcebytes":[78,101,119,32,62,51,48,32,121,101,97,114,115],"value":"New >30 years"}
+{"hash":112654755,"name":"tfrmload_ghcn_v4_prcp.btnnewlongtimeseries.caption","sourcebytes":[78,101,119,32,62,51,48,32,121,101,97,114,115],"value":"New >30 years"},
+{"hash":148530148,"name":"tfrmload_ghcn_v4_prcp.button3.caption","sourcebytes":[118,52,95,112,114,99,112,60,62,118,52],"value":"v4_prcp<>v4"},
+{"hash":210794979,"name":"tfrmload_ghcn_v4_prcp.button4.caption","sourcebytes":[68,101,108,101,116,101,32,114,101,109,111,118,101,100,32,115,101,114,105,101,115],"value":"Delete removed series"}
 ]}

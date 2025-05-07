@@ -13,7 +13,7 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.8.0.0'
   object PageControl1: TPageControl
     Left = 0
     Height = 80
@@ -31,7 +31,7 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Left = 16
         Height = 19
         Top = 22
-        Width = 71
+        Width = 69
         Caption = 'Write Log'
         Checked = True
         ParentFont = False
@@ -42,7 +42,7 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Left = 256
         Height = 19
         Top = 22
-        Width = 90
+        Width = 88
         Caption = 'Write into DB'
         ParentFont = False
         TabOrder = 1
@@ -56,15 +56,15 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
-        OnClick = btnLoadDataClick
         ParentFont = False
         TabOrder = 2
+        OnClick = btnLoadDataClick
       end
       object chkShowLog: TCheckBox
         Left = 112
         Height = 19
         Top = 22
-        Width = 123
+        Width = 121
         Caption = 'Show Log in memo'
         ParentFont = False
         TabOrder = 3
@@ -80,8 +80,8 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Top = 11
         Width = 160
         Caption = 'New long series (very careful!!!!)'
-        OnClick = Button1Click
         TabOrder = 0
+        OnClick = Button1Click
       end
       object btnUpdateStationDS570: TButton
         Left = 8
@@ -89,8 +89,8 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Top = 11
         Width = 160
         Caption = 'station_ds570'
-        OnClick = btnUpdateStationDS570Click
         TabOrder = 1
+        OnClick = btnUpdateStationDS570Click
       end
       object Button3: TButton
         Left = 376
@@ -98,8 +98,8 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Top = 11
         Width = 160
         Caption = 'Find ds570 id'
-        OnClick = Button3Click
         TabOrder = 2
+        OnClick = Button3Click
       end
       object btnDuplicates: TButton
         Left = 544
@@ -107,8 +107,8 @@ object frmload_ds570_upd: Tfrmload_ds570_upd
         Top = 11
         Width = 160
         Caption = 'Duplicates'
-        OnClick = btnDuplicatesClick
         TabOrder = 3
+        OnClick = btnDuplicatesClick
       end
     end
   end

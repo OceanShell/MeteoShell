@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
-  DateUtils;
+  DateUtils, DB, SQLDB, Variants;
 
 type
 
@@ -20,6 +20,8 @@ type
     Button13: TButton;
     Button2: TButton;
     btnNewLongTimeseries: TButton;
+    Button3: TButton;
+    Button4: TButton;
     Button5: TButton;
     Button9: TButton;
     chkShowLog: TCheckBox;
@@ -34,6 +36,8 @@ type
     procedure Button13Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure Button9Click(Sender: TObject);
   private
@@ -55,58 +59,72 @@ uses main, dm, procedures;
 
 procedure Tfrmload_ghcn_v4_prcp.btnLoadClick(Sender: TObject);
 var
+
    fpath, fname, st: string;
    qcf1, qcf2, qcf3: string;
    dat:text;
    id, cnt, stat_cnt, mn, yy, fl: integer;
    dat1,date_max_db:TDateTime;
    val1:real;
+
+   TRt1, TRt2:TSQLTransaction;
+   db1q1, db2q1, db2q2:TSQLQuery;
+   val_db:Variant;
 begin
 
  if frmmain.ODD.Execute then fpath:=frmmain.ODD.FileName else exit;
 // showmessage(fpath);
 
-  with frmdm.q1 do begin
+TRt1:=TSQLTransaction.Create(nil);
+TRt1.DataBase:=frmdm.TR.DataBase;
+db1q1:=TSQLQuery.Create(nil);
+db1q1.Database:=frmdm.TR.DataBase;
+db1q1.Transaction:=TRt1;
+
+
+TRt2:=TSQLTransaction.Create(nil);
+TRt2.DataBase:=frmdm.TR2.DataBase;
+db2q1:=TSQLQuery.Create(nil);
+db2q1.Database:=frmdm.TR2.DataBase;
+db2q1.Transaction:=TRt2;
+db2q2:=TSQLQuery.Create(nil);
+db2q2.Database:=frmdm.TR2.DataBase;
+db2q2.Transaction:=TRt2;
+
+  with db1q1 do begin
     Close;
       SQL.Clear;
       SQL.Add(' Select "id", "ghcn_v4_prcp_id" from "station" ');
       SQL.Add(' where "ghcn_v4_prcp_id" is not null ');
+      SQL.Add(' order by "ghcn_v4_prcp_id" ');
     Open;
     Last;
     First;
   end;
 
-  stat_cnt:=frmdm.q1.RecordCount;
+  stat_cnt:=db1q1.RecordCount;
 
   cnt:=0;
-  while not frmdm.q1.EOF do begin
+  while not db1q1.EOF do begin
    inc(cnt);
-   id:=frmdm.q1.FieldByName('id').Value;
-   fname:=fpath+PathDelim+frmdm.q1.FieldByName('ghcn_v4_prcp_id').Value+'.csv';
-
-  // showmessage(fname);
+   id:=db1q1.FieldByName('id').Value;
+   fname:=fpath+PathDelim+db1q1.FieldByName('ghcn_v4_prcp_id').Value+'.csv';
 
    if (FileExists(fname)=true) then begin
+     with db2q1 do begin
+       Close;
+        SQL.Clear;
+        SQL.Add(' select * from "p_precipitation_ghcn_v4" ');
+        SQL.Add(' where "station_id"=:id order by "date" ');
+        ParamByName('id').Value:=id;
+       Open;
+      end;
 
-   date_max_db:=EncodeDate(1, 1, 1);
-    with frmdm.q3 do begin
-     Close;
-      SQL.Clear;
-      SQL.Add(' select max("date") from "p_precipitation_ghcn_v4" ');
-      SQL.Add(' where "station_id"=:id ');
-      ParamByName('id').Value:=id;
-     Open;
-       if frmdm.q3.IsEmpty=false then begin
-         date_max_db:=frmdm.q3.Fields[0].AsDateTime;
-       end;
-     Close;
-    end;
-
- //   showmessage(datetimetostr(date_max_db));
 
     Assignfile(dat, fname); reset(dat);
     repeat
       readln(dat, st);
+
       yy:=strtoint(copy(st, 84, 4));
       mn:=strtoint(copy(st, 88, 2));
       val1:=strtoint(trim(copy(st, 91, 6)))/10;
@@ -118,12 +136,16 @@ begin
       if qcf2<>'' then fl:=1 else fl:=0;
 
       dat1:=EncodeDate(yy, mn, trunc(DaysInAMonth(yy, mn)/2));
+      val_db:= db2q1.Lookup('date', dat1, 'value');
 
-      if dat1>date_max_db then begin
+      if varisnull(val_db) then begin
+    //   showmessage(datetostr(dat1));
 
-//       showmessage(datetimetostr(dat1)+'   '+datetimetostr(date_max_db));
+    {   showmessage('Inserting: '+inttostr(id)+'   '+
+                       datetostr(dat1)+'   '+
+                       floattostr(val1));   }
 
-      with frmdm.q2 do begin
+        with db2q2 do begin
         Close;
          SQL.Clear;
          SQL.Add(' insert into "p_precipitation_ghcn_v4" ');
@@ -136,22 +158,49 @@ begin
          ParamByName('pqf1').AsInteger:=fl;
          ParamByName('pqf2').AsInteger:=fl;
         ExecSQL;
-      end;
+       end;
       if chkShowLog.Checked then
-       mLog.lines.add(inttostr(id)+'   '+
+       mLog.lines.add('Inserted: '+inttostr(id)+'   '+
                        datetostr(dat1)+'   '+
                        floattostr(val1));
-     end;
+      end;
 
+      if not varisnull(val_db) and (val_db<>val1) then begin
+       with db2q2 do begin
+        Close;
+         SQL.Clear;
+         SQL.Add(' update "p_precipitation_ghcn_v4" set ');
+         SQL.Add(' "value"=:val_ where "station_id"=:id and "date"=:date_ ');
+         ParamByName('id').AsInteger:=id;
+         ParamByName('date_').AsDate:=Dat1;
+         ParamByName('val_').AsFloat:=val1;
+        ExecSQL;
+      end;
+      if chkShowLog.Checked then
+       mLog.lines.add('updated: '+inttostr(id)+'   '+
+                       datetostr(dat1)+'   '+
+                       floattostr(val_db)+' -> '+
+                       floattostr(val1));
+       end;
 
     until eof(dat);
-   end;
-     frmdm.TR.CommitRetaining;
+    CloseFile(dat);
+
+   end else mlog.Lines.Add('Not found: '+fname);  //file not found
+
+     TRt2.CommitRetaining;
      ProgressTaskbar(cnt, stat_cnt);
      Application.ProcessMessages;
 
-   frmdm.q1.Next;
+   db1q1.Next;
   end;
+
+    db2q1.Close;
+    db2q1.Free;
+    db2q2.Close;
+    db2q2.Free;
+    Trt2.Commit;
+    Trt2.Free;
 
   ProgressTaskbar(0, 0);
 end;
@@ -167,6 +216,9 @@ var
    stdate1, stdate2, date_min, date_max:TDateTime;
    yy0, mn0, dd0, yy1, mn1, dd1, yy3, mn3, dd3: word;
 begin
+
+ mLog.clear;
+ application.ProcessMessages;
 
   with frmdm.q1 do begin
     Close;
@@ -350,7 +402,7 @@ begin
    First;
   end;
 
-   showmessage(inttostr(frmdm.q1.RecordCount));
+   showmessage('total WMO: '+inttostr(frmdm.q1.RecordCount));
 
   frmdm.q1.First;
   while not frmdm.q1.eof do begin
@@ -466,6 +518,110 @@ begin
 
 end;
 
+procedure Tfrmload_ghcn_v4_prcp.Button3Click(Sender: TObject);
+Var
+   ghcn_id, cc: string;
+   wmocode, country_id, country_db: integer;
+   ghcn_v4_prcp_id, ghcn_v4_id, ghcnd_id: string;
+begin
+ with frmdm.q1 do begin
+   Close;
+     SQL.Clear;
+     SQL.Add(' Select "wmocode","ghcn_v4_prcp_id", "ghcn_v4_id", "ghcnd_id"');
+     SQL.Add(' from "station" where "ghcn_v4_prcp_id" is not null ');
+   Open;
+ end;
+
+ while not frmdm.q1.eof do begin
+  wmocode:=frmdm.q1.FieldByName('wmocode').Value;
+  ghcn_v4_prcp_id:=frmdm.q1.FieldByName('ghcn_v4_prcp_id').AsString;
+  ghcn_v4_id:=frmdm.q1.FieldByName('ghcn_v4_id').AsString;
+  ghcnd_id:=frmdm.q1.FieldByName('ghcnd_id').AsString;
+
+  //showmessage(copy(ghcn_v4_prcp_id, length(ghcn_v4_prcp_id)-6, 6)+'   '+
+  //copy(ghcn_v4_id, length(ghcn_v4_id)-6, 6));
+
+  if (trim(ghcnd_id)<>'') and (
+  copy(ghcn_v4_prcp_id, length(ghcn_v4_prcp_id)-5, 5)<>
+  copy(ghcnd_id, length(ghcnd_id)-5, 5)) then
+   mLog.Lines.add(inttostr(wmocode)+'   '+ghcnd_id+'<>'+ghcn_v4_prcp_id);
+   frmdm.q1.Next;
+ end;
+ frmdm.TR.Commit;
+
+ showmessage('Update complete');
+end;
+
+procedure Tfrmload_ghcn_v4_prcp.Button4Click(Sender: TObject);
+var
+TRt1, TRt2:TSQLTransaction;
+db1q1, db2q1, db2q2:TSQLQuery;
+id:integer;
+begin
+
+TRt1:=TSQLTransaction.Create(nil);
+TRt1.DataBase:=frmdm.TR.DataBase;
+db1q1:=TSQLQuery.Create(nil);
+db1q1.Database:=frmdm.TR.DataBase;
+db1q1.Transaction:=TRt1;
+
+
+TRt2:=TSQLTransaction.Create(nil);
+TRt2.DataBase:=frmdm.TR2.DataBase;
+db2q1:=TSQLQuery.Create(nil);
+db2q1.Database:=frmdm.TR2.DataBase;
+db2q1.Transaction:=TRt2;
+db2q2:=TSQLQuery.Create(nil);
+db2q2.Database:=frmdm.TR2.DataBase;
+db2q2.Transaction:=TRt2;
+
+with db1q1 do begin
+ Close;
+   SQL.Clear;
+   SQL.Add(' Select "id" from "station" ');
+   SQL.Add(' where "ghcn_v4_prcp_id" is null ');
+   SQL.Add(' order by "id" ');
+ Open;
+ Last;
+ First;
+end;
+
+
+while not db1q1.eof do begin
+  id:= db1q1.FieldByName('id').Value;
+
+  with db2q1 do begin
+    Close;
+      SQL.Clear;
+      SQL.Add(' Select 1 from "p_precipitation_ghcn_v4" ');
+      SQL.Add(' where "station_id"='+inttostr(id));
+    Open;
+  end;
+
+  if not db2q1.IsEmpty then begin
+    with db2q2 do begin
+    Close;
+      SQL.Clear;
+      SQL.Add(' Delete from "p_precipitation_ghcn_v4" ');
+      SQL.Add(' where "station_id"='+inttostr(id));
+    ExecSQL;
+  end;
+   mLog.Lines.add(inttostr(id));
+
+  end;
+ db1q1.Next;
+end;
+db2q1.Close;
+db2q1.Free;
+db2q2.Close;
+db2q2.Free;
+Trt2.Commit;
+Trt2.Free;
+
+ProgressTaskbar(0, 0);
+
+end;
+
 
 procedure Tfrmload_ghcn_v4_prcp.btnDuplicatesClick(Sender: TObject);
 var
@@ -554,6 +710,8 @@ begin
 
    until eof(datf);
    frmdm.TR.Commit;
+
+   showmessage('Update complete');
 end;
 
 

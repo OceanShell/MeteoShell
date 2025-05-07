@@ -1,7 +1,0 @@
-{"version":1,"strings":[
-{"hash":82351189,"name":"tfrmwindchart.caption","sourcebytes":[87,105,110,100,32,67,104,97,114,116,32,97,110,100,32,82,111,115,101],"value":"Wind Chart and Rose"},
-{"hash":357220,"name":"tfrmwindchart.btnplot.caption","sourcebytes":[80,108,111,116],"value":"Plot"},
-{"hash":56286949,"name":"tfrmwindchart.rgchart.caption","sourcebytes":[68,105,97,103,114,97,109,32,84,121,112,101],"value":"Diagram Type"},
-{"hash":112969266,"name":"tfrmwindchart.btnopenscript.hint","sourcebytes":[79,112,101,110,32,100,97,116,97,32,102,111,108,100,101,114],"value":"Open data folder"},
-{"hash":112969266,"name":"tfrmwindchart.btnopenfolder.hint","sourcebytes":[79,112,101,110,32,100,97,116,97,32,102,111,108,100,101,114],"value":"Open data folder"}
-]}

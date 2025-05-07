@@ -1,0 +1,301 @@
+object frmmetadata_sources: Tfrmmetadata_sources
+  Left = 800
+  Height = 600
+  Top = 0
+  Width = 601
+  Caption = 'Metadata from original sources'
+  ClientHeight = 600
+  ClientWidth = 601
+  Constraints.MinHeight = 600
+  Constraints.MinWidth = 600
+  OnClose = FormClose
+  OnShow = FormShow
+  LCLVersion = '3.8.0.0'
+  object GroupBox1: TGroupBox
+    Left = 16
+    Height = 107
+    Top = 482
+    Width = 570
+    Anchors = [akLeft, akRight, akBottom]
+    Caption = 'ds570'
+    ClientHeight = 87
+    ClientWidth = 566
+    TabOrder = 0
+    object DBGrid_ds570: TDBGrid
+      Left = 11
+      Height = 71
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ds570
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 16
+    Height = 81
+    Top = 96
+    Width = 570
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ghcn_v2'
+    ClientHeight = 61
+    ClientWidth = 566
+    TabOrder = 1
+    object DBGrid_ghcn_v2: TDBGrid
+      Left = 11
+      Height = 45
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcn_v2
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 16
+    Height = 80
+    Top = 181
+    Width = 570
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ghcn_v3'
+    ClientHeight = 60
+    ClientWidth = 566
+    TabOrder = 2
+    object DBGrid_ghcn_v3: TDBGrid
+      Left = 11
+      Height = 44
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcn_v3
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox4: TGroupBox
+    Left = 16
+    Height = 80
+    Top = 267
+    Width = 570
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ghcn_v4'
+    ClientHeight = 60
+    ClientWidth = 566
+    TabOrder = 3
+    object DBGrid_ghcn_v4: TDBGrid
+      Left = 11
+      Height = 44
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcn_v4
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox5: TGroupBox
+    Left = 16
+    Height = 80
+    Top = 352
+    Width = 570
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ghcn_v4_prcp'
+    ClientHeight = 60
+    ClientWidth = 566
+    TabOrder = 4
+    object DBGrid_ghcn_v4_prcp: TDBGrid
+      Left = 11
+      Height = 44
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcn_v4_prcp
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox6: TGroupBox
+    Left = 16
+    Height = 81
+    Top = 11
+    Width = 570
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ghcnd'
+    ClientHeight = 61
+    ClientWidth = 566
+    TabOrder = 5
+    object DBGrid_ghcnd: TDBGrid
+      Left = 11
+      Height = 45
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ghcnd
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object GroupBox7: TGroupBox
+    Left = 16
+    Height = 80
+    Top = 443
+    Width = 570
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'ecad'
+    ClientHeight = 60
+    ClientWidth = 566
+    TabOrder = 6
+    object DBGrid_ecad: TDBGrid
+      Left = 11
+      Height = 44
+      Top = 5
+      Width = 542
+      AlternateColor = 13627366
+      Anchors = [akTop, akLeft, akRight]
+      Color = 13631478
+      Columns = <>
+      DataSource = DS_ecad
+      FixedCols = 0
+      Flat = True
+      Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgAutoSizeColumns, dgRowHighlight]
+      ParentFont = False
+      Scrollbars = ssAutoVertical
+      TabOrder = 0
+    end
+  end
+  object DS_ds570: TDataSource
+    DataSet = q_ds570
+    Left = 208
+    Top = 571
+  end
+  object q_ds570: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 565
+  end
+  object q_ghcn_v2: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 128
+  end
+  object DS_ghcn_v2: TDataSource
+    DataSet = q_ghcn_v2
+    Left = 208
+    Top = 128
+  end
+  object q_ghcn_v3: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 213
+  end
+  object q_ghcn_v4: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 299
+  end
+  object DS_ghcn_v3: TDataSource
+    DataSet = q_ghcn_v3
+    Left = 208
+    Top = 213
+  end
+  object DS_ghcn_v4: TDataSource
+    DataSet = q_ghcn_v4
+    Left = 208
+    Top = 299
+  end
+  object q_ghcn_v4_prcp: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 384
+  end
+  object DS_ghcn_v4_prcp: TDataSource
+    DataSet = q_ghcn_v4_prcp
+    Left = 208
+    Top = 384
+  end
+  object q_ghcnd: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 43
+  end
+  object DS_ghcnd: TDataSource
+    DataSet = q_ghcnd
+    Left = 208
+    Top = 43
+  end
+  object q_ecad: TSQLQuery
+    FieldDefs = <>
+    Database = frmdm.FBDB
+    Params = <>
+    Macros = <>
+    Left = 107
+    Top = 475
+  end
+  object DS_ecad: TDataSource
+    DataSet = q_ecad
+    Left = 208
+    Top = 475
+  end
+end

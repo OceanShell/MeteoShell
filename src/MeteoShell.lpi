@@ -52,7 +52,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="42">
+    <Units Count="29">
       <Unit0>
         <Filename Value="MeteoShell.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -69,255 +69,163 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="monthlymatrix.pas"/>
+        <Filename Value="tool_monthlymatrix.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmonthlymatrix"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
-        <Filename Value="grapher.pas"/>
+        <Filename Value="script_grapher.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="plottimeseries_old.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmplottimeseriesold"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit5>
-      <Unit6>
         <Filename Value="settings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmsettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="procedures.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="load_ghcn_v3.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_ghcn_v3"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="spatialaveraging.pas"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="tool_spatial_averaging.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmspatialaveraging"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="load_gsom.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmloadgsom"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="table_management.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmtablemanagement"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="icons.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmicons"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="DataModule"/>
-      </Unit12>
-      <Unit13>
+      </Unit7>
+      <Unit8>
         <Filename Value="map_datastreams.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
+      </Unit8>
+      <Unit9>
         <Filename Value="map_geometry.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit14>
-      <Unit15>
+      </Unit9>
+      <Unit10>
         <Filename Value="map_wkt.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit15>
-      <Unit16>
+      </Unit10>
+      <Unit11>
         <Filename Value="map.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmap"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit16>
-      <Unit17>
+      </Unit11>
+      <Unit12>
         <Filename Value="dm.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmdm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-      </Unit17>
-      <Unit18>
+      </Unit12>
+      <Unit13>
         <Filename Value="map_kml.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit18>
-      <Unit19>
+      </Unit13>
+      <Unit14>
         <Filename Value="update_station_info.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmupdate_station_info"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit19>
-      <Unit20>
-        <Filename Value="load_ghcn_v4.pas"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="load_ghcn_v4_t2m.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmload_ghcnv4"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit20>
-      <Unit21>
-        <Filename Value="load_ghcn_ms.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmloadghcn_ms"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit21>
-      <Unit22>
+      </Unit15>
+      <Unit16>
         <Filename Value="map_settings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmap_settings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit22>
-      <Unit23>
-        <Filename Value="load_ghcn_v2.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_ghcn_v2"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="sources_compare.pas"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="tool_sources_compare.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmcomparesources"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit24>
-      <Unit25>
-        <Filename Value="info.pas"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="tool_info_sources.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmetadata_sources"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit25>
-      <Unit26>
+      </Unit18>
+      <Unit19>
         <Filename Value="qc_sigma.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit26>
-      <Unit27>
+      </Unit19>
+      <Unit20>
         <Filename Value="qc.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmqc"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit27>
-      <Unit28>
-        <Filename Value="parameter_compare.pas"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="tool_parameter_compare.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmcompare_parameters"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="correlation.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="sources_merge.pas"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="tool_sources_merge.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmsourcesmerge"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit30>
-      <Unit31>
+      </Unit22>
+      <Unit23>
         <Filename Value="load_ghcnd.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmloadghcnd"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit31>
-      <Unit32>
-        <Filename Value="timeseries.pas"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="tool_timeseries.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmtimeseries"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="load_aari.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmLoadAARI"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="load_russian_arctic.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_russian_arctic"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit34>
-      <Unit35>
-        <Filename Value="load_unaami.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_unaami"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit35>
-      <Unit36>
-        <Filename Value="load_amca.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_amca"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit36>
-      <Unit37>
+      </Unit24>
+      <Unit25>
         <Filename Value="load_ghcnv4_prcp.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmload_ghcn_v4_prcp"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit37>
-      <Unit38>
-        <Filename Value="load_ecad.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_ecad"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="load_isd.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmload_isd"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Load_isd"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="windchartrose.pas"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="tool_windchartrose.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmwindchart"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit40>
-      <Unit41>
+      </Unit26>
+      <Unit27>
         <Filename Value="load_ds570.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmload_ds570_upd"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit41>
+      </Unit27>
+      <Unit28>
+        <Filename Value="tool_random_single_use_scripts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit28>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

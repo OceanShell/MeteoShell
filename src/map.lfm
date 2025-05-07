@@ -1,20 +1,19 @@
 object frmmap: Tfrmmap
   Left = 559
-  Height = 586
+  Height = 391
   Top = 217
-  Width = 764
+  Width = 509
   Caption = 'Map'
-  ClientHeight = 586
-  ClientWidth = 764
-  DesignTimePPI = 144
+  ClientHeight = 391
+  ClientWidth = 509
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '3.8.0.0'
   object pmap: TPanel
     Left = 0
-    Height = 586
+    Height = 391
     Top = 0
-    Width = 724
+    Width = 482
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pmap'
@@ -22,14 +21,14 @@ object frmmap: Tfrmmap
     TabOrder = 0
   end
   object ToolBar1: TToolBar
-    Left = 724
-    Height = 586
+    Left = 482
+    Height = 391
     Top = 0
-    Width = 40
+    Width = 27
     Align = alRight
     Caption = 'ToolBar1'
     EdgeBorders = [ebLeft]
-    Images = frmicons.IL1
+    Images = frmmain.IL
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
@@ -37,34 +36,34 @@ object frmmap: Tfrmmap
     object btnZoomIn: TToolButton
       Left = 3
       Hint = 'Zoom In'
-      Top = 71
+      Top = 47
       ImageIndex = 998
       OnClick = btnZoomInClick
     end
     object btnZoomOut: TToolButton
       Left = 3
       Hint = 'Zoom Out'
-      Top = 104
+      Top = 69
       ImageIndex = 999
       OnClick = btnZoomOutClick
     end
     object ToolButton2: TToolButton
       Left = 3
-      Top = 137
-      Width = 35
+      Top = 91
+      Width = 23
       Caption = 'ToolButton2'
       Style = tbsDivider
     end
     object btnKMLExport: TToolButton
       Left = 3
-      Top = 142
+      Top = 94
       ImageIndex = 1000
       OnClick = btnKMLExportClick
     end
     object btnShowSelected: TToolButton
       Left = 3
       Hint = 'Center at selected station'
-      Top = 33
+      Top = 22
       Caption = 'btnShowSelected'
       ImageIndex = 1001
       OnClick = btnShowSelectedClick
@@ -79,28 +78,28 @@ object frmmap: Tfrmmap
     end
     object ToolButton3: TToolButton
       Left = 3
-      Top = 66
-      Width = 35
+      Top = 44
+      Width = 23
       Caption = 'ToolButton3'
       Style = tbsDivider
     end
     object ToolButton1: TToolButton
       Left = 3
-      Top = 208
-      Width = 35
+      Top = 138
+      Width = 23
       Caption = 'ToolButton1'
       Style = tbsDivider
     end
     object btnSettings: TToolButton
       Left = 3
-      Top = 213
+      Top = 141
       Caption = 'btnSettings'
       ImageIndex = 235
       OnClick = btnSettingsClick
     end
     object btnSaveMapAs: TToolButton
       Left = 3
-      Top = 175
+      Top = 116
       Caption = 'btnSaveMapAs'
       ImageIndex = 713
       OnClick = btnSaveMapAsClick

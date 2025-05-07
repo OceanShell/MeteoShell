@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":235160819,"name":"tfrmcomparesources.caption","sourcebytes":[67,111,109,112,97,114,101,32,83,111,117,114,99,101,115],"value":"Compare Sources"},
+{"hash":90467235,"name":"tfrmcomparesources.chkshowoutliers.caption","sourcebytes":[83,104,111,119,32,111,117,116,108,105,101,114,115],"value":"Show outliers"}
+]}

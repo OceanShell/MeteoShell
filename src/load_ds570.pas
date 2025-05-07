@@ -7,7 +7,7 @@ interface
 uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms, LCLTranslator,
   Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, BufDataset, DateUtils,
-  DB, Math;
+  DB, Math, SQLDB;
 
 type
   { Tfrmload_ds570_upd }
@@ -109,7 +109,8 @@ FileForRead, st0, st1, date1, buf_str, tbl_name:string;
 DateCurr, old_date: TDate;
 DBVal:Variant;
 dat, dat_i, dat_u, dat_d:text;
-
+TRt1, TRt2:TSQLTransaction;
+db1q1, db2q1, db2q2:TSQLQuery;
 begin
 
   frmmain.OD.InitialDir:=GlobalPath+'data\';
@@ -117,7 +118,15 @@ begin
 
   if frmmain.OD.Execute then FileForRead:=frmmain.OD.FileName else exit;
 
-  with frmdm.q1 do begin
+// selecting exisiting IDs from MDB_METADATA
+try
+  TRt1:=TSQLTransaction.Create(nil);
+  TRt1.DataBase:=frmdm.TR.DataBase;
+  db1q1:=TSQLQuery.Create(nil);
+  db1q1.Database:=frmdm.TR.DataBase;
+  db1q1.Transaction:=TRt1;
+
+  with db1q1 do begin
     Close;
      SQL.Clear;
      SQL.Add(' select "id", "ds570_id" from "station" where ');
@@ -128,20 +137,39 @@ begin
     First;
   end;
 
-  SetLength(id, frmdm.q1.RecordCount);
-  SetLength(ds570_id, frmdm.q1.RecordCount);
+  SetLength(id, db1q1.RecordCount);
+  SetLength(ds570_id, db1q1.RecordCount);
 
   DB_cnt:=-1;
-  while not frmdm.q1.EOF do begin
+  while not db1q1.EOF do begin
    inc(DB_cnt);
-    id[DB_cnt] := frmdm.q1.FieldByName('id').AsInteger;
-    ds570_id[DB_cnt] := frmdm.q1.FieldByName('ds570_id').AsInteger;
-   frmdm.q1.Next;
+    id[DB_cnt] := db1q1.FieldByName('id').AsInteger;
+    ds570_id[DB_cnt] := db1q1.FieldByName('ds570_id').AsInteger;
+   db1q1.Next;
   end;
+finally
+  db1q1.Close;
+  db1q1.Free;
+  Trt1.Commit;
+  Trt1.Free;
+end;
 
+
+(* temporary transaction and query for data database *)
+TRt2:=TSQLTransaction.Create(nil);
+TRt2.DataBase:=frmdm.TR2.DataBase;
+db2q1:=TSQLQuery.Create(nil);
+db2q1.Database:=frmdm.TR2.DataBase;
+db2q1.Transaction:=TRt2;
+db2q2:=TSQLQuery.Create(nil);
+db2q2.Database:=frmdm.TR2.DataBase;
+db2q2.Transaction:=TRt2;
+
+  if chkWriteLog.Checked then begin
    AssignFile(dat_i, GlobalUnloadPath+'ds570_ins.txt'); rewrite(dat_i);
    AssignFile(dat_u, GlobalUnloadPath+'ds570_upd.txt'); rewrite(dat_u);
    AssignFile(dat_d, GlobalUnloadPath+'ds570_del.txt'); rewrite(dat_d);
+  end;
 
    AssignFile(fi_dat,FileForRead); reset(fi_dat);
    readln(fi_dat, st1);
@@ -188,6 +216,12 @@ begin
         end;
 
         if DB_ID<>-9 then begin
+          //showmessage(inttostr(DB_ID)+'   '+inttostr(ds570_id[k]));
+
+         { for k:=0 to DS_cnt do
+          mLog.lines.add(inttostr(DS[k].id)+'   '+
+          datetimetostr(DS[k].dcur)+'   '+
+          floattostr(DS[k].t));  }
 
           for pp:=1 to 5 do begin
            case pp of
@@ -198,7 +232,7 @@ begin
              5: tbl_name:='p_sunshine_ds570';
            end;
 
-          with frmdm.q1 do begin
+          with db2q1 do begin
             Close;
              SQL.Clear;
              SQL.Add(' select "date" as date1, "value" as val1 ');
@@ -220,16 +254,20 @@ begin
              5: val_f:=DS[k].sun;
             end;
 
-          val_db:= frmdm.q1.Lookup('date1', DS[k].dcur, 'val1');
+          val_db:= db2q1.Lookup('date1', DS[k].dcur, 'val1');
+
+         { if val_db<>val_f then
+          showmessage(floattostr(val_db)+'   '+floattostr(val_f));  }
 
           //Inserted
            if varisnull(val_db) and (val_f<>-9999) then begin
-             if chkWriteLog.Checked then
+             if chkWriteLog.Checked then begin
               writeln(dat_i, inttostr(DS[k].id), #9,
                              datetostr(DS[k].dcur)+#9,
                              floattostr(val_f), #9,
                              tbl_name);
               flush(dat_i);
+              end;
 
               if chkShowLog.Checked then
                 mLog.Lines.Add(
@@ -239,7 +277,7 @@ begin
                              tbl_name);
               if chkWrite.Checked then
                 try
-                 with frmdm.q2 do begin
+                 with db2q2 do begin
                    Close;
                     SQL.Clear;
                     SQL.Add(' insert into "'+tbl_name+'" ');
@@ -252,24 +290,25 @@ begin
                     ParamByName('pqf2').Value:=0;
                    ExecSQL;
                  end;
-                frmdm.TR.CommitRetaining;
+                TRt2.CommitRetaining;
                 except
                   on e: Exception do begin
-                     frmdm.TR.RollbackRetaining;
+                     TRt2.RollbackRetaining;
                      if MessageDlg(e.message, mtError, [mbOk], 0)=mrOk then close;
                   end;
                 end;
-           end;
+             end; //inserted
 
            // Updated
           if not varisnull(val_db) and (val_f<>-9999) and (val_db<>val_f) then begin
-           if chkWriteLog.Checked then
+           if chkWriteLog.Checked then begin
             writeln(dat_u, inttostr(DS[k].id), #9,
                            datetostr(DS[k].dcur), #9,
                            floattostr(val_f), #9,
                            floattostr(val_db), #9,
                            tbl_name);
             flush(dat_u);
+            end;
 
             if chkShowLog.Checked then
                mLog.Lines.Add(
@@ -281,7 +320,7 @@ begin
 
             if chkWrite.Checked then
             try
-              with frmdm.q2 do begin
+              with db2q2 do begin
               Close;
                 SQL.Clear;
                 SQL.Add(' update "'+tbl_name+'" ');
@@ -292,23 +331,24 @@ begin
                 ParamByName('value_').Value:=val_f;
               ExecSQL;
             end;
-            frmdm.TR.CommitRetaining;
+            TRt2.CommitRetaining;
             except
              on e: Exception do begin
-              frmdm.TR.RollbackRetaining;
+              TRt2.RollbackRetaining;
               if MessageDlg(e.message, mtError, [mbOk], 0)=mrOk then close;
              end;
             end;
-          end;
+          end; //updated
 
           //Deleted
           if not varisnull(val_db) and (val_f=-9999) then begin
-           if chkWriteLog.Checked then
+           if chkWriteLog.Checked then begin
             writeln(dat_d, inttostr(DS[k].id), #9,
                            datetostr(DS[k].dcur), #9,
                            floattostr(val_db), #9,
                            tbl_name);
             flush(dat_d);
+            end;
 
             if chkShowLog.Checked then
                mLog.Lines.Add(
@@ -319,7 +359,7 @@ begin
 
             if chkWrite.Checked then
             try
-             with frmdm.q2 do begin
+             with db2q2 do begin
               Close;
                 SQL.Clear;
                 SQL.Add(' delete from "'+tbl_name+'" ');
@@ -328,19 +368,20 @@ begin
                 ParamByName('date_').AsDate:=DS[k].dcur;
               ExecSQL;
             end;
-              frmdm.TR.CommitRetaining;
+              TRt2.CommitRetaining;
                 except
                   on e: Exception do begin
-                     frmdm.TR.RollbackRetaining;
+                     TRt2.RollbackRetaining;
                      if MessageDlg(e.message, mtError, [mbOk], 0)=mrOk then close;
                   end;
                 end;
-          end;
+          end; //deleted
 
         end;
-        end;
+        end; //loop for 5 parameters
 
-        end; //tables of parameters
+        end; //ID exists
+
 
         DS_cnt_max:=Max(DS_cnt, DS_cnt_max);
         Caption:=inttostr(DS_cnt_max)+'   '+inttostr(row_cnt);
@@ -350,10 +391,12 @@ begin
         SetLength(DS, max_arr_length);
 
         old_id:=ds570_f;
+        old_date:=DateCurr;
+       // showmessage(inttostr(old_id)+'   '+datetimetostr(old_date));
 
         DS_cnt:=0;
         DS[DS_cnt].id:=old_id;
-        DS[DS_cnt].dcur:=old_date;
+        DS[DS_cnt].dcur:=DateCurr;
         DS[DS_cnt].slp :=slp;
         DS[DS_cnt].stnp:=stnp;
         DS[DS_cnt].t:=t;
@@ -361,14 +404,24 @@ begin
         DS[DS_cnt].sun:=sun;
       end;
 
-    until eof(fi_dat) ;
+    until eof(fi_dat);
     Closefile(fi_dat);
+
+   if chkWriteLog.Checked then begin
     Closefile(dat_i);
     Closefile(dat_u);
     Closefile(dat_d);
+   end;
 
-    showmessage('here');
-    frmdm.TR.Commit;
+  //  showmessage('here');
+
+    db2q1.Close;
+    db2q1.Free;
+    db2q2.Close;
+    db2q2.Free;
+    Trt2.Commit;
+    Trt2.Free;
+
     SetLength(DS, 0);
 
 

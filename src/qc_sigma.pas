@@ -20,15 +20,32 @@ Var
   yy, mn, dd: word;
   mean, sum, dif2, sd, abs_min, abs_max:double;
   outf, outsd: text;
+
+  TRt1, TRt2:TSQLTransaction;
+  db1q1, db2q1, db2q2:TSQLQuery;
 begin
   qcpath:=GlobalUnloadPath+'qc'+PathDelim;
     if not DirectoryExists(qcpath) then CreateDir(qcpath);
 
+try
   AssignFile(outf,  qcpath+tbl+'_outliers_sigma_'+inttostr(sigma)+'.txt'); rewrite(outf);
- // AssignFile(outsd, qcpath+tbl+'_sd.txt'); rewrite(outsd);
 
+  TRt1:=TSQLTransaction.Create(nil);
+  TRt1.DataBase:=frmdm.TR.DataBase;
+  db1q1:=TSQLQuery.Create(nil);
+  db1q1.Database:=frmdm.TR.DataBase;
+  db1q1.Transaction:=TRt1;
 
-  with frmdm.q1 do begin
+  TRt2:=TSQLTransaction.Create(nil);
+  TRt2.DataBase:=frmdm.TR2.DataBase;
+  db2q1:=TSQLQuery.Create(nil);
+  db2q1.Database:=frmdm.TR2.DataBase;
+  db2q1.Transaction:=TRt2;
+  db2q2:=TSQLQuery.Create(nil);
+  db2q2.Database:=frmdm.TR2.DataBase;
+  db2q2.Transaction:=TRt2;
+
+  with db1q1 do begin
    Close;
     SQL.Clear;
     SQL.Add(' select "id" from "station" ');
@@ -38,15 +55,15 @@ begin
    First;
   end;
 
-  stat_cnt:=frmdm.q1.RecordCount;
+  stat_cnt:=db1q1.RecordCount;
 
   cnt_curr:=0;
-  frmdm.q1.First;
-  while not frmdm.q1.EOF do begin
-   id:=frmdm.q1.FieldByName('id').Value;
+  db1q1.First;
+  while not db1q1.EOF do begin
+   id:=db1q1.FieldByName('id').Value;
    inc(cnt_curr);
 
-   with frmdm.q2 do begin
+   with db2q1 do begin
     Close;
      SQL.Clear;
      SQL.Add(' select * from "'+tbl+'" ');
@@ -56,15 +73,15 @@ begin
     Open;
    end;
 
-   if not frmdm.q2.IsEmpty then begin
+   if not db2q1.IsEmpty then begin
   // showmessage(inttostr(id));
     for mn_i:=1 to 12 do begin
 
      sum:=0; cnt:=0;
-     frmdm.q2.First;
-     while not frmdm.q2.EOF do begin
-       dat1:=frmdm.q2.FieldByName('date').Value;
-       val1:=frmdm.q2.FieldByName('value').Value;
+     db2q1.First;
+     while not db2q1.EOF do begin
+       dat1:=db2q1.FieldByName('date').Value;
+       val1:=db2q1.FieldByName('value').Value;
 
        DecodeDate(dat1, yy, mn, dd);
 
@@ -73,17 +90,17 @@ begin
         inc(cnt);
        end;
 
-       frmdm.q2.Next;
+       db2q1.Next;
      end;
 
      if cnt>0 then begin
      mean:=sum/cnt;
 
      dif2:=0;
-     frmdm.q2.First;
-     while not frmdm.q2.EOF do begin
-       dat1:=frmdm.q2.FieldByName('date').Value;
-       val1:=frmdm.q2.FieldByName('value').Value;
+     db2q1.First;
+     while not db2q1.EOF do begin
+       dat1:=db2q1.FieldByName('date').Value;
+       val1:=db2q1.FieldByName('value').Value;
 
        DecodeDate(dat1, yy, mn, dd);
 
@@ -91,7 +108,7 @@ begin
          Dif2:=Dif2+sqr(Val1-mean);
        end;
 
-       frmdm.q2.Next;
+       db2q1.Next;
      end;
 
      sd:=sqrt(Dif2/cnt);
@@ -99,17 +116,17 @@ begin
      abs_max:=mean+(sd*sigma);
 
 
-     frmdm.q2.First;
-     while not frmdm.q2.EOF do begin
-       dat1:=frmdm.q2.FieldByName('date').Value;
-       val1:=frmdm.q2.FieldByName('value').Value;
+     db2q1.First;
+     while not db2q1.EOF do begin
+       dat1:=db2q1.FieldByName('date').Value;
+       val1:=db2q1.FieldByName('value').Value;
 
        DecodeDate(dat1, yy, mn, dd);
 
        if (mn=mn_i) and (abs_min<>abs_max) and
           ((val1<abs_min) or (val1>abs_max)) then begin
           if towrite=true then begin
-           with frmdm.q3 do begin
+           with db2q2 do begin
             Close;
              SQL.Clear;
              SQL.Add(' update "'+tbl+'" ');
@@ -132,7 +149,7 @@ begin
                        floattostr(val1));
        end;
 
-       frmdm.q2.Next;
+       db2q1.Next;
      end;
     end; //cnt>0
    end; // 12 month
@@ -141,13 +158,28 @@ begin
    ProgressTaskbar(cnt_curr, stat_cnt);
    Application.ProcessMessages;
  //  exit;
-   frmdm.q1.Next;
+   db1q1.Next;
  end;
- if towrite=true then frmdm.TR.CommitRetaining;
+ if towrite=true then TRt2.CommitRetaining;
 
- //CloseFile(outsd);
- Closefile(outf);
- ProgressTaskbar(0, 0);
+finally
+Closefile(outf);
+db1q1.Close;
+db1q1.Free;
+Trt1.Commit;
+Trt1.Free;
+
+db2q1.Close;
+db2q1.Free;
+db2q2.Close;
+db2q2.Free;
+Trt2.Commit;
+Trt2.Free;
+
+ProgressTaskbar(0, 0);
+end
+
+
 end;
 
 end.

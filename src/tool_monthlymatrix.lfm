@@ -1,0 +1,514 @@
+object frmmonthlymatrix: Tfrmmonthlymatrix
+  Left = 517
+  Height = 513
+  Top = 116
+  Width = 837
+  Caption = 'View data'
+  ClientHeight = 513
+  ClientWidth = 837
+  OnClose = FormClose
+  OnResize = FormResize
+  OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '3.8.0.0'
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 242
+    Top = 0
+    Width = 837
+    ActivePage = tabValues
+    Align = alClient
+    ParentFont = False
+    TabIndex = 0
+    TabOrder = 0
+    OnChange = PageControl1Change
+    object tabValues: TTabSheet
+      Caption = 'Values'
+      ClientHeight = 214
+      ClientWidth = 829
+      ParentFont = False
+      object DBGrid1: TDBGrid
+        Left = 0
+        Height = 214
+        Top = 0
+        Width = 829
+        Align = alClient
+        AlternateColor = 13627366
+        AutoFillColumns = True
+        Color = 13631478
+        Columns = <        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+            FieldName = 'yy'
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+            FieldName = '3'
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 58
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 57
+          end>
+        FixedCols = 0
+        Flat = True
+        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        ParentFont = False
+        PopupMenu = PM
+        Scrollbars = ssAutoVertical
+        TabOrder = 0
+        TitleFont.Color = clWindowText
+        TitleFont.Name = 'Tahoma'
+        OnCellClick = DBGrid1CellClick
+        OnKeyUp = DBGrid1KeyUp
+        OnPrepareCanvas = DBGrid1PrepareCanvas
+      end
+    end
+    object tabAnomalies: TTabSheet
+      Caption = 'Anomalies'
+      ClientHeight = 214
+      ClientWidth = 829
+      ParentFont = False
+      object DBGrid2: TDBGrid
+        Left = 0
+        Height = 214
+        Top = 0
+        Width = 829
+        Align = alClient
+        AlternateColor = 13627366
+        AutoFillColumns = True
+        Color = 13631478
+        Columns = <        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 60
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 60
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end        
+          item
+            MinSize = 10
+            MaxSize = 200
+            Title.Caption = 'Title'
+            Width = 59
+          end>
+        FixedCols = 0
+        Flat = True
+        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        ParentFont = False
+        PopupMenu = PM
+        Scrollbars = ssAutoVertical
+        TabOrder = 0
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -7
+        TitleFont.Name = 'Tahoma'
+        OnCellClick = DBGrid2CellClick
+        OnKeyUp = DBGrid2KeyUp
+        OnPrepareCanvas = DBGrid1PrepareCanvas
+      end
+    end
+  end
+  object ToolBar1: TToolBar
+    Left = 120
+    Height = 22
+    Top = 0
+    Width = 68
+    Align = alNone
+    AutoSize = True
+    Caption = 'ToolBar1'
+    EdgeBorders = []
+    EdgeInner = esNone
+    EdgeOuter = esNone
+    List = True
+    ParentFont = False
+    ParentShowHint = False
+    ShowCaptions = True
+    ShowHint = True
+    TabOrder = 1
+    Wrapable = False
+    object btnSave: TToolButton
+      Left = 1
+      Hint = 'Export timeseries as...'
+      Top = 0
+      AutoSize = True
+      Caption = 'Export data'
+      ImageIndex = 336
+      OnClick = btnSaveClick
+    end
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 2
+    Top = 242
+    Width = 837
+    Align = alBottom
+    ResizeAnchor = akBottom
+  end
+  object pPlot: TPanel
+    Left = 0
+    Height = 269
+    Top = 244
+    Width = 837
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 269
+    ClientWidth = 837
+    TabOrder = 3
+    object Panel2: TPanel
+      Left = 0
+      Height = 269
+      Top = 0
+      Width = 693
+      Align = alClient
+      Anchors = [akTop, akBottom]
+      BevelOuter = bvNone
+      Caption = 'Panel2'
+      ClientHeight = 269
+      ClientWidth = 693
+      TabOrder = 0
+      object Chart1: TChart
+        Left = 0
+        Height = 239
+        Top = 0
+        Width = 693
+        AxisList = <        
+          item
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Title.LabelFont.Orientation = 900
+            Title.Visible = True
+            Title.Caption = 'dddd'
+            Title.LabelBrush.Style = bsClear
+          end        
+          item
+            Intervals.MaxLength = 100
+            Intervals.MinLength = 50
+            Intervals.NiceSteps = '1'
+            Intervals.Tolerance = 1
+            Alignment = calBottom
+            AtDataOnly = True
+            Marks.Format = '%0:.0f'
+            Marks.LabelBrush.Style = bsClear
+            Marks.OverlapPolicy = opHideNeighbour
+            Marks.Style = smsCustom
+            Minors = <>
+            Title.Visible = True
+            Title.Caption = 'yyyy'
+            Title.LabelBrush.Style = bsClear
+          end>
+        BackColor = clWhite
+        Foot.Brush.Color = clBtnFace
+        Foot.Font.Color = clBlue
+        Title.Brush.Color = clBtnFace
+        Title.Font.Color = clBlue
+        Title.Text.Strings = (
+          'TAChart'
+        )
+        Toolset = cts
+        Align = alClient
+        object Series1: TLineSeries
+          LinePen.Color = clRed
+          LinePen.Width = 2
+          Marks.Shape = clsEllipse
+          Marks.Visible = False
+          Pointer.Brush.Color = clBlue
+          Pointer.HorizSize = 2
+          Pointer.Pen.Color = clBlue
+          Pointer.Style = psCircle
+          Pointer.VertSize = 2
+          Pointer.Visible = True
+          ShowPoints = True
+        end
+      end
+      object clbViewData: TChartListbox
+        Left = 0
+        Height = 25
+        Top = 244
+        Width = 693
+        Chart = Chart1
+        Align = alBottom
+        ExtendedSelect = False
+        TabOrder = 1
+        TabStop = False
+      end
+      object Splitter2: TSplitter
+        Cursor = crVSplit
+        Left = 0
+        Height = 5
+        Top = 239
+        Width = 693
+        Align = alBottom
+        ResizeAnchor = akBottom
+      end
+    end
+    object Panel3: TPanel
+      Left = 693
+      Height = 269
+      Top = 0
+      Width = 144
+      Align = alRight
+      BevelOuter = bvNone
+      ClientHeight = 269
+      ClientWidth = 144
+      TabOrder = 1
+      object GroupBox3: TGroupBox
+        Left = 5
+        Height = 57
+        Top = 128
+        Width = 127
+        Caption = 'Clip chart'
+        ClientHeight = 37
+        ClientWidth = 123
+        TabOrder = 0
+        object seClip1: TSpinEdit
+          Left = 11
+          Height = 23
+          Top = 5
+          Width = 48
+          Increment = 2
+          MaxValue = 9999
+          MinValue = 1700
+          OnChange = seClip1Change
+          TabOrder = 0
+          Value = 1700
+        end
+        object seClip2: TSpinEdit
+          Left = 65
+          Height = 23
+          Top = 5
+          Width = 48
+          Increment = 2
+          MaxValue = 9999
+          MinValue = 1700
+          OnChange = seClip2Change
+          TabOrder = 1
+          Value = 1700
+        end
+      end
+      object chkShowOutliers: TCheckBox
+        Left = 5
+        Height = 19
+        Top = 192
+        Width = 89
+        Caption = 'Show outliers'
+        TabOrder = 1
+        OnClick = chkShowOutliersClick
+      end
+      object rgPlotType: TRadioGroup
+        Left = 5
+        Height = 112
+        Top = 5
+        Width = 127
+        AutoFill = True
+        Caption = 'Plot type'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 92
+        ClientWidth = 123
+        Items.Strings = (
+          'Selected month'
+          'All months'
+          'Selected year'
+          'Annual cycle'
+        )
+        OnClick = rgPlotTypeClick
+        TabOrder = 2
+      end
+    end
+  end
+  object PM: TPopupMenu
+    OnPopup = PMPopup
+    Left = 208
+    Top = 197
+    object btnPlotColumn: TMenuItem
+      Caption = 'Plot Selected Column'
+      ImageIndex = 794
+      OnClick = btnPlotColumnClick
+    end
+    object btnPlotAllMonth: TMenuItem
+      Caption = 'Plot All Columns'
+      ImageIndex = 202
+      OnClick = btnPlotAllMonthClick
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Plot Annual Circle'
+      OnClick = MenuItem2Click
+    end
+  end
+  object cts: TChartToolset
+    Left = 448
+    Top = 405
+    object ctsDPC: TDataPointClickTool
+      Shift = [ssLeft]
+      GrabRadius = 6
+      ActiveCursor = crHandPoint
+      Targets = [nptPoint, nptXList]
+      OnPointClick = ctsDPCPointClick
+    end
+    object ctsDPH: TDataPointHintTool
+      GrabRadius = 6
+      ActiveCursor = crHandPoint
+      Targets = [nptPoint, nptXList]
+      OnHint = ctsDPHHint
+    end
+    object ctsZDT: TZoomDragTool
+      Shift = [ssLeft]
+      Brush.Style = bsClear
+      RestoreExtentOn = [zreDragTopLeft, zreDragTopRight, zreDragBottomLeft]
+    end
+  end
+  object CalculatedChartSource1: TCalculatedChartSource
+    Left = 276
+    Top = 292
+  end
+end

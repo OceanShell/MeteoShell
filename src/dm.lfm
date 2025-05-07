@@ -1,11 +1,10 @@
 object frmdm: Tfrmdm
   OnDestroy = DataModuleDestroy
   OldCreateOrder = False
-  Height = 416
-  HorizontalOffset = 663
-  VerticalOffset = 344
-  Width = 560
-  PPI = 144
+  Height = 124
+  HorizontalOffset = 485
+  VerticalOffset = 249
+  Width = 397
   object FBDB: TIBConnection
     Connected = False
     LoginPrompt = False
@@ -16,43 +15,47 @@ object frmdm: Tfrmdm
     HostName = 'localhost'
     LogEvents = []
     CheckTransactionParams = False
-    left = 24
-    top = 24
+    UseConnectionCharSetIfNone = False
+    Left = 64
+    Top = 16
   end
   object TR: TSQLTransaction
     Active = False
     Action = caNone
-    left = 156
-    top = 24
+    Left = 136
+    Top = 16
   end
   object q1: TSQLQuery
     FieldDefs = <>
     Transaction = TR
     Params = <>
-    left = 360
-    top = 24
-  end
-  object q2: TSQLQuery
-    FieldDefs = <>
-    Transaction = TR
-    Params = <>
-    left = 408
-    top = 24
-  end
-  object q3: TSQLQuery
-    FieldDefs = <>
-    Transaction = TR
-    Params = <>
-    left = 456
-    top = 24
+    Macros = <>
+    Left = 240
+    Top = 16
   end
   object CDS: TSQLQuery
     MaxIndexesCount = 100
     FieldDefs = <>
+    AfterEdit = CDSAfterEdit
     Transaction = TR
+    UpdateSQL.Strings = (
+      'UPDATE "station" SET'
+      '"wmocode"=:"wmocode",'
+      '"icao"=:"icao",'
+      '"latitude"=:"latitude",'
+      '"longitude"=:"longitude",'
+      '"elevation"=:"elevation",'
+      '"name"=:"name"'
+      'WHERE "id"=:old_id'
+      ''
+      ''
+      ''
+      ''
+    )
     Params = <>
-    left = 216
-    top = 24
+    Macros = <>
+    Left = 168
+    Top = 16
   end
   object PGDB: TPQConnection
     Connected = False
@@ -64,29 +67,72 @@ object frmdm: Tfrmdm
     CharSet = 'UTF8'
     HostName = '193.227.233.106'
     VerboseErrors = False
-    left = 84
-    top = 24
+    Left = 104
+    Top = 16
   end
   object CDS2: TSQLQuery
     MaxIndexesCount = 100
     FieldDefs = <>
     Transaction = TR
     Params = <>
-    left = 276
-    top = 24
+    Macros = <>
+    Left = 200
+    Top = 16
   end
   object DBLoader: TSQLDBLibraryLoader
     Enabled = False
     ConnectionType = 'Firebird'
     LibraryName = 'fbclient.dll'
-    left = 24
-    top = 112
+    Left = 16
+    Top = 16
   end
-  object q4: TSQLQuery
+  object FBDB2: TIBConnection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Password = 'masterkey'
+    UserName = 'SYSDBA'
+    CharSet = 'UTF8'
+    HostName = 'localhost'
+    LogEvents = []
+    CheckTransactionParams = False
+    UseConnectionCharSetIfNone = False
+    Left = 64
+    Top = 72
+  end
+  object PGDB2: TPQConnection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = 'mdb'
+    KeepConnection = True
+    Password = 'ZXasQW3edc'
+    UserName = 'postgres'
+    CharSet = 'UTF8'
+    HostName = '193.227.233.106'
+    VerboseErrors = False
+    Left = 104
+    Top = 72
+  end
+  object TR2: TSQLTransaction
+    Active = False
+    Action = caNone
+    Left = 136
+    Top = 72
+  end
+  object q2: TSQLQuery
     FieldDefs = <>
     Transaction = TR
     Params = <>
-    left = 504
-    top = 24
+    Macros = <>
+    Left = 280
+    Top = 16
+  end
+  object q3: TSQLQuery
+    FieldDefs = <>
+    Transaction = TR
+    Params = <>
+    Macros = <>
+    Left = 320
+    Top = 16
   end
 end

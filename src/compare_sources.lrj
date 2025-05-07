@@ -1,7 +1,0 @@
-{"version":1,"strings":[
-{"hash":235160819,"name":"tfrmcomparesources.caption","sourcebytes":[67,111,109,112,97,114,101,32,83,111,117,114,99,101,115],"value":"Compare Sources"},
-{"hash":392066,"name":"tfrmcomparesources.dbgrid1.columns[0].title.caption","sourcebytes":[89,101,97,114],"value":"Year"},
-{"hash":5531048,"name":"tfrmcomparesources.dbgrid1.columns[1].title.caption","sourcebytes":[77,111,110,116,104],"value":"Month"},
-{"hash":112597152,"name":"tfrmcomparesources.dbgrid1.columns[2].title.caption","sourcebytes":[100,115,46,53,55,48],"value":"ds.570"},
-{"hash":5966629,"name":"tfrmcomparesources.dbgrid1.columns[3].title.caption","sourcebytes":[84,105,116,108,101],"value":"Title"}
-]}

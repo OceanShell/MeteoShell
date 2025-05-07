@@ -6,7 +6,7 @@
 {"hash":79563278,"name":"tfrmsettings.groupbox4.caption","sourcebytes":[67,111,110,110,101,99,116,105,111,110],"value":"Connection"},
 {"hash":325284,"name":"tfrmsettings.label1.caption","sourcebytes":[72,111,115,116],"value":"Host"},
 {"hash":7075492,"name":"tfrmsettings.ehost.text","sourcebytes":[101,104,111,115,116],"value":"ehost"},
-{"hash":145198133,"name":"tfrmsettings.label2.caption","sourcebytes":[68,97,116,97,98,97,115,101],"value":"Database"},
+{"hash":212315537,"name":"tfrmsettings.label2.caption","sourcebytes":[77,101,116,97,100,97,116,97],"value":"Metadata"},
 {"hash":145220405,"name":"tfrmsettings.edatabase.text","sourcebytes":[101,100,97,116,97,98,97,115,101],"value":"edatabase"},
 {"hash":7129538,"name":"tfrmsettings.euser.text","sourcebytes":[101,117,115,101,114],"value":"euser"},
 {"hash":7104675,"name":"tfrmsettings.epass.text","sourcebytes":[101,112,97,115,115],"value":"epass"},

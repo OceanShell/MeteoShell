@@ -34,17 +34,17 @@ src/delphi/
 # Log files
 *.log
 *.txt
+*.msg
 
-# OceanShell specific files and folders
-*.nc
+# MeteoShell specific files and folders
 MeteoShell
-libfbclient.so.3.0.5
+backup/
 data/
 distrib/
 databases/
+plugins/
 documents/
 help/
 support/
 unload/
-python39/
-backup/
+libfbclient.so.3.0.5

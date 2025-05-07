@@ -1,0 +1,6 @@
+{"version":1,"strings":[
+{"hash":195321571,"name":"tfrmsourcesmerge.caption","sourcebytes":[77,101,114,103,101,32,115,111,117,114,99,101,115],"value":"Merge sources"},
+{"hash":5490901,"name":"tfrmsourcesmerge.btnmerge.caption","sourcebytes":[77,101,114,103,101],"value":"Merge"},
+{"hash":240224809,"name":"tfrmsourcesmerge.groupbox1.caption","sourcebytes":[83,111,117,114,99,101,115,32,40,100,114,97,103,32,116,111,32,114,101,111,114,100,101,114,41],"value":"Sources (drag to reorder)"},
+{"hash":142842946,"name":"tfrmsourcesmerge.rgparameter.caption","sourcebytes":[80,97,114,97,109,101,116,101,114],"value":"Parameter"}
+]}
